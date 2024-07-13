@@ -15,7 +15,7 @@ const episodes = await fetchEpisodes(
   import.meta.env.PUBLIC_SPOTIFY_SHOW_ID
 );
 const show = EpisodesResponseSchema.parse(episodes);
-const parsedEpisodes = show.episodes.items;
+const parsedEpisodes = show.episodes.items.reverse();
 ---
 
 <Layout title=`${show.name}`>
@@ -93,5 +93,6 @@ const parsedEpisodes = show.episodes.items;
     grid-template-columns: repeat(auto-fit, minmax(50ch, 1fr));
     gap: 2rem;
     padding: 0;
+    margin: 0 10rem;
   }
 </style>

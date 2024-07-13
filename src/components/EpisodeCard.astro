@@ -20,9 +20,8 @@ const { audio_preview_url, name, description, html_description, images, id } =
       loading="lazy"></iframe> -->
     <h2>
       {name}
-      <span>&rarr;</span>
     </h2>
-    <div set:html=`${html_description}` />
+    <div set:html={html_description} />
   </div>
 </div>
 <style>
@@ -40,7 +39,7 @@ const { audio_preview_url, name, description, html_description, images, id } =
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
   .episode-card > div {
-    width: 100%;
+    width: calc(100% - 2.9rem);
     height: 100%;
     text-decoration: none;
     line-height: 1.4;
