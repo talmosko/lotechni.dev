@@ -19,13 +19,7 @@ const parsedEpisodes = show.episodes.items;
 ---
 
 <Layout title=`${show.name}`>
-  <img
-    src={Logo.src}
-    width="300"
-    height="300"
-    alt=`${show.name} logo`
-    class="m-auto"
-  />
+  <img src={Logo.src} alt=`${show.name} logo` class="logo-image" />
   <h1 class="text-gradient">{show.name}</h1>
   <DescriptionCard>
     {show.description}
@@ -68,21 +62,18 @@ const parsedEpisodes = show.episodes.items;
     font-size: 20px;
     line-height: 1.6;
   }
-  .astro-a {
-    position: absolute;
-    top: -32px;
-    left: 50%;
-    transform: translatex(-50%);
-    width: 220px;
-    height: auto;
-    z-index: -1;
-  }
   h1 {
     font-size: 4rem;
     font-weight: 700;
     line-height: 1;
     text-align: center;
     margin-bottom: 1em;
+  }
+  .logo-image {
+    margin: auto;
+    width: 300px;
+    height: 300px;
+    display: block;
   }
   h2 {
     font-size: 1.5rem;
@@ -99,7 +90,7 @@ const parsedEpisodes = show.episodes.items;
 
   .link-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(50ch, 1fr));
     gap: 2rem;
     padding: 0;
   }
