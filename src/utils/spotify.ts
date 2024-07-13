@@ -17,7 +17,7 @@ export async function getAccessToken(client_id: string, client_secret: string) {
 
 export async function fetchEpisodes(accessToken: string, showId: string) {
   const response = await fetch(
-    `https://api.spotify.com/v1/shows/${showId}/episodes`,
+    `https://api.spotify.com/v1/shows/${showId}?limit=50`,
     {
       method: "GET",
       headers: {
@@ -27,7 +27,7 @@ export async function fetchEpisodes(accessToken: string, showId: string) {
   );
 
   const data = await response.json();
-  return data.items;
+  return data;
 }
 
 const getRssFeed = async () => {
