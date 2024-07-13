@@ -5,6 +5,7 @@ import { getAccessToken, fetchEpisodes } from "../utils/spotify";
 import { EpisodesResponseSchema } from "../types/spotifyEpisodes";
 import EpisodeCard from "../components/EpisodeCard.astro";
 import Logo from "../images/logo.svg";
+import DescriptionCard from "../components/DescriptionCard.astro";
 const accessToken = await getAccessToken(
   import.meta.env.SPOTIFY_CLIENT_ID,
   import.meta.env.SPOTIFY_CLIENT_SECRET
@@ -18,38 +19,44 @@ const parsedEpisodes = show.episodes.items;
 ---
 
 <Layout title=`${show.name}`>
-  <img src={Logo.src} width="300" height="300" alt=`${show.name} logo` />
-  <h1>{show.name}</h1>
-  <p class="instructions">
+  <img
+    src={Logo.src}
+    width="300"
+    height="300"
+    alt=`${show.name} logo`
+    class="m-auto"
+  />
+  <h1 class="text-gradient">{show.name}</h1>
+  <DescriptionCard>
     {show.description}
-  </p>
-  <ul role="list" class="link-card-grid">
-    <Card
-      href="https://docs.astro.build/"
-      title="Documentation"
-      body="Learn how Astro works and explore the official API docs."
-    />
-    <Card
-      href="https://astro.build/integrations/"
-      title="Integrations"
-      body="Supercharge your project with new frameworks and libraries."
-    />
-    <Card
-      href="https://astro.build/themes/"
-      title="Themes"
-      body="Explore a galaxy of community-built starter themes."
-    />
-    <Card
-      href="https://astro.build/chat/"
-      title="Community"
-      body="Come say hi to our amazing Discord community. ❤️"
-    />
-  </ul>
-
-  <ul role="list" class="link-card-grid">
-    {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
-  </ul>
+  </DescriptionCard>
 </Layout>
+<ul role="list" class="link-card-grid">
+  <Card
+    href="https://docs.astro.build/"
+    title="Documentation"
+    body="Learn how Astro works and explore the official API docs."
+  />
+  <Card
+    href="https://astro.build/integrations/"
+    title="Integrations"
+    body="Supercharge your project with new frameworks and libraries."
+  />
+  <Card
+    href="https://astro.build/themes/"
+    title="Themes"
+    body="Explore a galaxy of community-built starter themes."
+  />
+  <Card
+    href="https://astro.build/chat/"
+    title="Community"
+    body="Come say hi to our amazing Discord community. ❤️"
+  />
+</ul>
+
+<ul role="list" class="link-card-grid">
+  {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
+</ul>
 
 <style>
   main {
@@ -77,6 +84,11 @@ const parsedEpisodes = show.episodes.items;
     text-align: center;
     margin-bottom: 1em;
   }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
   .text-gradient {
     background-image: var(--accent-gradient);
     -webkit-background-clip: text;
@@ -84,27 +96,7 @@ const parsedEpisodes = show.episodes.items;
     background-size: 400%;
     background-position: 0%;
   }
-  .instructions {
-    margin-bottom: 2rem;
-    border: 1px solid rgba(var(--accent-light), 25%);
-    background: linear-gradient(
-      rgba(var(--accent-dark), 66%),
-      rgba(var(--accent-dark), 33%)
-    );
-    padding: 1.5rem;
-    border-radius: 8px;
-  }
-  .instructions code {
-    font-size: 0.8em;
-    font-weight: bold;
-    background: rgba(var(--accent-light), 12%);
-    color: rgb(var(--accent-light));
-    border-radius: 4px;
-    padding: 0.3em 0.4em;
-  }
-  .instructions strong {
-    color: rgb(var(--accent-light));
-  }
+
   .link-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
