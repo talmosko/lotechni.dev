@@ -1,0 +1,50 @@
+---
+import Card from "./Card.astro";
+import TalImg from "../images/tal.jpeg";
+import AdirImg from "../images/adir.jpeg";
+
+const speakers = [
+  {
+    name: "טל מוסקוביץ",
+    image: TalImg.src,
+    description:
+      "אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל.",
+    web: "https://tmosko.com",
+    linkedin: "https://www.linkedin.com/in/tmosko/",
+  },
+  {
+    name: "אדיר קנדל",
+    image: AdirImg.src,
+    description:
+      "אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל.",
+    web: "https://adir.co",
+    linkedin: "https://www.linkedin.com/in/adir-kandel/",
+  },
+];
+---
+
+<h2 class="text-gradient">מי אנחנו?</h2>
+<ul role="list" class="link-card-grid">
+  <Card
+    title="טל מוסקוביץ"
+    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
+  >
+    <img
+      class="host-card__image"
+      slot="right-side"
+      src={TalImg.src}
+      alt="Docs"
+    />
+  </Card>
+  <Card
+    title="אדיר קנדל"
+    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
+  >
+    <img
+      class="host-card__image"
+      slot="right-side"
+      src={AdirImg.src}
+      alt="Docs"
+    />
+  </Card>
+</ul>

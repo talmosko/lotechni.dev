@@ -1,13 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-import { getAccessToken, fetchEpisodes } from "../utils/spotify";
-import { EpisodesResponseSchema } from "../types/spotifyEpisodes";
+import { fetchEpisodes } from "../utils/spotify";
 import EpisodeCard from "../components/EpisodeCard.astro";
 import Logo from "../images/logo.svg";
 import DescriptionCard from "../components/DescriptionCard.astro";
-import AdirImg from "../images/adir.jpeg";
-import TalImg from "../images/tal.jpeg";
+import Speakers from "../components/Speakers.astro";
 
 const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID);
 
@@ -20,35 +17,11 @@ const parsedEpisodes = show.episodes.items.reverse();
   <DescriptionCard>
     {show.description}
   </DescriptionCard>
+  <Speakers />
+  <ul role="list" class="link-card-grid">
+    {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
+  </ul>
 </Layout>
-<ul role="list" class="link-card-grid">
-  <Card
-    title="טל מוסקוביץ"
-    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
-  >
-    <img
-      class="host-card__image"
-      slot="right-side"
-      src={TalImg.src}
-      alt="Docs"
-    />
-  </Card>
-  <Card
-    title="אדיר קנדל"
-    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
-  >
-    <img
-      class="host-card__image"
-      slot="right-side"
-      src={AdirImg.src}
-      alt="Docs"
-    />
-  </Card>
-</ul>
-
-<ul role="list" class="link-card-grid">
-  {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
-</ul>
 
 <style is:global>
   main {
