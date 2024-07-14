@@ -6,15 +6,11 @@ import { EpisodesResponseSchema } from "../types/spotifyEpisodes";
 import EpisodeCard from "../components/EpisodeCard.astro";
 import Logo from "../images/logo.svg";
 import DescriptionCard from "../components/DescriptionCard.astro";
-const accessToken = await getAccessToken(
-  import.meta.env.SPOTIFY_CLIENT_ID,
-  import.meta.env.SPOTIFY_CLIENT_SECRET
-);
-const episodes = await fetchEpisodes(
-  accessToken,
-  import.meta.env.PUBLIC_SPOTIFY_SHOW_ID
-);
-const show = EpisodesResponseSchema.parse(episodes);
+import AdirImg from "../images/adir.jpeg";
+import TalImg from "../images/tal.jpeg";
+
+const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID);
+
 const parsedEpisodes = show.episodes.items.reverse();
 ---
 
@@ -27,72 +23,53 @@ const parsedEpisodes = show.episodes.items.reverse();
 </Layout>
 <ul role="list" class="link-card-grid">
   <Card
-    href="https://docs.astro.build/"
-    title="Documentation"
-    body="Learn how Astro works and explore the official API docs."
-  />
+    title="טל מוסקוביץ"
+    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
+  >
+    <img
+      class="host-card__image"
+      slot="right-side"
+      src={TalImg.src}
+      alt="Docs"
+    />
+  </Card>
   <Card
-    href="https://astro.build/integrations/"
-    title="Integrations"
-    body="Supercharge your project with new frameworks and libraries."
-  />
-  <Card
-    href="https://astro.build/themes/"
-    title="Themes"
-    body="Explore a galaxy of community-built starter themes."
-  />
-  <Card
-    href="https://astro.build/chat/"
-    title="Community"
-    body="Come say hi to our amazing Discord community. ❤️"
-  />
+    title="אדיר קנדל"
+    body="אדיר שונא ריאקט ואנשים, או אני מוזמן להיות אדיר קנדל באינטרנט. אם הוא מוזמן להיות אדיר קנדל, הוא יכול להיות אדיר קנדל. אם הוא לא מוזמן להיות אדיר קנדל, הוא לא יכול להיות אדיר קנדל."
+  >
+    <img
+      class="host-card__image"
+      slot="right-side"
+      src={AdirImg.src}
+      alt="Docs"
+    />
+  </Card>
 </ul>
 
 <ul role="list" class="link-card-grid">
   {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
 </ul>
 
-<style>
+<style is:global>
   main {
     margin: auto;
     padding: 1rem;
-    width: 800px;
-    max-width: calc(100% - 2rem);
+    /* max-width: calc(100% - 3rem); */
     color: white;
     font-size: 20px;
     line-height: 1.6;
   }
-  h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    margin-bottom: 1em;
-  }
-  .logo-image {
-    margin: auto;
-    width: 300px;
-    height: 300px;
-    display: block;
-  }
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.3;
-  }
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
+
+  .host-card__image {
+    width: auto;
+    height: 10rem;
+    border-radius: 100%;
   }
 
-  .link-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(50ch, 1fr));
-    gap: 2rem;
-    padding: 0;
-    margin: 0 10rem;
+  .logo-image {
+    margin: auto;
+    width: 18rem;
+    height: auto;
+    display: block;
   }
 </style>

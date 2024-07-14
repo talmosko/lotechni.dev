@@ -1,5 +1,7 @@
 import { XMLParser } from "fast-xml-parser";
 import { PodcastRSSFeed } from "../types/rssFeed";
+import { EpisodesResponseSchema } from "../types/spotifyEpisodes";
+import { showMock } from "../types/show.mock";
 
 export async function getAccessToken(client_id: string, client_secret: string) {
   const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -15,19 +17,31 @@ export async function getAccessToken(client_id: string, client_secret: string) {
   return data.access_token;
 }
 
-export async function fetchEpisodes(accessToken: string, showId: string) {
-  const response = await fetch(
-    `https://api.spotify.com/v1/shows/${showId}?limit=50`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+export async function fetchEpisodes(showId: string) {
+  // try {
+  //   const accessToken = await getAccessToken(
+  //     import.meta.env.SPOTIFY_CLIENT_ID,
+  //     import.meta.env.SPOTIFY_CLIENT_SECRET
+  //   );
+  //   const response = await fetch(
+  //     `https://api.spotify.com/v1/shows/${showId}?limit=50`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     }
+  //   );
 
-  const data = await response.json();
-  return data;
+  //   const data = await response.json();
+  //   console.log(data);
+  //   const show = EpisodesResponseSchema.parse(data);
+  //   return show;
+  // } catch (error) {
+  //   console.log(error);
+  //   return EpisodesResponseSchema.parse(showMock);
+  // }
+  return EpisodesResponseSchema.parse(showMock);
 }
 
 const getRssFeed = async () => {
