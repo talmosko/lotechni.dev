@@ -7,7 +7,7 @@ import Speakers from "../components/Speakers.astro";
 import Logo from "../components/Logo.astro";
 const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID);
 
-const parsedEpisodes = show.episodes.items.reverse();
+const parsedEpisodes = show.episodes.items.reverse().slice(0, 4);
 ---
 
 <Layout title=`${show.name}`>
