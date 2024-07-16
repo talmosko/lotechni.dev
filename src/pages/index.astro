@@ -5,32 +5,26 @@ import EpisodeCard from "../components/EpisodeCard.astro";
 import DescriptionCard from "../components/DescriptionCard.astro";
 import Speakers from "../components/Speakers.astro";
 import Logo from "../components/Logo.astro";
+import Main from "../components/Main.astro";
 const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID);
 
 const parsedEpisodes = show.episodes.items.reverse().slice(0, 4);
 ---
 
 <Layout title=`${show.name}`>
-  <Logo showName={show.name} />
-  <DescriptionCard>
-    {show.description}
-  </DescriptionCard>
-  <Speakers />
-  <ul role="list" class="link-card-grid">
-    {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
-  </ul>
+  <Main>
+    <Logo showName={show.name} />
+    <DescriptionCard>
+      {show.description}
+    </DescriptionCard>
+    <Speakers />
+    <ul role="list" class="link-card-grid">
+      {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
+    </ul>
+  </Main>
 </Layout>
 
 <style is:global>
-  main {
-    margin: auto;
-    padding: 1rem;
-    /* max-width: calc(100% - 3rem); */
-    color: white;
-    font-size: 20px;
-    line-height: 1.6;
-  }
-
   .host-card__image {
     width: auto;
     height: 10rem;
