@@ -7,7 +7,7 @@ interface Props {
 const { title, body } = Astro.props;
 ---
 
-<div class="link-card" id="whoAreWe">
+<div class="link-card">
   <div class="link-card__wrapper">
     <slot name="right-side" />
     <div class="link-card__content">
@@ -32,6 +32,7 @@ const { title, body } = Astro.props;
     background-position: 100%;
     transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
   }
   .link-card > .link-card__wrapper {
     display: flex;
