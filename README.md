@@ -1,54 +1,125 @@
-# Astro Starter Kit: Basics
+# Lo Techni Community Site
 
-```sh
-npm create astro@latest -- --template basics
+![Lo Techni Logo](https://github.com/talmosko/lotechni.dev/blob/initial-site-update/src/assets/logos/logo.svg)
+
+> A community site for the Lo Techni podcast - Where developers talk about everything except code 🎙️
+
+## 🚀 Tech Stack
+
+- **Astro** v5.x - The web framework for content-driven websites
+- **React** v19.x - For interactive components
+- **Tailwind CSS** v3.4 - Utility-first CSS framework
+- **TypeScript** v5.7 - Because we like our types strict
+- **Zod** v3.24 - Runtime type validation that actually works
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js 18.14.1 or higher
+- pnpm 8.x or higher
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/lotechni.dev.git
+
+# Install dependencies
+pnpm install
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 🛠️ Development
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+```bash
+# Start development server
+pnpm dev
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+# Build for production
+pnpm build
 
-## 🚀 Project Structure
+# Preview production build
+pnpm preview
+```
 
-Inside of your Astro project, you'll see the following folders and files:
+### Cleanup Scripts
 
-```text
+```bash
+# Clean build output
+pnpm clean
+
+# Nuclear option: Clean everything (build, node_modules, etc)
+pnpm clean:all
+
+# Format code
+pnpm format
+```
+
+## 🗂️ Project Structure
+
+```
 /
-├── public/
-│   └── favicon.svg
+├── public/          # Static assets
 ├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/  # UI components
+│   ├── layouts/     # Page layouts
+│   ├── pages/       # File-based routing
+│   ├── assets/      # Project assets
+│   ├── sections/    # Page sections
+│   ├── utils/       # Utility functions
+│   └── types/       # TypeScript types
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🔄 Import Aliases
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```typescript
+// Instead of this 😢
+import EpisodeCard from "../../components/EpisodeCard.astro";
 
-Any static assets, like images, can be placed in the `public/` directory.
+// Do this 🎉
+import EpisodeCard from "@components/EpisodeCard.astro";
+```
 
-## 🧞 Commands
+Available aliases:
 
-All commands are run from the root of the project, from a terminal:
+```diff
++ "@components/*": ["src/components/*"]
++ "@layouts/*": ["src/layouts/*"]
++ "@asstes/*": ["src/assets/*"]
++ "@sections/*": ["src/sections/*"]
++ "@utils/*": ["src/utils/*"]
++ "@types/*": ["src/types/*"]
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🎨 Code Style
 
-## 👀 Want to learn more?
+We use Prettier for code formatting with custom configurations for Astro and Tailwind. Format your code with:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm format
+```
+
+## 🧞 Available Commands
+
+| Command          | Action                                     |
+| :--------------- | :----------------------------------------- |
+| `pnpm install`   | Install project dependencies               |
+| `pnpm dev`       | Start local dev server at `localhost:4321` |
+| `pnpm build`     | Build production site to `./dist/`         |
+| `pnpm preview`   | Preview production build locally           |
+| `pnpm clean`     | Clean build output                         |
+| `pnpm clean:all` | Clean everything (including node_modules)  |
+| `pnpm format`    | Format code with Prettier                  |
+
+## 🤝 Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Format your code (`pnpm format`)
+4. Commit your changes (`git commit -m 'Add some amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+---
+
+Built with ❤️ by the Lo Techni community
