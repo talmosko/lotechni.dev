@@ -24,10 +24,7 @@ const ItunesCategorySingle = z.object({
   "@_text": z.string().optional(),
 });
 
-const ItunesCategory = z.union([
-  z.array(ItunesCategorySingle),
-  ItunesCategorySingle,
-]);
+const ItunesCategory = z.union([z.array(ItunesCategorySingle), ItunesCategorySingle]);
 
 const ItunesOwner = z.object({
   "itunes:name": z.string(),
@@ -58,18 +55,11 @@ const Item = z.object({
   enclosure: Enclosure,
   "itunes:summary": z.string().optional(),
   "itunes:explicit": z.union([z.string(), z.boolean()]),
-  "itunes:duration": z.union([
-    z.string(),
-    z.number().transform((n) => n.toString()),
-  ]),
+  "itunes:duration": z.union([z.string(), z.number().transform((n) => n.toString())]),
   "itunes:image": ItunesImage,
   "itunes:episodeType": z.string().optional(),
-  "itunes:season": z
-    .union([z.string(), z.number().transform((n) => n.toString())])
-    .optional(),
-  "itunes:episode": z
-    .union([z.string(), z.number().transform((n) => n.toString())])
-    .optional(),
+  "itunes:season": z.union([z.string(), z.number().transform((n) => n.toString())]).optional(),
+  "itunes:episode": z.union([z.string(), z.number().transform((n) => n.toString())]).optional(),
 });
 
 const Channel = z.object({
