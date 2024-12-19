@@ -87,7 +87,7 @@ Available aliases:
 ```diff
 + "@components/*": ["src/components/*"]
 + "@layouts/*": ["src/layouts/*"]
-+ "@asstes/*": ["src/assets/*"]
++ "@assets/*": ["src/assets/*"]
 + "@sections/*": ["src/sections/*"]
 + "@utils/*": ["src/utils/*"]
 + "@types/*": ["src/types/*"]

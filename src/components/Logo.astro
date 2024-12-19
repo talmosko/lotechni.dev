@@ -1,5 +1,5 @@
 ---
-import LogoSvg from "@asstes/logos/logo.svg";
+import LogoSvg from "@assets/logos/logo.svg";
 interface Props {
   showName: string;
 }
@@ -7,13 +7,9 @@ interface Props {
 const { showName } = Astro.props;
 ---
 
-<img src={LogoSvg.src} alt=`${showName} logo` class="logo-image" />
-<h1 class="text-gradient">{showName}</h1>
-<style>
-  .logo-image {
-    margin: auto;
-    width: 18rem;
-    height: auto;
-    display: block;
-  }
-</style>
+<div class="text-center">
+  <img src={LogoSvg.src} alt={`${showName} logo`} class="mx-auto block h-auto w-72" />
+  <h1 class="text-gradient mt-6 text-5xl font-bold leading-tight">
+    {showName}
+  </h1>
+</div>
