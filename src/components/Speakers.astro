@@ -1,7 +1,7 @@
 ---
 import Card from "./Card.astro";
-import TalImg from "../images/tal.jpeg";
-import AdirImg from "../images/adir.jpeg";
+import TalImg from "@asstes/images/tal.jpeg";
+import AdirImg from "@asstes/images/adir.jpeg";
 
 const speakers = [
   {
@@ -28,12 +28,7 @@ const speakers = [
   {
     speakers.map((speaker) => (
       <Card title={speaker.name} body={speaker.description}>
-        <img
-          class="host-card__image"
-          slot="right-side"
-          src={speaker.image}
-          alt={speaker.name}
-        />
+        <img class="host-card__image" slot="right-side" src={speaker.image} alt={speaker.name} />
       </Card>
     ))
   }
