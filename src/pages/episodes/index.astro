@@ -2,8 +2,9 @@
 import Layout from '../../layouts/Layout.astro'
 import { fetchEpisodes } from '../../utils/spotify'
 import EpisodeCard from '../../components/EpisodeCard.astro'
-import DescriptionCard from '../../components/DescriptionCard.astro'
-import Speakers from '../../components/Speakers.astro'
+// No unused vars errors - to be added back when used
+// import DescriptionCard from '../../components/DescriptionCard.astro'
+// import Speakers from '../../components/Speakers.astro'
 import Logo from '../../components/Logo.astro'
 const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 
