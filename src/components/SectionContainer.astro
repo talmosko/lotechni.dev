@@ -7,10 +7,10 @@ interface Props extends HTMLAttributes<"section"> {
   innerClasses?: string;
 }
 
-const { outerClasses, innerClasses, ...rest } = Astro.props;
+const { outerClasses, innerClasses } = Astro.props;
 ---
 
-<section class={cn("relative w-full py-12", outerClasses)} {...rest}>
+<section class={cn("relative w-full py-12", outerClasses)}>
   <div class={cn("container px-4 md:px-8 lg:px-16", innerClasses)}>
     <slot />
   </div>

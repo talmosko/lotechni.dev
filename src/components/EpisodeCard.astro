@@ -1,9 +1,10 @@
 ---
-import type { Episode } from "../types/spotifyEpisodes";
+import type { Episode } from '../types/spotifyEpisodes'
 
 interface Props extends Episode {}
 
-const { audio_preview_url, name, description, html_description, images, id } = Astro.props;
+const { name, html_description, images } = Astro.props
+// const { audio_preview_url, name, description, html_description, images, id } = Astro.props
 ---
 
 <div class="episode-card">
