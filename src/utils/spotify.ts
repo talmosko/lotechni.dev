@@ -1,20 +1,20 @@
-import { XMLParser } from "fast-xml-parser";
-import { PodcastRSSFeed } from "../types/rssFeed";
-import { EpisodesResponseSchema } from "../types/spotifyEpisodes";
-import { showMock } from "../types/show.mock";
+import { XMLParser } from 'fast-xml-parser'
+import PodcastRSSFeed from '../types/rssFeed'
+import { EpisodesResponseSchema } from '../types/spotifyEpisodes'
+import showMock from '../types/show.mock'
 
-export async function getAccessToken(client_id: string, client_secret: string) {
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
+export async function getAccessToken(clientId: string, clientSecret: string) {
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
     headers: {
-      Authorization: "Basic " + btoa(client_id + ":" + client_secret),
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: "grant_type=client_credentials",
-  });
+    body: 'grant_type=client_credentials',
+  })
 
-  const data = await response.json();
-  return data.access_token;
+  const data = await response.json()
+  return data.access_token
 }
 
 export async function fetchEpisodes(showId: string) {
@@ -41,16 +41,16 @@ export async function fetchEpisodes(showId: string) {
   //   console.log(error);
   //   return EpisodesResponseSchema.parse(showMock);
   // }
-  return EpisodesResponseSchema.parse(showMock);
+  return EpisodesResponseSchema.parse(showMock)
 }
 
 const getRssFeed = async () => {
-  const res = await fetch("https://anchor.fm/s/f01f6814/podcast/rss");
-  const xml = await res.text();
+  const res = await fetch('https://anchor.fm/s/f01f6814/podcast/rss')
+  const xml = await res.text()
   const parser = new XMLParser({
     ignoreAttributes: false,
-  });
-  const json = parser.parse(xml);
-  const rssFeed = PodcastRSSFeed.parse(json);
-  return rssFeed;
-};
+  })
+  const json = parser.parse(xml)
+  const rssFeed = PodcastRSSFeed.parse(json)
+  return rssFeed
+}

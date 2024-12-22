@@ -1,33 +1,33 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 // Define the schema for an image object
 const imageSchema = z.object({
   url: z.string(),
   height: z.number().nullable(),
   width: z.number().nullable(),
-});
+})
 
 // Define the schema for a copyright object
 const copyrightSchema = z.object({
   text: z.string(),
   type: z.string(),
-});
+})
 
 // Define the schema for an external URL object
 const externalUrlsSchema = z.object({
   spotify: z.string(),
-});
+})
 
 // Define the schema for a resume point object
 const resumePointSchema = z.object({
   fully_played: z.boolean(),
   resume_position_ms: z.number(),
-});
+})
 
 // Define the schema for a restriction object
 const restrictionSchema = z.object({
   reason: z.string(),
-});
+})
 
 // Define the schema for an episode object
 const episodeSchema = z.object({
@@ -51,7 +51,7 @@ const episodeSchema = z.object({
   type: z.string(),
   uri: z.string(),
   restrictions: restrictionSchema.optional(),
-});
+})
 
 // Define the schema for the episodes response object
 const episodesResponseSchema = z.object({
@@ -62,7 +62,7 @@ const episodesResponseSchema = z.object({
   previous: z.string().nullable(),
   total: z.number(),
   items: z.array(episodeSchema),
-});
+})
 
 // Define the schema for the main response object
 const EpisodesResponseSchema = z.object({
@@ -84,7 +84,7 @@ const EpisodesResponseSchema = z.object({
   uri: z.string(),
   total_episodes: z.number(),
   episodes: episodesResponseSchema,
-});
+})
 
-type Episode = z.infer<typeof episodeSchema>;
-export { EpisodesResponseSchema, type Episode };
+type Episode = z.infer<typeof episodeSchema>
+export { EpisodesResponseSchema, type Episode }
