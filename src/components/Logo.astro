@@ -1,7 +1,7 @@
 ---
 import LogoSvg from '@asstes/logos/logo.svg'
 interface Props {
-	showName: string
+  showName: string
 }
 
 const { showName } = Astro.props
@@ -10,10 +10,10 @@ const { showName } = Astro.props
 <img src={LogoSvg.src} alt=`${showName} logo` class="logo-image" />
 <h1 class="text-gradient">{showName}</h1>
 <style>
-	.logo-image {
-		margin: auto;
-		width: 18rem;
-		height: auto;
-		display: block;
-	}
+  .logo-image {
+    margin: auto;
+    width: 18rem;
+    height: auto;
+    display: block;
+  }
 </style>

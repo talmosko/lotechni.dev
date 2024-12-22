@@ -8,9 +8,9 @@ const { name, html_description, images } = Astro.props
 ---
 
 <div class="episode-card">
-	<div>
-		<img src={images[0].url} alt={name} width="300" height="300" />
-		<!-- <iframe
+  <div>
+    <img src={images[0].url} alt={name} width="300" height="300" />
+    <!-- <iframe
       style="border-radius:12px"
       src=`https://open.spotify.com/embed/episode/${id}/video?utm_source=generator`
       width="624"
@@ -18,51 +18,51 @@ const { name, html_description, images } = Astro.props
       allowfullscreen=""
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"></iframe> -->
-		<h3>
-			{name}
-		</h3>
-		<div set:html={html_description} />
-	</div>
+    <h3>
+      {name}
+    </h3>
+    <div set:html={html_description} />
+  </div>
 </div>
 <style>
-	.episode-card {
-		list-style: none;
-		display: flex;
-		flex-direction: column;
-		padding: 1px;
-		background-color: #23262d;
-		background-image: none;
-		background-size: 400%;
-		border-radius: 7px;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-	}
-	.episode-card > div {
-		/* width: calc(100% - 2.9rem); */
-		height: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: calc(1.5rem - 1px);
-		border-radius: 8px;
-		color: white;
-		background-color: #23262d;
-		opacity: 0.8;
-	}
-	h3 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-	.episode-card:is(:hover, :focus-within) {
-		background-position: 0;
-		background-image: var(--accent-gradient);
-	}
-	.episode-card:is(:hover, :focus-within) h3 {
-		color: rgb(var(--accent-light));
-	}
+  .episode-card {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 1px;
+    background-color: #23262d;
+    background-image: none;
+    background-size: 400%;
+    border-radius: 7px;
+    background-position: 100%;
+    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  .episode-card > div {
+    /* width: calc(100% - 2.9rem); */
+    height: 100%;
+    text-decoration: none;
+    line-height: 1.4;
+    padding: calc(1.5rem - 1px);
+    border-radius: 8px;
+    color: white;
+    background-color: #23262d;
+    opacity: 0.8;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  p {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  .episode-card:is(:hover, :focus-within) {
+    background-position: 0;
+    background-image: var(--accent-gradient);
+  }
+  .episode-card:is(:hover, :focus-within) h3 {
+    color: rgb(var(--accent-light));
+  }
 </style>
