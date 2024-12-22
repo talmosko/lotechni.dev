@@ -1,16 +1,16 @@
 ---
-import { cn } from "@utils/cn";
+import { cn } from '@utils/cn'
 
 interface Props {
-  outerClasses?: string;
-  innerClasses?: string;
+	outerClasses?: string
+	innerClasses?: string
 }
 
-const { outerClasses, innerClasses } = Astro.props;
+const { outerClasses, innerClasses } = Astro.props
 ---
 
-<section class={cn("relative w-full py-12", outerClasses)}>
-  <div class={cn("container px-4 md:px-8 lg:px-16", innerClasses)}>
-    <slot />
-  </div>
+<section class={cn('relative w-full py-12', outerClasses)}>
+	<div class={cn('container px-4 md:px-8 lg:px-16', innerClasses)}>
+		<slot />
+	</div>
 </section>

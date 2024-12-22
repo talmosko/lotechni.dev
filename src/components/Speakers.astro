@@ -1,35 +1,35 @@
 ---
-import Card from "./Card.astro";
-import TalImg from "@asstes/images/tal.jpeg";
-import AdirImg from "@asstes/images/adir.jpeg";
+import Card from './Card.astro'
+import TalImg from '@asstes/images/tal.jpeg'
+import AdirImg from '@asstes/images/adir.jpeg'
 
 const speakers = [
-  {
-    name: "טל מוסקוביץ",
-    image: TalImg.src,
-    description:
-      "מפתח פרונט ואנשים. שם שני: פרואקטיביות. מפתח פולסטאק ב-Imagen.ai, איש של למידה, עם ניסיון עשיר בהחלפת מסלולי קריירה, יצירת בולטות, נוכחות וביטחון עצמי בתחום חדש.",
-    web: "https://tmosko.com",
-    linkedin: "https://www.linkedin.com/in/tmosko/",
-  },
-  {
-    name: "אדיר קנדל",
-    image: AdirImg.src,
-    description:
-      "שונא את ריאקט, אוהב אבטחה. ראש צוות ב-Tanable, מנהל הקהילה Fedcast והפודקאסט Frontcast",
-    web: "https://adir.co",
-    linkedin: "https://www.linkedin.com/in/adir-kandel/",
-  },
-];
+	{
+		name: 'טל מוסקוביץ',
+		image: TalImg.src,
+		description:
+			'מפתח פרונט ואנשים. שם שני: פרואקטיביות. מפתח פולסטאק ב-Imagen.ai, איש של למידה, עם ניסיון עשיר בהחלפת מסלולי קריירה, יצירת בולטות, נוכחות וביטחון עצמי בתחום חדש.',
+		web: 'https://tmosko.com',
+		linkedin: 'https://www.linkedin.com/in/tmosko/',
+	},
+	{
+		name: 'אדיר קנדל',
+		image: AdirImg.src,
+		description:
+			'שונא את ריאקט, אוהב אבטחה. ראש צוות ב-Tanable, מנהל הקהילה Fedcast והפודקאסט Frontcast',
+		web: 'https://adir.co',
+		linkedin: 'https://www.linkedin.com/in/adir-kandel/',
+	},
+]
 ---
 
 <h2 class="text-gradient">מי אנחנו?</h2>
 <ul role="list" class="link-card-grid">
-  {
-    speakers.map((speaker) => (
-      <Card title={speaker.name} body={speaker.description}>
-        <img class="host-card__image" slot="right-side" src={speaker.image} alt={speaker.name} />
-      </Card>
-    ))
-  }
+	{
+		speakers.map((speaker) => (
+			<Card title={speaker.name} body={speaker.description}>
+				<img class="host-card__image" slot="right-side" src={speaker.image} alt={speaker.name} />
+			</Card>
+		))
+	}
 </ul>

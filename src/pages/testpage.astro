@@ -1,46 +1,46 @@
 ---
-import SectionContainer from "@components/SectionContainer.astro";
-import TestCounter from "@components/TestCounter.tsx";
+import SectionContainer from '@components/SectionContainer.astro'
+import TestCounter from '@components/TestCounter.tsx'
 ---
 
 <SectionContainer outerClasses="bg-gradient-to-r from-slate-300 to-stone-200">
-  <h1 class="text-2xl font-bold">I'm a React counter component</h1>
-  <TestCounter client:idle />
-  <h2>Where are we?</h2>
-  <p>
-    Well, we are in the test page. This is a test to see if we can render a React component in an
-    Astro page.
-  </p>
-  <p>
-    But more importantly, we are inside the <code>SectionContainer</code> component.
-  </p>
+	<h1 class="text-2xl font-bold">I'm a React counter component</h1>
+	<TestCounter client:idle />
+	<h2>Where are we?</h2>
+	<p>
+		Well, we are in the test page. This is a test to see if we can render a React component in an
+		Astro page.
+	</p>
+	<p>
+		But more importantly, we are inside the <code>SectionContainer</code> component.
+	</p>
 </SectionContainer>
 
 <SectionContainer outerClasses="bg-gradient-to-r from-sky-300 to-amber-200">
-  <h1 class="text-2xl font-bold">Well, what is the SectionContainer?</h1>
-  <p>
-    It's a component that wraps the content in a section element with a container inside it. i have
-    been using this pattern for a while and i find it highly useful. especially for content focused
-    websites.
-  </p>
-  <p>The main logic I built it with is:</p>
-  <ul class="list-disc space-y-2 pl-6">
-    <li>
-      The external element takes care of vertical spacing, ensuring stacked sections are properly
-      spaced out and keep everything sharp.
-    </li>
-    <li>
-      The external element also handles the full page width background color, making it easy to
-      change the entire section's background. Being relatively positioned allows inner elements to
-      be positioned absolutely.
-    </li>
-    <li>
-      The internal element manages horizontal spacing, keeping content centered and visually clean.
-    </li>
-  </ul>
-  <br />
-  <p>
-    I'm not sure if this is the best way to do it (and offcourse we will adjust the spcaing to our
-    use), it's working great for me. i think it's a good pattern to have.
-  </p>
+	<h1 class="text-2xl font-bold">Well, what is the SectionContainer?</h1>
+	<p>
+		It's a component that wraps the content in a section element with a container inside it. i have
+		been using this pattern for a while and i find it highly useful. especially for content focused
+		websites.
+	</p>
+	<p>The main logic I built it with is:</p>
+	<ul class="list-disc space-y-2 pl-6">
+		<li>
+			The external element takes care of vertical spacing, ensuring stacked sections are properly
+			spaced out and keep everything sharp.
+		</li>
+		<li>
+			The external element also handles the full page width background color, making it easy to
+			change the entire section's background. Being relatively positioned allows inner elements to
+			be positioned absolutely.
+		</li>
+		<li>
+			The internal element manages horizontal spacing, keeping content centered and visually clean.
+		</li>
+	</ul>
+	<br />
+	<p>
+		I'm not sure if this is the best way to do it (and offcourse we will adjust the spcaing to our
+		use), it's working great for me. i think it's a good pattern to have.
+	</p>
 </SectionContainer>
