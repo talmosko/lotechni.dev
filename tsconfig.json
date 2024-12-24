@@ -10,7 +10,6 @@
       "@assets/*": ["src/assets/*"],
       "@sections/*": ["src/sections/*"],
       "@utils/*": ["src/utils/*"],
-      "@types/*": ["src/data/types/*"],
       "@data/*": ["src/data/*"]
     },
     "types": ["astro/client"]
