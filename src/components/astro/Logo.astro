@@ -7,7 +7,7 @@ interface Props {
 const { showName } = Astro.props
 ---
 
-<img src={LogoSvg.src} alt=`${showName} logo` class="logo-image" />
+<img src={LogoSvg.src} alt={`${showName} logo`} class="logo-image" />
 <h1 class="text-gradient">{showName}</h1>
 <style>
   .logo-image {
