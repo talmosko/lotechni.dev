@@ -10,13 +10,9 @@
       "@assets/*": ["src/assets/*"],
       "@sections/*": ["src/sections/*"],
       "@utils/*": ["src/utils/*"],
-      "@types/*": ["src/types/*"]
-    }
+      "@data/*": ["src/data/*"]
+    },
+    "types": ["astro/client"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.astro",
-    "*.config.{js,ts,mjs}"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "*.config.{js,ts,mjs}"]
 }

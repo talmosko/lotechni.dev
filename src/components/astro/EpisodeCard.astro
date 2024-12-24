@@ -1,10 +1,14 @@
 ---
-import type { Episode } from '../types/spotifyEpisodes'
+import type { Episode } from '@data/types/spotifyEpisodes'
 
-interface Props extends Episode {}
+interface Props extends Episode {
+  audio_preview_url: string | null
+  description: string
+  html_description: string
+}
 
-const { name, html_description, images } = Astro.props
-// const { audio_preview_url, name, description, html_description, images, id } = Astro.props
+const { audio_preview_url, name, description, html_description, images } = Astro.props
+// const { audio_preview_url, name, description, html_description, images, id = undefined } = Astro.props
 ---
 
 <div class="episode-card">
@@ -21,7 +25,17 @@ const { name, html_description, images } = Astro.props
     <h3>
       {name}
     </h3>
+    <p class="description">{description}</p>
     <div set:html={html_description} />
+
+    {
+      audio_preview_url && (
+        <audio controls>
+          <source src={audio_preview_url} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      )
+    }
   </div>
 </div>
 <style>
