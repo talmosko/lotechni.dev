@@ -10,7 +10,7 @@ const { title, body }: Props = Astro.props
 <div class="link-card">
   <div class="link-card__wrapper">
     <slot name="right-side" />
-    <div class="link-card__content">
+    <div class="link-card__content flex-wrap lg:flex-nowrap">
       <h3 class="link-card__title">
         {title}
       </h3>
