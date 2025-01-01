@@ -1,0 +1,29 @@
+---
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import HostCard from '@components/astro/cards/HostCard.astro'
+import TalImg from '@assets/images/tal.jpeg'
+import AdirImg from '@assets/images/adir.jpeg'
+
+const speakers = [
+  {
+    name: 'טל מוסקוביץ',
+    image: TalImg,
+    description:
+      'מפתח פרונט ואנשים. שם שני: פרואקטיביות. מפתח פולסטאק ב-Imagen.ai, איש של למידה, עם ניסיון עשיר בהחלפת מסלולי קריירה, יצירת בולטות, נוכחות וביטחון עצמי בתחום חדש.',
+    website: 'https://tmosko.com',
+    linkedin: 'https://www.linkedin.com/in/tmosko/',
+  },
+  {
+    name: 'אדיר קנדל',
+    image: AdirImg,
+    description:
+      'שונא את ריאקט, אוהב אבטחה. ראש צוות ב-Tanable, מנהל הקהילה Fedcast והפודקאסט Frontcast',
+    website: 'https://adir.co',
+    linkedin: 'https://www.linkedin.com/in/adir-kandel/',
+  },
+]
+---
+
+<SectionContainer innerClasses="flex flex-col gap-4">
+  {speakers.map((speaker, index) => <HostCard {...speaker} reversed={index % 2 === 0} />)}
+</SectionContainer>
