@@ -1,0 +1,45 @@
+---
+import { cn } from '@utils/cn'
+
+interface Props {
+  className?: string
+  showGradient?: boolean
+  gradientOnlyOnHover?: boolean
+}
+
+const { className, showGradient = false, gradientOnlyOnHover = false } = Astro.props
+---
+
+<div class="group relative">
+  {
+    showGradient && (
+      <div
+        class={cn(
+          'animate-gradient-xy absolute -inset-0.5 rounded-lg bg-gradient-to-r from-accent via-accent-dark to-accent-light',
+          gradientOnlyOnHover && 'opacity-0 transition-opacity duration-300 group-hover:opacity-100'
+        )}
+      />
+    )
+  }
+
+  <div class={cn('relative h-full rounded-lg bg-surface p-6', className)}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  @keyframes gradient-xy {
+    0%,
+    100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+  }
+
+  .animate-gradient-xy {
+    background-size: 400% 400%;
+    animation: gradient-xy 4s linear infinite;
+  }
+</style>

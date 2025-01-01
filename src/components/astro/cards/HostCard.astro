@@ -1,0 +1,46 @@
+---
+import CardContainer from '@components/astro/containers/CardContainer.astro'
+import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+import { cn } from '@utils/cn'
+
+interface Props {
+  name: string
+  description: string
+  image: ImageMetadata
+  website: string
+  linkedin: string
+  reversed?: boolean
+}
+
+const { name, description, image, website, linkedin, reversed = false }: Props = Astro.props
+---
+
+<CardContainer className="group/card">
+  <div class={cn('flex flex-col gap-4 md:flex-row', reversed && 'md:flex-row-reverse')}>
+    <ImageContainer showGradient gradientOnlyOnHover>
+      <Image class="block aspect-square h-full min-w-40 md:max-w-48" src={image} alt={name} />
+    </ImageContainer>
+    <div class="flex flex-col gap-4">
+      <h3 class="text-2xl font-bold text-accent md:text-3xl">{name}</h3>
+      <p>
+        {description}
+      </p>
+      <div class="mx-auto mt-auto flex gap-4 text-base">
+        <a
+          href={website}
+          target="_blank"
+          class="flex items-center gap-2 transition-colors hover:text-accent">
+          Website <span class="icon-[iconoir--www] h-6 w-6"></span>
+        </a>
+        <a
+          href={linkedin}
+          target="_blank"
+          class="flex items-center gap-2 transition-colors hover:text-accent">
+          LinkedIn <span class="icon-[iconoir--linkedin] h-6 w-6"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</CardContainer>

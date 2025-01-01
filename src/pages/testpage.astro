@@ -2,6 +2,55 @@
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import TestCounter from '@components/react/TestCounter.tsx'
+import CardContainer from '@components/astro/containers/CardContainer.astro'
+import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import DemoImg from '@assets/images/tal.jpeg'
+import { Code } from 'astro:components'
+import { Image } from 'astro:assets'
+const cards = [
+  {
+    title: 'Basic Card',
+    description:
+      'This is the default card with no gradient border. Perfect for clean, minimal designs.',
+    propNames: ['None'],
+    props: {},
+  },
+  {
+    title: 'Always Glowing',
+    description:
+      'Features a constant animated gradient border that adds a dynamic touch to your content.',
+    propNames: ['showGradient: true'],
+    props: { showGradient: true },
+  },
+  {
+    title: 'Interactive Highlight',
+    description:
+      'The gradient border appears on hover, creating an engaging interactive experience.',
+    propNames: ['showGradient: true', 'gradientOnlyOnHover: true'],
+    props: { showGradient: true, gradientOnlyOnHover: true },
+  },
+]
+
+const imageContainers = [
+  {
+    title: 'Basic Container',
+    description: 'Default image container without any gradient effects.',
+    propNames: ['None'],
+    props: {},
+  },
+  {
+    title: 'Always Glowing Border',
+    description: 'Image with a constant animated gradient border.',
+    propNames: ['showGradient: true'],
+    props: { showGradient: true },
+  },
+  {
+    title: 'Interactive Border',
+    description: 'Image container that shows the gradient border when its parent card is hovered.',
+    propNames: ['showGradient: true', 'gradientOnlyOnHover: true'],
+    props: { showGradient: true, gradientOnlyOnHover: true },
+  },
+]
 ---
 
 <Layout title="Test Page">
@@ -74,25 +123,16 @@ import TestCounter from '@components/react/TestCounter.tsx'
       </div>
     </div>
   </SectionContainer>
+
   <SectionContainer
     outerClasses="bg-gradient-to-r from-slate-300 to-stone-200"
-    innerClasses="text-surface"
-    dir="ltr">
-    <h1 class="text-2xl font-bold">I'm a React counter component</h1>
+    innerClasses="text-surface">
     <TestCounter client:idle />
-    <h2>Where are we?</h2>
-    <p>
-      Well, we are in the test page. This is a test to see if we can render a React component in an
-      Astro page.
-    </p>
-    <p>
-      But more importantly, we are inside the <code>SectionContainer</code> component.
-    </p>
   </SectionContainer>
 
   <SectionContainer
     outerClasses="bg-gradient-to-r from-sky-300 to-amber-200"
-    innerClasses="text-surface-dark text-left"
+    innerClasses="text-surface-dark text-left bg-white/30 rounded-lg p-4 backdrop-blur-sm mx-auto max-w-"
     dir="ltr">
     <h1 class="text-2xl font-bold">Well, what is the SectionContainer?</h1>
     <p>
@@ -116,5 +156,93 @@ import TestCounter from '@components/react/TestCounter.tsx'
         clean.
       </li>
     </ul>
+  </SectionContainer>
+  <SectionContainer>
+    <h1 class="mb-8 text-center text-3xl font-bold text-white">Card Container Variants</h1>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        cards.map((card) => (
+          <CardContainer {...card.props}>
+            <h2 class="mb-3 text-center text-xl font-bold text-white underline decoration-accent-light">
+              {card.title}
+            </h2>
+            <p class="mb-4 text-left">{card.description}</p>
+            <ul class="mt-auto space-y-2 font-mono" dir="ltr">
+              <li class="flex items-center text-accent-light">Props:</li>
+              {card.propNames.map((propName) => (
+                <li class="flex items-center">
+                  <span class="me-2 h-2 w-2 rounded-full bg-accent" />
+                  {propName}
+                </li>
+              ))}
+            </ul>
+          </CardContainer>
+        ))
+      }
+    </div>
+  </SectionContainer>
+  <SectionContainer>
+    <div class="space-y-8">
+      <div class="text-center">
+        <h1 class="mb-4 text-3xl font-bold text-white">Image Container Variants</h1>
+        <p class="mx-auto max-w-2xl text-gray-300">
+          The ImageContainer component is designed to work in harmony with CardContainer, allowing
+          for elegant gradient borders around images that can react to the parent card's hover
+          state.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {
+          imageContainers.map((demo) => (
+            <CardContainer className="group/card">
+              <div class="flex flex-col gap-4">
+                <ImageContainer {...demo.props}>
+                  <Image src={DemoImg} alt="Demo Image" class="aspect-square w-full object-cover" />
+                </ImageContainer>
+
+                <div class="flex flex-col gap-4">
+                  <h2 class="text-center text-xl font-bold text-white underline decoration-accent-light">
+                    {demo.title}
+                  </h2>
+                  <p class="text-left text-gray-300">{demo.description}</p>
+                  <ul class="mt-auto space-y-2 font-mono" dir="ltr">
+                    <li class="flex items-center text-accent-light">Props:</li>
+                    {demo.propNames.map((propName) => (
+                      <li class="flex items-center">
+                        <span class="me-2 h-2 w-2 rounded-full bg-accent" />
+                        {propName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </CardContainer>
+          ))
+        }
+      </div>
+
+      <div class="rounded-lg bg-surface-dark p-6">
+        <h2 class="mb-4 text-xl font-bold text-white">Usage with CardContainer</h2>
+        <p class="mb-4 text-gray-300">
+          The ImageContainer is designed to work seamlessly with CardContainer's hover states using
+          Tailwind's grouped hover classes:
+        </p>
+        <div class="rounded-lg bg-surface p-4 font-mono text-sm">
+          <Code
+            dir="ltr"
+            code={`<CardContainer className="group/card">
+  <div class="flex gap-4">
+    <ImageContainer showGradient gradientOnlyOnHover>
+      <Image src={yourImage} alt="Your Alt" class="aspect-square" />
+    </ImageContainer>
+    <div>Your content here</div>
+  </div>
+</CardContainer>`}
+          />
+        </div>
+      </div>
+    </div>
   </SectionContainer>
 </Layout>
