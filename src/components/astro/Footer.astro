@@ -1,0 +1,89 @@
+---
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import { cn } from '@utils/cn'
+
+const footerData = {
+  links: [
+    {
+      label: 'קבוצת וואטסאפ',
+      href: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ot',
+      iconClasses: 'group-hover:text-social-whatsapp icon-[iconoir--whatsapp]',
+    },
+    {
+      label: 'Spotify',
+      href: 'https://open.spotify.com/show/331GnnQsHxjU7SjS1bFJnS?utm_medium=share&utm_source=linktree',
+      iconClasses: 'group-hover:text-social-spotify icon-[iconoir--spotify]',
+    },
+    {
+      label: 'Apple Podcasts',
+      href: 'https://podcasts.apple.com/us/podcast/%D7%9C%D7%90-%D7%98%D7%9B%D7%A0%D7%99-%D7%95%D7%9C%D7%90-%D7%91%D7%9E%D7%A7%D7%A8%D7%94/id1724399310',
+      iconClasses: 'group-hover:text-social-apple icon-[iconoir--apple]',
+    },
+    {
+      label: 'YouTube',
+      href: 'https://www.youtube.com/@lotechni',
+      iconClasses: 'group-hover:text-social-youtube icon-[iconoir--youtube]',
+    },
+  ],
+  hosts: [
+    {
+      name: 'אדיר קנדל',
+      href: 'https://www.linkedin.com/in/adir-kandel/',
+      icon: 'icon-[iconoir--linkedin]',
+      color: 'social-linkedin',
+    },
+    {
+      name: 'טל מוסקוביץ',
+      href: 'https://www.linkedin.com/in/tmosko/',
+      icon: 'icon-[iconoir--linkedin]',
+      color: 'social-linkedin',
+    },
+  ],
+}
+---
+
+<SectionContainer>
+  <footer class="flex flex-col items-center gap-4 py-6">
+    <p class="text-sm font-bold text-white">קישורים:</p>
+    <!-- Platform Links -->
+    <div class="grid grid-cols-2 place-content-center gap-6 lg:grid-cols-4">
+      {
+        footerData.links.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
+            <span
+              class={cn(link.iconClasses, 'h-6 w-6 transition duration-300 group-hover:scale-105')}
+            />
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+    <!-- Hosts on LinkedIn -->
+    <div class="flex flex-col items-center text-center">
+      <p class="text-sm font-bold text-white">טל ואדיר בלינקדאין:</p>
+      <div class="mt-2 flex flex-wrap justify-center gap-6">
+        {
+          footerData.hosts.map((host) => (
+            <a
+              href={host.href}
+              target="_blank"
+              class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
+              <span class="group-hover:text-social-linkedin icon-[iconoir--linkedin] h-6 w-6 transition duration-300 group-hover:scale-105" />
+              {host.name}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    <!-- Copyright  -->
+    <div class="text-center">
+      <p class="text-sm text-white">
+        © {new Date().getFullYear()} לא טכני - כל הזכויות שמורות.
+      </p>
+      <p class="text-xs text-gray-400">נבנה באהבה ❤️ על ידי קהילת לא טכני.</p>
+    </div>
+  </footer>
+</SectionContainer>
