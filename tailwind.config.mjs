@@ -38,10 +38,12 @@ export default {
           dark: '#13151A',
         },
       },
-
       backgroundImage: {
         'gradient-accent':
-          'linear-gradient(45deg, oklch(77.94% 0.127 196.83), oklch(85.93% 0.063 195.95) 30%, white 60%)',
+          'linear-gradient(45deg, oklch(61.44% 0.099 196.83), oklch(85.93% 0.063 195.95) 30%, white 60%)',
+      },
+      backgroundSize: {
+        'gradient-lg': '400%',
       },
     },
   },
