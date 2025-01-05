@@ -1,9 +1,9 @@
 ---
 import Layout from '@layouts/Layout.astro'
+import Hosts from '@sections/home/Hosts.astro'
 import { fetchEpisodes } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
-import Speakers from '@components/astro/Speakers.astro'
 import Logo from '@components/astro/Logo.astro'
 const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 
@@ -18,7 +18,7 @@ const parsedEpisodes = show.episodes.items.reverse().slice(0, 4)
       {show.description}
     </DescriptionCard>
 
-    <Speakers />
+    <Hosts />
 
     <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
       {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}

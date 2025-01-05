@@ -10,7 +10,7 @@ const { title } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en" dir="rtl" class="rtl">
+<html lang="he">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
@@ -21,6 +21,7 @@ const { title } = Astro.props
   </head>
   <body class="min-h-dvh bg-surface-dark text-white antialiased">
     <Navbar />
+  <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
     <main class="">
       <slot />
     </main>
@@ -44,6 +45,7 @@ const { title } = Astro.props
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      font-family: 'Rubik Variable', sans-serif;
       font-family: 'Rubik Variable', sans-serif;
     }
 
