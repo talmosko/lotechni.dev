@@ -7,5 +7,17 @@ import vercel from '@astrojs/vercel'
 export default defineConfig({
   integrations: [react(), tailwind()],
   adapter: vercel(),
+  // adapter: vercel({
+  //   imageService: true,
+  //   imagesConfig: {
+  //     sizes: [64, 96, 128, 256, 384, 512, 640, 750, 828, 1080],
+  //     domains: [],
+  //     formats: ['image/webp'],
+  //   },
+  // }),
+  image: {
+    domains: [],
+    remotePatterns: [{ protocol: 'https' }],
+  },
   output: 'server',
 })
