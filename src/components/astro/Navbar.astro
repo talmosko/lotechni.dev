@@ -1,0 +1,189 @@
+---
+import { Image } from 'astro:assets'
+import Logo from '@assets/logos/logo.svg'
+import { cn } from '@utils/cn'
+
+interface Props {
+  className?: string
+}
+
+const { className } = Astro.props
+
+// current path for active link highlight
+const currentPath = Astro.url.pathname.replace(/\/$/, '')
+
+const navLinks = [
+  {
+    href: '/our-story',
+    label: 'מי אנחנו',
+  },
+  {
+    href: '/episodes',
+    label: 'הפרקים שלנו',
+  },
+  {
+    href: '/meetups',
+    label: 'מיטאפים',
+  },
+  {
+    href: '/gallery',
+    label: 'גלריה',
+  },
+  {
+    href: '/community',
+    label: 'הקהילה',
+  },
+]
+---
+
+<header
+  id="navbar"
+  class={cn('sticky top-0 z-50 w-full bg-surface transition-transform duration-300', className)}>
+  <nav class="container mx-auto px-4 py-2" aria-label="Main navigation">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex md:items-center md:gap-6">
+        {
+          navLinks.map(({ href, label }) => {
+            const isActive = currentPath === href
+            return (
+              <a
+                href={href}
+                class={cn(
+                  'text-white/80 transition-colors hover:text-white',
+                  isActive && 'font-bold text-white'
+                )}
+                aria-current={isActive ? 'page' : undefined}>
+                {label}
+              </a>
+            )
+          })
+        }
+      </div>
+
+      <!-- Logo  -->
+      <a href="/" class="flex items-center">
+        <Image
+          src={Logo}
+          width={96}
+          height={96}
+          quality={100}
+          loading="eager"
+          format="webp"
+          alt="לא טכני"
+          class="size-14"
+        />
+      </a>
+
+      <!-- Mobile Menu - button -->
+      <button
+        id="mobile-menu-button"
+        class="flex items-center md:hidden"
+        aria-label="Toggle menu"
+        aria-expanded="false">
+        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16">
+          </path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu - overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-y-0 right-0 top-16 z-50 flex h-[calc(100vh-4rem)] w-full translate-x-full transform bg-surface transition-transform duration-300 ease-in-out md:hidden"
+      aria-hidden="true">
+      <div class="flex h-full w-full flex-col items-center justify-center space-y-8 p-4">
+        {
+          navLinks.map(({ href, label }) => {
+            const isActive = currentPath === href
+            return (
+              <a
+                href={href}
+                class={cn(
+                  'text-xl text-white/80 transition-colors hover:text-white',
+                  isActive && 'font-bold text-white'
+                )}
+                aria-current={isActive ? 'page' : undefined}>
+                {label}
+              </a>
+            )
+          })
+        }
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button')
+  const mobileMenu = document.getElementById('mobile-menu')
+  let isMenuOpen = false
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen
+      mobileMenu.classList.toggle('translate-x-full')
+      mobileMenu.setAttribute('aria-hidden', (!isMenuOpen).toString())
+      mobileMenuButton.setAttribute('aria-expanded', isMenuOpen.toString())
+      document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+    })
+
+    // close menu when click outside
+    document.addEventListener('click', (event) => {
+      if (
+        isMenuOpen &&
+        mobileMenu &&
+        !mobileMenu.contains(event.target as Node) &&
+        !mobileMenuButton?.contains(event.target as Node)
+      ) {
+        isMenuOpen = false
+        mobileMenu.classList.add('translate-x-full')
+        mobileMenu.setAttribute('aria-hidden', 'true')
+        mobileMenuButton.setAttribute('aria-expanded', 'false')
+        document.body.style.overflow = ''
+      }
+    })
+  }
+
+  // scroll behavior - hide/show navbar on scroll
+  let lastScroll = 0
+  const navbar = document.getElementById('navbar')
+  const scrollThreshold = 100 // Minimum scroll before navbar hides
+
+  function handleScroll() {
+    if (!navbar) return
+
+    const currentScroll = window.scrollY
+
+    // Don't hide navbar when near the top of the page
+    if (currentScroll <= scrollThreshold) {
+      navbar.style.transform = 'translateY(0)'
+      return
+    }
+
+    // Scrolling down and not at bottom
+    if (currentScroll > lastScroll && !isMenuOpen) {
+      navbar.style.transform = 'translateY(-100%)'
+    }
+    // Scrolling up
+    else {
+      navbar.style.transform = 'translateY(0)'
+    }
+
+    lastScroll = currentScroll
+  }
+
+  // Add a small delay to avoid too frequent updates
+  let scrollTimeout: number
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout)
+    }
+    scrollTimeout = window.requestAnimationFrame(handleScroll)
+  })
+</script>

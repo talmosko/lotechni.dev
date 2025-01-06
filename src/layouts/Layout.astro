@@ -1,5 +1,7 @@
 ---
+import Navbar from '@components/astro/Navbar.astro'
 import '@fontsource-variable/rubik'
+import Footer from '@components/astro/Footer.astro'
 
 interface Props {
   title: string
@@ -19,9 +21,11 @@ const { title } = Astro.props
     <title>{title}</title>
   </head>
   <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
+    <Navbar />
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
 
@@ -30,22 +34,20 @@ const { title } = Astro.props
 
   @layer utilities {
     .text-gradient {
-      @apply bg-gradient-accent bg-gradient-lg bg-clip-text text-transparent transition-all duration-300;
+      @apply bg-[length:400%] bg-[0%] transition-[background-position] duration-300;
+      background-image: linear-gradient(
+        45deg,
+        oklch(61.44% 0.099 196.83),
+        oklch(85.93% 0.063 195.95) 30%,
+        white 60%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Rubik Variable', sans-serif;
     }
-  }
 
-  @keyframes gradient-xy {
-    0%,
-    100% {
-      background-position: 0% 0%;
+    .text-gradient:hover {
+      background-position: 100%;
     }
-    50% {
-      background-position: 100% 100%;
-    }
-  }
-
-  .animate-gradient-xy {
-    background-size: 400% 400%;
-    animation: gradient-xy 6s linear infinite;
   }
 </style>

@@ -31,11 +31,18 @@ export default {
           // dark: "rgb(58, 156, 161)",
         },
         surface: {
-          // DEFAULT: "oklch(17.95% 0.012 255.31)", // Previous #23262D
-          // dark: "oklch(11.55% 0.009 255.31)", // Previous #13151A
+          DEFAULT: 'oklch(17.95% 0.012 255.31)', // Previous #23262D
+          dark: 'oklch(11.55% 0.009 255.31)', // Previous #13151A
           // (as previously defined)
-          DEFAULT: '#23262D',
-          dark: '#13151A',
+          // DEFAULT: '#23262D',
+          // dark: '#13151A',
+        },
+        social: {
+          spotify: 'oklch(70% 0.26 150)',
+          apple: 'oklch(64.12% 0.158 326.32)',
+          youtube: 'oklch(60% 0.28 20)',
+          linkedin: 'oklch(70% 0.25 220)',
+          whatsapp: 'oklch(70% 0.4 140)',
         },
       },
       backgroundImage: {
