@@ -1,25 +1,38 @@
 ---
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import HostCard from '@components/astro/cards/HostCard.astro'
+import type { ImageMetadata } from 'astro'
+import type { SocialLink } from '@data/types/icons'
 import TalImg from '@assets/images/tal.jpeg'
 import AdirImg from '@assets/images/adir.jpeg'
 
-const speakers = [
+interface Host {
+  name: string
+  image: ImageMetadata
+  description: string
+  socials: SocialLink[]
+}
+
+const speakers: Host[] = [
   {
     name: 'טל מוסקוביץ',
     image: TalImg,
     description:
       'מפתח פרונט ואנשים. שם שני: פרואקטיביות. מפתח פולסטאק ב-Imagen.ai, איש של למידה, עם ניסיון עשיר בהחלפת מסלולי קריירה, יצירת בולטות, נוכחות וביטחון עצמי בתחום חדש.',
-    website: 'https://tmosko.com',
-    linkedin: 'https://www.linkedin.com/in/tmosko/',
+    socials: [
+      { icon: 'www', url: 'https://tmosko.com' },
+      { icon: 'linkedin', url: 'https://www.linkedin.com/in/tmosko/' },
+    ],
   },
   {
     name: 'אדיר קנדל',
     image: AdirImg,
     description:
       'שונא את ריאקט, אוהב אבטחה. ראש צוות ב-Tanable, מנהל הקהילה Fedcast והפודקאסט Frontcast',
-    website: 'https://adir.co',
-    linkedin: 'https://www.linkedin.com/in/adir-kandel/',
+    socials: [
+      { icon: 'www', url: 'https://adir.co' },
+      { icon: 'linkedin', url: 'https://www.linkedin.com/in/adir-kandel/' },
+    ],
   },
 ]
 ---
