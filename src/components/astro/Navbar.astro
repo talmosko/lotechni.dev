@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets'
-import Logo from '@assets/logos/logo.svg'
+import OutlinedText from './OutlinedText.astro'
 import { cn } from '@utils/cn'
 
 interface Props {
@@ -63,16 +62,19 @@ const navLinks = [
 
       <!-- Logo  -->
       <a href="/" class="flex items-center">
-        <Image
-          src={Logo}
-          width={96}
-          height={96}
-          quality={100}
-          loading="eager"
-          format="webp"
-          alt="לא טכני"
-          class="size-14"
-        />
+        <div>
+          <div class="flex items-center gap-1.5">
+            <OutlinedText className="text-xs md:text-sm">&lt;</OutlinedText>
+            <OutlinedText className="text-base md:text-lg lg:text-xl" underline>לא</OutlinedText>
+            <OutlinedText className="text-lg md:text-xl lg:text-2xl">טכני</OutlinedText>
+          </div>
+
+          <div class="flex items-center gap-1.5 ps-4">
+            <OutlinedText className="text-base md:text-lg lg:text-xl" underline>ולא</OutlinedText>
+            <OutlinedText className="text-lg md:text-xl lg:text-2xl">במקרה </OutlinedText>
+            <OutlinedText className="text-xs md:text-sm">\&gt;</OutlinedText>
+          </div>
+        </div>
       </a>
 
       <!-- Mobile Menu - button -->
