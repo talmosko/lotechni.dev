@@ -1,6 +1,7 @@
 ---
 import Navbar from '@components/astro/Navbar.astro'
 import '@fontsource-variable/rubik'
+import Footer from '@components/astro/Footer.astro'
 
 interface Props {
   title: string
@@ -24,6 +25,7 @@ const { title } = Astro.props
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
 
