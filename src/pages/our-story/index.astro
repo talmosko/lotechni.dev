@@ -1,14 +1,15 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import SectionContainer from '../../components/astro/containers/SectionContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 
 const title = 'Our Story'
 ---
 
 <Layout title={title}>
   <SectionContainer>
-    <h1 class="text-center text-4xl font-bold">
+    <Heading level={1} className="text-center">
       This is <span class="text-gradient">{title}</span> page
-    </h1>
+    </Heading>
   </SectionContainer>
 </Layout>

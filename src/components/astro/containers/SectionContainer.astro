@@ -1,17 +1,18 @@
 ---
-import { cn } from "@utils/cn";
-import type { HTMLAttributes } from "astro/types";
+import { cn } from '@utils/cn'
+import type { HTMLAttributes } from 'astro/types'
 
-interface Props extends HTMLAttributes<"section"> {
-  outerClasses?: string;
-  innerClasses?: string;
+interface Props extends HTMLAttributes<'section'> {
+  outerClasses?: string
+  innerClasses?: string
+  rest?: HTMLAttributes<'section'>
 }
 
-const { outerClasses, innerClasses } = Astro.props;
+const { outerClasses, innerClasses, ...rest } = Astro.props
 ---
 
-<section class={cn("relative w-full py-12", outerClasses)}>
-  <div class={cn("container px-4 md:px-8 lg:px-16", innerClasses)}>
+<section class={cn('relative w-full py-12', outerClasses)} {...rest}>
+  <div class={cn('container px-4 md:px-8 lg:px-16', innerClasses)}>
     <slot />
   </div>
 </section>
