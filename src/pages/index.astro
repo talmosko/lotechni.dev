@@ -5,21 +5,25 @@ import { fetchEpisodes } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import Logo from '@components/astro/Logo.astro'
-const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 
+const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 const parsedEpisodes = show.episodes.items.reverse().slice(0, 4)
 ---
 
 <Layout title={`${show.name}`}>
-  <div class="container space-y-12 py-8 text-xl leading-relaxed">
-    <Logo showName={show.name} />
+  <Logo showName={show.name} />
+  <!-- Todo: Extract description to a separate Section -->
 
+  <div class="container space-y-12 py-8 text-xl leading-relaxed">
     <DescriptionCard>
       {show.description}
     </DescriptionCard>
+  </div>
 
-    <Hosts />
+  <Hosts />
+  <!-- Todo: Extract episodes to a separate Section -->
 
+  <div class="container space-y-12 py-8 text-xl leading-relaxed">
     <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
       {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
     </ul>

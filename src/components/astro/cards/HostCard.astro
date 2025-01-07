@@ -1,6 +1,7 @@
 ---
 import CardContainer from '@components/astro/containers/CardContainer.astro'
 import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
 import { Image } from 'astro:assets'
 import type { ImageMetadata } from 'astro'
 import { cn } from '@utils/cn'
@@ -23,7 +24,7 @@ const { name, description, image, website, linkedin, reversed = false }: Props =
       <Image class="block aspect-square h-full min-w-40 md:max-w-48" src={image} alt={name} />
     </ImageContainer>
     <div class="flex flex-col gap-4">
-      <h3 class="text-2xl font-bold text-accent md:text-3xl">{name}</h3>
+      <Heading level={3} className="text-accent">{name}</Heading>
       <p>
         {description}
       </p>
