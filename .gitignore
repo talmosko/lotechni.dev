@@ -22,10 +22,14 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-*.sh
 
 # jetbrains setting folder
 .idea/
 
 # misc
 self-notes
+
+# Project copyFiles/ingest output.
+project_overview.txt
+*.sh
+!ingest.sh
