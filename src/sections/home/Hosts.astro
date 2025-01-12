@@ -1,41 +1,29 @@
 ---
-import Card from '@components/astro/Card.astro'
-import Heading from '@components/astro/typography/Heading.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import HostCard from '@components/astro/cards/HostCard.astro'
 import TalImg from '@assets/images/tal.jpeg'
 import AdirImg from '@assets/images/adir.jpeg'
 
 const speakers = [
   {
     name: 'טל מוסקוביץ',
-    image: TalImg.src,
+    image: TalImg,
     description:
       'מפתח פרונט ואנשים. שם שני: פרואקטיביות. מפתח פולסטאק ב-Imagen.ai, איש של למידה, עם ניסיון עשיר בהחלפת מסלולי קריירה, יצירת בולטות, נוכחות וביטחון עצמי בתחום חדש.',
-    web: 'https://tmosko.com',
+    website: 'https://tmosko.com',
     linkedin: 'https://www.linkedin.com/in/tmosko/',
   },
   {
     name: 'אדיר קנדל',
-    image: AdirImg.src,
+    image: AdirImg,
     description:
       'שונא את ריאקט, אוהב אבטחה. ראש צוות ב-Tanable, מנהל הקהילה Fedcast והפודקאסט Frontcast',
-    web: 'https://adir.co',
+    website: 'https://adir.co',
     linkedin: 'https://www.linkedin.com/in/adir-kandel/',
   },
 ]
 ---
 
-<Heading level={2} className="text-gradient">מי אנחנו?</Heading>
-<ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
-  {
-    speakers.map((speaker) => (
-      <Card title={speaker.name} body={speaker.description}>
-        <img
-          class="h-40 w-auto rounded-full"
-          slot="right-side"
-          src={speaker.image}
-          alt={speaker.name}
-        />
-      </Card>
-    ))
-  }
-</ul>
+<SectionContainer innerClasses="flex flex-col gap-4">
+  {speakers.map((speaker, index) => <HostCard {...speaker} reversed={index % 2 === 0} />)}
+</SectionContainer>

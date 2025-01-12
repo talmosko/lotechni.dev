@@ -1,0 +1,29 @@
+---
+import { cn } from '@utils/cn'
+
+interface Props {
+  className?: string
+  showGradient?: boolean
+  gradientOnlyOnHover?: boolean
+}
+
+const { className, showGradient = false, gradientOnlyOnHover = false } = Astro.props
+---
+
+<div class="group/image relative">
+  {
+    showGradient && (
+      <div
+        class={cn(
+          'animate-gradient-xy absolute -inset-0.5 aspect-square rounded-lg bg-gradient-to-r from-accent via-accent-dark to-accent-light',
+          gradientOnlyOnHover &&
+            'opacity-0 transition-opacity duration-300 group-hover/card:opacity-100'
+        )}
+      />
+    )
+  }
+
+  <div class={cn('relative overflow-hidden rounded-lg', className)}>
+    <slot />
+  </div>
+</div>

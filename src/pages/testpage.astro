@@ -2,13 +2,63 @@
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import TestCounter from '@components/react/TestCounter.tsx'
+import CardContainer from '@components/astro/containers/CardContainer.astro'
+import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import DemoImg from '@assets/images/tal.jpeg'
+import Heading from '@components/astro/typography/Heading.astro'
+import { Code } from 'astro:components'
+import { Image } from 'astro:assets'
+const cards = [
+  {
+    title: 'Basic Card',
+    description:
+      'This is the default card with no gradient border. Perfect for clean, minimal designs.',
+    propNames: ['None'],
+    props: {},
+  },
+  {
+    title: 'Always Glowing',
+    description:
+      'Features a constant animated gradient border that adds a dynamic touch to your content.',
+    propNames: ['showGradient: true'],
+    props: { showGradient: true },
+  },
+  {
+    title: 'Interactive Highlight',
+    description:
+      'The gradient border appears on hover, creating an engaging interactive experience.',
+    propNames: ['showGradient: true', 'gradientOnlyOnHover: true'],
+    props: { showGradient: true, gradientOnlyOnHover: true },
+  },
+]
+
+const imageContainers = [
+  {
+    title: 'Basic Container',
+    description: 'Default image container without any gradient effects.',
+    propNames: ['None'],
+    props: {},
+  },
+  {
+    title: 'Always Glowing Border',
+    description: 'Image with a constant animated gradient border.',
+    propNames: ['showGradient: true'],
+    props: { showGradient: true },
+  },
+  {
+    title: 'Interactive Border',
+    description: 'Image container that shows the gradient border when its parent card is hovered.',
+    propNames: ['showGradient: true', 'gradientOnlyOnHover: true'],
+    props: { showGradient: true, gradientOnlyOnHover: true },
+  },
+]
 ---
 
 <Layout title="Test Page">
   <SectionContainer outerClasses="bg-surface text-white">
     <div class="space-y-8">
       <div>
-        <h2 class="mb-4 text-2xl font-bold">Our Custom Colors</h2>
+        <Heading level={2} className="mb-4">Our Custom Colors</Heading>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div class="space-y-2">
             <div class="h-20 rounded-lg border border-white bg-accent"></div>
@@ -34,7 +84,7 @@ import TestCounter from '@components/react/TestCounter.tsx'
       </div>
 
       <div>
-        <h2 class="mb-4 text-2xl font-bold">Custom Gradient</h2>
+        <Heading level={2} className="mb-4">Custom Gradient</Heading>
         <div class="space-y-4">
           <div class="h-20 rounded-lg bg-gradient-accent"></div>
           <p class="font-mono text-sm">bg-gradient-accent</p>
@@ -42,7 +92,7 @@ import TestCounter from '@components/react/TestCounter.tsx'
       </div>
 
       <div>
-        <h2 class="mb-4 text-2xl font-bold">Typography</h2>
+        <Heading level={2} className="mb-4">Typography</Heading>
         <div class="space-y-6">
           <div class="space-y-2">
             <h3 class="text-xl font-semibold">
@@ -55,9 +105,9 @@ import TestCounter from '@components/react/TestCounter.tsx'
           </div>
 
           <div class="space-y-2">
-            <h3 class="text-xl font-semibold">
+            <Heading level={3} className="font-semibold">
               Monospace Font - <span class="font-mono text-accent-light">font-mono</span>
-            </h3>
+            </Heading>
             <p class="font-mono text-2xl tracking-wide">
               אבגדהוזחטיכלמנסעפצקרשת - Hebrew<br />
               ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
@@ -65,36 +115,27 @@ import TestCounter from '@components/react/TestCounter.tsx'
           </div>
 
           <div class="space-y-2">
-            <h3 class="text-xl font-semibold">
+            <Heading level={3} className="font-semibold">
               Gradient Text - <span class="font-mono text-accent-light">text-gradient</span>
-            </h3>
+            </Heading>
             <p class="text-gradient text-4xl font-bold">This text has our custom gradient</p>
           </div>
         </div>
       </div>
     </div>
   </SectionContainer>
+
   <SectionContainer
     outerClasses="bg-gradient-to-r from-slate-300 to-stone-200"
-    innerClasses="text-surface"
-    dir="ltr">
-    <h1 class="text-2xl font-bold">I'm a React counter component</h1>
+    innerClasses="text-surface">
     <TestCounter client:idle />
-    <h2>Where are we?</h2>
-    <p>
-      Well, we are in the test page. This is a test to see if we can render a React component in an
-      Astro page.
-    </p>
-    <p>
-      But more importantly, we are inside the <code>SectionContainer</code> component.
-    </p>
   </SectionContainer>
 
   <SectionContainer
     outerClasses="bg-gradient-to-r from-sky-300 to-amber-200"
-    innerClasses="text-surface-dark text-left"
+    innerClasses="text-surface-dark text-left bg-white/30 rounded-lg p-4 backdrop-blur-sm mx-auto max-w-"
     dir="ltr">
-    <h1 class="text-2xl font-bold">Well, what is the SectionContainer?</h1>
+    <Heading level={1} className="font-bold">Well, what is the SectionContainer?</Heading>
     <p>
       It's a component that wraps the content in a section element with a container inside it. i
       have been using this pattern for a while and i find it highly useful. especially for content
@@ -116,5 +157,141 @@ import TestCounter from '@components/react/TestCounter.tsx'
         clean.
       </li>
     </ul>
+  </SectionContainer>
+  <SectionContainer>
+    <Heading level={2} className="mb-8 text-center">Card Container Variants</Heading>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        cards.map((card) => (
+          <CardContainer {...card.props}>
+            <Heading level={3} className="mb-3 text-center">
+              {card.title}
+            </Heading>
+            <p class="mb-4 text-left">{card.description}</p>
+            <ul class="mt-auto space-y-2 font-mono" dir="ltr">
+              <li class="flex items-center text-accent-light">Props:</li>
+              {card.propNames.map((propName) => (
+                <li class="flex items-center">
+                  <span class="me-2 h-2 w-2 rounded-full bg-accent" />
+                  {propName}
+                </li>
+              ))}
+            </ul>
+          </CardContainer>
+        ))
+      }
+    </div>
+  </SectionContainer>
+  <SectionContainer>
+    <div class="space-y-8">
+      <div class="text-center">
+        <Heading level={2} className="mb-4">Image Container Variants</Heading>
+        <p class="mx-auto max-w-2xl text-gray-300">
+          The ImageContainer component is designed to work in harmony with CardContainer, allowing
+          for elegant gradient borders around images that can react to the parent card's hover
+          state.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {
+          imageContainers.map((demo) => (
+            <CardContainer className="group/card">
+              <div class="flex flex-col gap-4">
+                <ImageContainer {...demo.props}>
+                  <Image src={DemoImg} alt="Demo Image" class="aspect-square w-full object-cover" />
+                </ImageContainer>
+
+                <div class="flex flex-col gap-4">
+                  <Heading
+                    level={3}
+                    className="text-center text-white underline decoration-accent-light">
+                    {demo.title}
+                  </Heading>
+                  <p class="text-left text-gray-300">{demo.description}</p>
+                  <ul class="mt-auto space-y-2 font-mono" dir="ltr">
+                    <li class="flex items-center text-accent-light">Props:</li>
+                    {demo.propNames.map((propName) => (
+                      <li class="flex items-center">
+                        <span class="me-2 h-2 w-2 rounded-full bg-accent" />
+                        {propName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </CardContainer>
+          ))
+        }
+      </div>
+
+      <div class="rounded-lg bg-surface-dark p-6">
+        <Heading level={3} className="mb-4 text-white">Usage with CardContainer</Heading>
+        <p class="mb-4 text-gray-300">
+          The ImageContainer is designed to work seamlessly with CardContainer's hover states using
+          Tailwind's grouped hover classes:
+        </p>
+        <div class="rounded-lg bg-surface p-4 font-mono text-sm">
+          <Code
+            dir="ltr"
+            code={`<CardContainer className="group/card">
+  <div class="flex gap-4">
+    <ImageContainer showGradient gradientOnlyOnHover>
+      <Image src={yourImage} alt="Your Alt" class="aspect-square" />
+    </ImageContainer>
+    <div>Your content here</div>
+  </div>
+</CardContainer>`}
+          />
+        </div>
+      </div>
+    </div>
+  </SectionContainer>
+  <SectionContainer dir="ltr">
+    <Heading level={2} gradient className="mb-8 text-center">Typography System</Heading>
+
+    <div class="space-y-8">
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={3} className="text-accent">Basic Headings</Heading>
+          <div class="space-y-6">
+            {
+              [1, 2, 3, 4, 5, 6].map((level) => (
+                <Heading level={level as 1 | 2 | 3 | 4 | 5 | 6}>
+                  This is heading level {level}
+                </Heading>
+              ))
+            }
+          </div>
+        </div>
+      </CardContainer>
+
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={3} className="text-accent">Gradient Headings</Heading>
+          <div class="space-y-6">
+            {
+              [1, 2, 3].map((level) => (
+                <Heading level={level as 1 | 2 | 3} gradient>
+                  Gradient heading level {level}
+                </Heading>
+              ))
+            }
+          </div>
+        </div>
+      </CardContainer>
+
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={3} className="text-accent">Custom Styled Headings</Heading>
+          <div class="space-y-6">
+            <Heading level={2} className="text-accent">Accent Color</Heading>
+            <Heading level={2} className="text-accent-light">Light Accent</Heading>
+            <Heading level={2} className="text-accent-dark">Dark Accent</Heading>
+          </div>
+        </div>
+      </CardContainer>
+    </div>
   </SectionContainer>
 </Layout>
