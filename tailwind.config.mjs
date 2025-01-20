@@ -56,7 +56,7 @@ export default {
   },
   plugins: [
     addDynamicIconSelectors({
-      collections: ['iconoir'],
+      collections: ['tabler'],
     }),
   ],
 }
