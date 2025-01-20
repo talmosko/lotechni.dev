@@ -1,44 +1,56 @@
 ---
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-import { cn } from '@utils/cn'
+import Icon from '@components/astro/Icon.astro'
+import type { IconNames } from '@data/types/icons'
+import { SOCIAL_ICONS } from '@data/types/icons'
+
+interface FooterLink {
+  label: string
+  href: string
+  icon: IconNames
+}
+
+interface Host {
+  name: string
+  href: string
+  icon: IconNames
+}
 
 const footerData = {
   links: [
     {
+      label: SOCIAL_ICONS.spotify.label,
+      href: 'https://open.spotify.com/show/331GnnQsHxjU7SjS1bFJnS?utm_medium=share&utm_source=linktree',
+      icon: 'spotify',
+    },
+    {
+      label: SOCIAL_ICONS.applePodcasts.label,
+      href: 'https://podcasts.apple.com/us/podcast/%D7%9C%D7%90-%D7%98%D7%9B%D7%A0%D7%99-%D7%95%D7%9C%D7%90-%D7%91%D7%9E%D7%A7%D7%A8%D7%94/id1724399310',
+      icon: 'applePodcasts',
+    },
+    {
+      label: SOCIAL_ICONS.youtube.label,
+      href: 'https://www.youtube.com/@lotechni',
+      icon: 'youtube',
+    },
+    {
       label: 'קבוצת וואטסאפ',
       href: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ot',
-      iconClasses: 'group-hover:text-social-whatsapp icon-[iconoir--whatsapp]',
+      icon: 'whatsapp',
     },
-    {
-      label: 'Spotify',
-      href: 'https://open.spotify.com/show/331GnnQsHxjU7SjS1bFJnS?utm_medium=share&utm_source=linktree',
-      iconClasses: 'group-hover:text-social-spotify icon-[iconoir--spotify]',
-    },
-    {
-      label: 'Apple Podcasts',
-      href: 'https://podcasts.apple.com/us/podcast/%D7%9C%D7%90-%D7%98%D7%9B%D7%A0%D7%99-%D7%95%D7%9C%D7%90-%D7%91%D7%9E%D7%A7%D7%A8%D7%94/id1724399310',
-      iconClasses: 'group-hover:text-social-apple icon-[iconoir--apple]',
-    },
-    {
-      label: 'YouTube',
-      href: 'https://www.youtube.com/@lotechni',
-      iconClasses: 'group-hover:text-social-youtube icon-[iconoir--youtube]',
-    },
-  ],
+  ] satisfies FooterLink[],
   hosts: [
     {
       name: 'אדיר קנדל',
       href: 'https://www.linkedin.com/in/adir-kandel/',
-      icon: 'icon-[iconoir--linkedin]',
-      color: 'social-linkedin',
+      icon: 'linkedin',
     },
     {
       name: 'טל מוסקוביץ',
       href: 'https://www.linkedin.com/in/tmosko/',
-      icon: 'icon-[iconoir--linkedin]',
-      color: 'social-linkedin',
+      icon: 'linkedin',
     },
-  ],
+  ] satisfies Host[],
 }
 ---
 
@@ -53,9 +65,7 @@ const footerData = {
             href={link.href}
             target="_blank"
             class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
-            <span
-              class={cn(link.iconClasses, 'h-6 w-6 transition duration-300 group-hover:scale-105')}
-            />
+            <Icon icon={link.icon} className={SOCIAL_ICONS[link.icon].hoverColor} />
             {link.label}
           </a>
         ))
@@ -71,7 +81,7 @@ const footerData = {
               href={host.href}
               target="_blank"
               class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
-              <span class="group-hover:text-social-linkedin icon-[iconoir--linkedin] h-6 w-6 transition duration-300 group-hover:scale-105" />
+              <Icon icon={host.icon} className={SOCIAL_ICONS[host.icon].hoverColor} />
               {host.name}
             </a>
           ))

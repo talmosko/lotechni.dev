@@ -54,5 +54,9 @@ export default {
       },
     },
   },
-  plugins: [addDynamicIconSelectors()],
+  plugins: [
+    addDynamicIconSelectors({
+      collections: ['iconoir'],
+    }),
+  ],
 }
