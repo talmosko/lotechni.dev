@@ -6,19 +6,20 @@ import { successStoriesImages } from '@data/pages-data'
 import type { ImageMetadata } from 'astro'
 
 const sectionTitle = 'סיפורי ההצלחה שלנו'
-
 ---
 
 <SectionContainer innerClasses="flex flex-col gap-8">
   <Heading level={2} className="text-center">
     {sectionTitle}
   </Heading>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {successStoriesImages.map((image: ImageMetadata) => (
-      <ImageContainer showGradient gradientOnlyOnHover className="h-fit">
-        <img src={image.src} alt="supportive comment" class="w-full" />
-      </ImageContainer>
-    ))}
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    {
+      successStoriesImages.map((image: ImageMetadata) => (
+        <ImageContainer showGradient gradientOnlyOnHover className="h-fit">
+          <img src={image.src} alt="supportive comment" class="w-full" />
+        </ImageContainer>
+      ))
+    }
   </div>
 </SectionContainer>

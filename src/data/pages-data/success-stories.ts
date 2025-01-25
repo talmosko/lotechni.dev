@@ -33,5 +33,5 @@ export const successStoriesImages = [
   SuccessStoryImage14,
   SuccessStoryImage15,
   SuccessStoryImage16,
-  SuccessStoryImage17
+  SuccessStoryImage17,
 ]
