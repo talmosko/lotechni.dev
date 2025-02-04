@@ -11,7 +11,7 @@ interface Props {
 
 const { compact = false } = Astro.props
 const sectionTitle = 'סיפורי ההצלחה שלנו'
-const displayedImages = compact ? successStoriesImages.slice(0, 3) : successStoriesImages
+const displayedImages = compact ? successStoriesImages.slice(0, 4) : successStoriesImages
 ---
 
 <SectionContainer innerClasses="flex flex-col gap-8">
@@ -19,16 +19,10 @@ const displayedImages = compact ? successStoriesImages.slice(0, 3) : successStor
     {sectionTitle}
   </Heading>
 
-  <div
-    class={compact
-      ? 'flex gap-4 overflow-x-auto pb-4 snap-x'
-      : 'grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {
       displayedImages.map((image: ImageMetadata) => (
-        <ImageContainer
-          showGradient
-          gradientOnlyOnHover
-          className={compact ? 'w-[300px] flex-none snap-center' : ''}>
+        <ImageContainer showGradient gradientOnlyOnHover>
           <img src={image.src} alt="supportive comment" class="w-full" />
         </ImageContainer>
       ))
