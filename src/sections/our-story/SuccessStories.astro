@@ -19,11 +19,19 @@ const displayedImages = compact ? successStoriesImages.slice(0, 3) : successStor
     {sectionTitle}
   </Heading>
 
-  <div class={compact ? 'flex gap-4 overflow-x-auto pb-4 snap-x' : 'grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
-    {displayedImages.map((image: ImageMetadata) => (
-      <ImageContainer showGradient gradientOnlyOnHover className={compact ? 'flex-none snap-center w-[300px]' : ''}>
-        <img src={image.src} alt="supportive comment" class="w-full" />
-      </ImageContainer>
-    ))}
+  <div
+    class={compact
+      ? 'flex gap-4 overflow-x-auto pb-4 snap-x'
+      : 'grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}>
+    {
+      displayedImages.map((image: ImageMetadata) => (
+        <ImageContainer
+          showGradient
+          gradientOnlyOnHover
+          className={compact ? 'w-[300px] flex-none snap-center' : ''}>
+          <img src={image.src} alt="supportive comment" class="w-full" />
+        </ImageContainer>
+      ))
+    }
   </div>
 </SectionContainer>
