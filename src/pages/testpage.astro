@@ -8,6 +8,8 @@ import DemoImg from '@assets/images/tal.jpeg'
 import Heading from '@components/astro/typography/Heading.astro'
 import { Code } from 'astro:components'
 import { Image } from 'astro:assets'
+import Carousel from '@components/astro/Carousel.astro'
+
 const cards = [
   {
     title: 'Basic Card',
@@ -52,6 +54,12 @@ const imageContainers = [
     props: { showGradient: true, gradientOnlyOnHover: true },
   },
 ]
+
+// Generate 12 cards for testing
+const carouselCards = Array.from({ length: 12 }, (_, i) => ({
+  id: i + 1,
+  title: `Card ${i + 1}`,
+}))
 ---
 
 <Layout title="Test Page">
@@ -290,6 +298,135 @@ const imageContainers = [
             <Heading level={2} className="text-accent-light">Light Accent</Heading>
             <Heading level={2} className="text-accent-dark">Dark Accent</Heading>
           </div>
+        </div>
+      </CardContainer>
+    </div>
+  </SectionContainer>
+
+  <SectionContainer dir="ltr">
+    <div class="space-y-8">
+      <div class="max-w-3xl">
+        <Heading level={2} gradient>Carousel Component</Heading>
+        <p class="mt-4 text-lg text-gray-300">
+          A flexible carousel component built with Blaze Slider. Features responsive design,
+          customizable navigation, pagination, and auto-play capabilities.
+        </p>
+      </div>
+
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={3} className="text-accent">Features</Heading>
+          <ul class="list-inside list-disc space-y-2">
+            <li>Responsive slides configuration for different screen sizes</li>
+            <li>Optional auto-play with customizable interval</li>
+            <li>Navigation controls and pagination dots</li>
+            <li>Group scrolling or single slide scrolling</li>
+            <li>Customizable transition duration and slide gap</li>
+          </ul>
+        </div>
+      </CardContainer>
+
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={3} className="text-accent">Available Props</Heading>
+          <ul class="list-inside space-y-4">
+            <li>
+              <span class="font-semibold text-accent-light">sectionTitle</span>
+              <p class="ml-4 mt-1">Title shown above the carousel. Defaults to "Default Title"</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">sectionLink</span>
+              <p class="ml-4 mt-1">Optional link for the title section. Defaults to "/"</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">showPagination</span>
+              <p class="ml-4 mt-1">Shows/hides pagination dots. Defaults to true</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">duration</span>
+              <p class="ml-4 mt-1">Slide transition duration in milliseconds. Defaults to 600</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">slidesByWidth</span>
+              <p class="ml-4 mt-1">
+                Number of slides to show at different breakpoints. Defaults to {
+                  `{ mobile: 1, md: 2, lg: 3 }`
+                }
+              </p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">group</span>
+              <p class="ml-4 mt-1">Enable/disable group scrolling. Defaults to true</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">autoPlay</span>
+              <p class="ml-4 mt-1">Enable/disable auto-play. Defaults to false</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">autoplayInterval</span>
+              <p class="ml-4 mt-1">
+                Time between slides in milliseconds when auto-play is enabled. Defaults to 5000
+              </p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">hideTitle</span>
+              <p class="ml-4 mt-1">Hide the section title. Defaults to false</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">hideControls</span>
+              <p class="ml-4 mt-1">Hide the navigation arrows. Defaults to false</p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">hideTop</span>
+              <p class="ml-4 mt-1">
+                Hide the entire top section (title and controls). Defaults to false
+              </p>
+            </li>
+            <li>
+              <span class="font-semibold text-accent-light">paginationClasses</span>
+              <p class="ml-4 mt-1">
+                Additional classes for the pagination container. Defaults to empty string
+              </p>
+            </li>
+          </ul>
+        </div>
+      </CardContainer>
+
+      <Carousel sectionTitle="Carousel Demo">
+        {
+          carouselCards.map((card) => (
+            <div class="flex aspect-video items-center justify-center rounded-lg bg-surface p-8">
+              <span class="text-2xl font-bold text-accent">{card.title}</span>
+            </div>
+          ))
+        }
+      </Carousel>
+
+      <CardContainer>
+        <div class="space-y-4">
+          <Heading level={2} className="text-accent">Usage Example</Heading>
+          <Code
+            code={`---
+import Carousel from '@components/astro/Carousel.astro'
+
+const slides = [1, 2, 3, 4, 5]
+---
+
+<Carousel
+  sectionTitle="My Carousel"
+  slidesByWidth={{ mobile: 1, md: 2, lg: 3 }}
+  autoPlay={true}
+  autoplayInterval={5000}
+>
+  {slides.map((slide) => (
+    <div class="your-slide-content">
+      Slide {slide}
+    </div>
+  ))}
+</Carousel>`}
+            lang="astro"
+            class="rounded-lg bg-surface p-4 text-sm"
+          />
         </div>
       </CardContainer>
     </div>

@@ -6,7 +6,7 @@ export const ICON_SIZES = {
 
 export type IconSize = keyof typeof ICON_SIZES
 
-export const SOCIAL_ICONS = {
+export const ICONS = {
   spotify: {
     icon: 'icon-[tabler--brand-spotify]',
     label: 'Spotify',
@@ -37,10 +37,20 @@ export const SOCIAL_ICONS = {
     label: 'Website',
     hoverColor: 'group-hover:text-accent',
   },
+  chevronLeft: {
+    icon: 'icon-[tabler--chevron-left]',
+    label: 'Chevron Left',
+    hoverColor: 'group-hover:text-accent',
+  },
+  chevronRight: {
+    icon: 'icon-[tabler--chevron-right]',
+    label: 'Chevron Right',
+    hoverColor: 'group-hover:text-accent',
+  },
 }
 
-export type IconNames = keyof typeof SOCIAL_ICONS
-export type IconConfig = (typeof SOCIAL_ICONS)[IconNames]
+export type IconNames = keyof typeof ICONS
+export type IconConfig = (typeof ICONS)[IconNames]
 
 export interface SocialLink {
   icon: IconNames

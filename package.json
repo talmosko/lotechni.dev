@@ -23,6 +23,7 @@
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "astro": "^5.1.8",
+    "blaze-slider": "^1.9.3",
     "clsx": "^2.1.1",
     "fast-xml-parser": "^4.5.1",
     "react": "^19.0.0",
