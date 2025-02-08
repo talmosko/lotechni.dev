@@ -57,3 +57,10 @@ const { title } = Astro.props
     animation: gradient-xy 4s linear infinite;
   }
 </style>
+
+<script>
+  import { initializeAllSliders } from '@utils/carousel'
+
+  // Initialize sliders on page load
+  document.addEventListener('DOMContentLoaded', initializeAllSliders)
+</script>

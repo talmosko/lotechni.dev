@@ -1,7 +1,7 @@
 ---
 import { cn } from '@utils/cn'
 import type { IconNames, IconSize } from '@data/types/icons'
-import { SOCIAL_ICONS, ICON_SIZES } from '@data/types/icons'
+import { ICONS, ICON_SIZES } from '@data/types/icons'
 
 interface Props {
   icon: IconNames
@@ -12,7 +12,7 @@ interface Props {
 
 const { icon, size = 'md', className, label } = Astro.props
 
-const iconConfig = SOCIAL_ICONS[icon]
+const iconConfig = ICONS[icon]
 const ariaLabel = label || iconConfig.label
 ---
 

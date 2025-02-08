@@ -2,7 +2,7 @@
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import Icon from '@components/astro/Icon.astro'
 import type { IconNames } from '@data/types/icons'
-import { SOCIAL_ICONS } from '@data/types/icons'
+import { ICONS } from '@data/types/icons'
 
 interface FooterLink {
   label: string
@@ -19,17 +19,17 @@ interface Host {
 const footerData = {
   links: [
     {
-      label: SOCIAL_ICONS.spotify.label,
+      label: ICONS.spotify.label,
       href: 'https://open.spotify.com/show/331GnnQsHxjU7SjS1bFJnS?utm_medium=share&utm_source=linktree',
       icon: 'spotify',
     },
     {
-      label: SOCIAL_ICONS.applePodcasts.label,
+      label: ICONS.applePodcasts.label,
       href: 'https://podcasts.apple.com/us/podcast/%D7%9C%D7%90-%D7%98%D7%9B%D7%A0%D7%99-%D7%95%D7%9C%D7%90-%D7%91%D7%9E%D7%A7%D7%A8%D7%94/id1724399310',
       icon: 'applePodcasts',
     },
     {
-      label: SOCIAL_ICONS.youtube.label,
+      label: ICONS.youtube.label,
       href: 'https://www.youtube.com/@lotechni',
       icon: 'youtube',
     },
@@ -65,7 +65,7 @@ const footerData = {
             href={link.href}
             target="_blank"
             class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
-            <Icon icon={link.icon} className={SOCIAL_ICONS[link.icon].hoverColor} />
+            <Icon icon={link.icon} className={ICONS[link.icon].hoverColor} />
             {link.label}
           </a>
         ))
@@ -81,7 +81,7 @@ const footerData = {
               href={host.href}
               target="_blank"
               class="group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light">
-              <Icon icon={host.icon} className={SOCIAL_ICONS[host.icon].hoverColor} />
+              <Icon icon={host.icon} className={ICONS[host.icon].hoverColor} />
               {host.name}
             </a>
           ))
