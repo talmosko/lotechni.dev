@@ -1,7 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
 import { SpotifyEpisodesResponseSchema, EpisodesResponseSchema } from '@data/types/spotifyEpisodes'
-import showMock from '@data/types/show.mock'
 
 export async function getAccessToken(clientId: string, clientSecret: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {

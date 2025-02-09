@@ -8,7 +8,7 @@ interface EpisodeCardDescriptionProps {
   name: string;
 }
 
-export default function EpisodeCardDescription({ audio_preview_url, name, description, html_description, images }: EpisodeCardDescriptionProps) {
+export default function EpisodeCardDescription({ description, html_description }: EpisodeCardDescriptionProps) {
   const maxSummaryLength = 150;
   const trimmedSummary =
     description && description.length > maxSummaryLength
