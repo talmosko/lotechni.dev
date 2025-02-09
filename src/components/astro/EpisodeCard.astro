@@ -1,18 +1,27 @@
 ---
+import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Episode } from '@data/types/spotifyEpisodes'
 
 interface Props extends Episode {
-  audio_preview_url: string | null
-  description: string
-  html_description: string
+  audio_preview_url?: string | null
+  description?: string
+  html_description?: string
 }
 
 const { audio_preview_url, name, description, html_description, images } = Astro.props
 // const { audio_preview_url, name, description, html_description, images, id = undefined } = Astro.props
+const maxSummaryLength = 150 // Adjust as needed
+
+// Trim the description for the summary (plain text)
+const trimmedSummary =
+  description.length > maxSummaryLength
+    ? description.slice(0, maxSummaryLength) + '...'
+    : description
+const alpineState = JSON.stringify({ open: false, summary: trimmedSummary })
 ---
 
 <div
-  class="flex flex-col rounded-lg bg-surface p-[calc(1.5rem-1px)] text-white shadow-inner shadow-white/10">
+  class="flex flex-col rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
   <img src={images[0].url} alt={name} width="300" height="300" />
   <!-- <iframe
     style="border-radius:12px"
@@ -22,15 +31,21 @@ const { audio_preview_url, name, description, html_description, images } = Astro
     allowfullscreen=""
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
     loading="lazy"></iframe> -->
-  <h3 class="m-0 text-xl">
+  <h3 class="m-0 pb-5 text-xl">
     {name}
   </h3>
-  <p class="mb-0 mt-2">{description}</p>
-  <div set:html={html_description} />
+  <EpisodeCardDescription
+    audio_preview_url={audio_preview_url}
+    name={name}
+    description={description}
+    html_description={html_description}
+    images={images}
+    client:load
+  />
 
   {
     audio_preview_url && (
-      <audio controls>
+      <audio controls class="pt-5">
         <source src={audio_preview_url} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>

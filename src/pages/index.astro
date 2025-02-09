@@ -1,16 +1,16 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import Hosts from '@sections/home/Hosts.astro'
-import { fetchEpisodes } from '@utils/spotify'
+import { fetchShowData } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import Logo from '@components/astro/Logo.astro'
 
-const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
-const parsedEpisodes = show.episodes.items.reverse().slice(0, 4)
+const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+let parsedEpisodes = show.episodes.items.slice(0, 4)
 ---
 
-<Layout title={`${show.name}`}>
+<Layout title={show.name}>
   <Logo showName={show.name} />
   <!-- Todo: Extract description to a separate Section -->
 

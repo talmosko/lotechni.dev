@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
-import { EpisodesResponseSchema } from '@data/types/spotifyEpisodes'
+import { SpotifyEpisodesResponseSchema, EpisodesResponseSchema } from '@data/types/spotifyEpisodes'
 import showMock from '@data/types/show.mock'
 
 export async function getAccessToken(clientId: string, clientSecret: string) {
@@ -13,35 +13,76 @@ export async function getAccessToken(clientId: string, clientSecret: string) {
     body: 'grant_type=client_credentials',
   })
 
-  const data = await response.json()
-  return data.access_token
+  if (!response.ok) {
+    throw new Error("Failed to fetch access token");
+  }
+
+  const data = await response.json();
+  return data.access_token;
 }
 
 export async function fetchEpisodes(showId: string) {
-  // try {
-  //   const accessToken = await getAccessToken(
-  //     import.meta.env.SPOTIFY_CLIENT_ID,
-  //     import.meta.env.SPOTIFY_CLIENT_SECRET
-  //   );
-  //   const response = await fetch(
-  //     `https://api.spotify.com/v1/shows/${showId}?limit=50`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     }
-  //   );
+  try {
+    const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
+    const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
 
-  //   const data = await response.json();
-  //   console.log(data);
-  //   const show = EpisodesResponseSchema.parse(data);
-  //   return show;
-  // } catch (error) {
-  //   console.log(error);
-  //   return EpisodesResponseSchema.parse(showMock);
-  // }
-  return EpisodesResponseSchema.parse(showMock)
+    if (!clientId || !clientSecret) {
+      throw new Error("Missing Spotify credentials in environment variables");
+    }
+
+    const accessToken = await getAccessToken(clientId, clientSecret);
+    const response = await fetch(
+      `https://api.spotify.com/v1/shows/${showId}/episodes?limit=50`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch episodes");
+    }
+
+    const data = await response.json();
+    const episodes = SpotifyEpisodesResponseSchema.parse(data);
+    return episodes;
+  } catch (error) {
+    console.error("Error fetching Spotify episodes:", error);
+    return {
+      episodes: {
+        items: [],
+      },
+    };
+  }
+}
+
+export async function fetchShowData(showId: string) {
+  const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
+
+  if (!clientId || !clientSecret) {
+    throw new Error('Missing Spotify client credentials in environment variables.');
+  }
+
+  const accessToken = await getAccessToken(clientId, clientSecret);
+
+  const res = await fetch(`https://api.spotify.com/v1/shows/${showId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch show data: ${res.statusText}`);
+  }
+
+  const data = await res.json();
+
+  const parsedData = EpisodesResponseSchema.parse(data);
+
+  return parsedData;
 }
 
 const getRssFeed = async () => {
