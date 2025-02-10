@@ -1,0 +1,29 @@
+---
+import { cn } from '@utils/cn'
+import type { HTMLTag, HTMLAttributes } from 'astro/types'
+
+type ValidTags = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+interface Props extends HTMLAttributes<'span'> {
+  className?: string
+  underline?: boolean
+  tag?: ValidTags
+}
+
+const { className, underline = false, tag = 'span', ...rest } = Astro.props
+
+const Tag = tag as HTMLTag
+---
+
+<Tag
+  class={cn(
+    'inline-block font-bold text-white',
+    '[text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000]',
+    {
+      '-mt-[0.15em] underline underline-offset-4': underline,
+    },
+    className
+  )}
+  {...rest}>
+  <slot />
+</Tag>
