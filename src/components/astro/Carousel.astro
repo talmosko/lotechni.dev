@@ -1,0 +1,115 @@
+---
+import { cn } from '@utils/cn'
+import Icon from '@components/astro/Icon.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+
+export interface Props {
+  sectionTitle?: string
+  sectionLink?: string
+  showPagination?: boolean
+  duration?: number
+  slidesByWidth?: { mobile: number; md?: number; lg?: number }
+  group?: boolean
+  autoPlay?: boolean
+  autoplayInterval?: number
+  hideTitle?: boolean
+  hideControls?: boolean
+  hideTop?: boolean
+  paginationClasses?: string
+}
+
+const {
+  sectionTitle = 'Default Title',
+  sectionLink = null,
+  showPagination = true,
+  duration = 600,
+  slidesByWidth = { mobile: 1, md: 2, lg: 3 },
+  group = true,
+  autoPlay = false,
+  autoplayInterval = 5000,
+  hideTitle = false,
+  hideControls = false,
+  hideTop = false,
+  paginationClasses = '',
+} = Astro.props
+
+const { mobile, md, lg } = slidesByWidth
+---
+
+<div
+  class="blaze-slider"
+  data-duration={JSON.stringify(duration)}
+  data-slides={JSON.stringify(slidesByWidth)}
+  data-group={JSON.stringify(group)}
+  data-autoplay={JSON.stringify(autoPlay)}
+  data-autoplay-interval={JSON.stringify(autoplayInterval)}>
+  <div class="blaze-container">
+    <div class={cn('mb-6 flex w-full items-center justify-between', hideTop && 'hidden')}>
+      {
+        sectionLink ? (
+          <a
+            href={sectionLink}
+            class={cn(
+              'mr-auto flex w-full items-center justify-between text-2xl font-bold hover:text-accent md:justify-start',
+              hideTitle && 'hidden'
+            )}>
+            <Heading level={2} className="pb-1">
+              {sectionTitle}
+            </Heading>
+          </a>
+        ) : (
+          <Heading level={2} className="pb-1">
+            {sectionTitle}
+          </Heading>
+        )
+      }
+
+      <div class={cn('ml-auto hidden gap-4 md:flex', hideControls && 'md:hidden')}>
+        <!-- navigation buttons -->
+        <button
+          class="blaze-prev rounded-full hover:text-accent focus:outline-none"
+          aria-label="Go to previous slide"
+          id="scrollLeft">
+          <Icon icon="chevronLeft" className="size-8" />
+        </button>
+        <button
+          id="scrollRight"
+          class="blaze-next rounded-full hover:text-accent focus:outline-none"
+          aria-label="Go to next slide">
+          <Icon icon="chevronRight" className="size-8" />
+        </button>
+      </div>
+    </div>
+    <div class="blaze-track-container">
+      <div class="blaze-track">
+        <slot />
+      </div>
+      <!-- pagination container -->
+      <div
+        class={cn(
+          'blaze-pagination [&>button]:aria-hidden flex justify-center gap-2 py-4 text-[2px] text-transparent [&>button.active]:bg-accent [&>button]:size-2.5 [&>button]:rounded-full [&>button]:bg-surface',
+          !showPagination && 'hidden',
+          paginationClasses
+        )}>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style define:vars={{ mobile, md, lg }}>
+  .blaze-slider {
+    --slides-to-show: var(--mobile);
+  }
+
+  @media (min-width: 768px) {
+    .blaze-slider {
+      --slides-to-show: var(--md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blaze-slider {
+      --slides-to-show: var(--lg);
+    }
+  }
+</style>
