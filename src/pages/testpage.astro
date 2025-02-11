@@ -1,7 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-import TestCounter from '@components/react/TestCounter.tsx'
 import CardContainer from '@components/astro/containers/CardContainer.astro'
 import ImageContainer from '@components/astro/containers/ImageContainer.astro'
 import DemoImg from '@assets/images/tal.jpeg'
@@ -135,9 +134,8 @@ const carouselCards = Array.from({ length: 12 }, (_, i) => ({
 
   <SectionContainer
     outerClasses="bg-gradient-to-r from-slate-300 to-stone-200"
-    innerClasses="text-surface">
-    <TestCounter client:idle />
-  </SectionContainer>
+    innerClasses="text-surface"
+  />
 
   <SectionContainer
     outerClasses="bg-gradient-to-r from-sky-300 to-amber-200"
