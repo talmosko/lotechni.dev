@@ -2,8 +2,9 @@
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import Heading from '@components/astro/typography/Heading.astro'
 import GridImageContainer from '@components/astro/containers/GridImageContainer.astro'
-import { successStoriesData } from '@data/pages-data/success-stories'
-import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+import { successStoriesData } from '@data/pages-data/successStories'
+import type { SuccessStory } from '@data/types/successStories'
 
 interface Props {
   compact?: boolean
@@ -21,9 +22,9 @@ const shownSuccessStories = compact ? successStoriesData.slice(0, 4) : successSt
 
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {
-      shownSuccessStories.map(({ image, title }: { image: ImageMetadata; title: string }) => (
+      shownSuccessStories.map(({ image, title }: SuccessStory) => (
         <GridImageContainer showGradient gradientOnlyOnHover>
-          <img src={image.src} alt={title} class="w-full" />
+          <Image src={image} alt={title} class="w-full" />
         </GridImageContainer>
       ))
     }
