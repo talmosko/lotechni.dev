@@ -1,8 +1,8 @@
 ---
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import Heading from '@components/astro/typography/Heading.astro'
-import ImageContainer from '@components/astro/containers/ImageContainer.astro'
-import { successStoriesImages } from '@data/pages-data'
+import GridImageContainer from '@components/astro/containers/GridImageContainer.astro'
+import { successStoriesData } from '@data/pages-data'
 import type { ImageMetadata } from 'astro'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const { compact = false } = Astro.props
 const sectionTitle = 'סיפורי ההצלחה שלנו'
-const displayedImages = compact ? successStoriesImages.slice(0, 4) : successStoriesImages
+const shownSuccessStories = compact ? successStoriesData.slice(0, 4) : successStoriesData
 ---
 
 <SectionContainer innerClasses="flex flex-col gap-8">
@@ -21,10 +21,10 @@ const displayedImages = compact ? successStoriesImages.slice(0, 4) : successStor
 
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {
-      displayedImages.map((image: ImageMetadata) => (
-        <ImageContainer showGradient gradientOnlyOnHover>
-          <img src={image.src} alt="supportive comment" class="w-full" />
-        </ImageContainer>
+      shownSuccessStories.map(({ image, title }: { image: ImageMetadata; title: string }) => (
+        <GridImageContainer showGradient gradientOnlyOnHover>
+          <img src={image.src} alt={title} class="w-full" />
+        </GridImageContainer>
       ))
     }
   </div>
