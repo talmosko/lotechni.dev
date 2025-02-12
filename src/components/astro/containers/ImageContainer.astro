@@ -1,13 +1,26 @@
 ---
 import { cn } from '@utils/cn'
 
+type ImageContainerVariant = 'default' | 'grid'
+
 interface Props {
   className?: string
   showGradient?: boolean
   gradientOnlyOnHover?: boolean
+  variant?: ImageContainerVariant
 }
 
-const { className, showGradient = false, gradientOnlyOnHover = false } = Astro.props
+const {
+  className,
+  showGradient = false,
+  gradientOnlyOnHover = false,
+  variant = 'default',
+} = Astro.props
+
+const gradientClasses = {
+  default: 'aspect-square group-hover/card:opacity-100',
+  grid: 'group-hover/image:opacity-100',
+}
 ---
 
 <div class="group/image relative">
@@ -15,9 +28,9 @@ const { className, showGradient = false, gradientOnlyOnHover = false } = Astro.p
     showGradient && (
       <div
         class={cn(
-          'animate-gradient-xy absolute -inset-0.5 aspect-square rounded-lg bg-gradient-to-r from-accent via-accent-dark to-accent-light',
-          gradientOnlyOnHover &&
-            'opacity-0 transition-opacity duration-300 group-hover/card:opacity-100'
+          'animate-gradient-xy absolute -inset-0.5 rounded-lg bg-gradient-to-r from-accent via-accent-dark to-accent-light',
+          gradientOnlyOnHover && 'opacity-0 transition-opacity duration-300',
+          gradientClasses[variant]
         )}
       />
     )
