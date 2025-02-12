@@ -11,8 +11,13 @@ interface Props {
 }
 
 const { compact = false } = Astro.props
-const sectionTitle = 'סיפורי ההצלחה שלנו'
-const shownSuccessStories = compact ? successStoriesData.slice(0, 4) : successStoriesData
+const sectionTitle = compact ? 'חלק מסיפורי ההצלחה שלנו' : 'סיפורי ההצלחה שלנו'
+const shownSuccessStories = compact ? successStoriesData.slice(0, 3) : successStoriesData
+
+const getTiltClass = (index: number) => {
+  const tiltClasses = ['-rotate-2', 'rotate-2', '-rotate-1', 'rotate-1', '-rotate-3', 'rotate-3']
+  return tiltClasses[index % tiltClasses.length]
+}
 ---
 
 <SectionContainer innerClasses="flex flex-col gap-8">
@@ -20,12 +25,19 @@ const shownSuccessStories = compact ? successStoriesData.slice(0, 4) : successSt
     {sectionTitle}
   </Heading>
 
-  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <div class="flex flex-wrap gap-6">
     {
-      shownSuccessStories.map(({ image, title }: SuccessStory) => (
-        <ImageContainer variant="grid" showGradient gradientOnlyOnHover>
-          <Image src={image} alt={title} class="w-full" />
-        </ImageContainer>
+      shownSuccessStories.map(({ image, title }: SuccessStory, index: number) => (
+        <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+          <ImageContainer
+            variant="grid"
+            showGradient
+            gradientOnlyOnHover
+            parentContainerClassName={getTiltClass(index)}
+          >
+            <Image src={image} alt={title} class="w-full" />
+          </ImageContainer>
+        </div>
       ))
     }
   </div>
