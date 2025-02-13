@@ -1,20 +1,19 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import { fetchEpisodes } from '@utils/spotify'
+import { fetchShowData } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 // No unused vars errors - to be added back when used
 // import DescriptionCard from '../../components/DescriptionCard.astro'
 // import Speakers from '../../components/Speakers.astro'
 import Logo from '@components/astro/Logo.astro'
-const show = await fetchEpisodes(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
-
-const parsedEpisodes = show.episodes.items.reverse()
+const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+const parsedEpisodes = show.episodes.items
 ---
 
-<Layout title=`${show.name}`>
+<Layout title={show.name}>
   <Logo showName={show.name} />
   <h2 class="text-gradient">פרקים</h2>
   <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
-    {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
+    {parsedEpisodes?.map((episode) => <EpisodeCard {...episode} />)}
   </ul>
 </Layout>
