@@ -2,9 +2,11 @@
 import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Episode } from '@data/types/spotifyEpisodes'
 
-interface Props extends Episode {}
+interface Props extends Episode {
+  expandable?: boolean
+}
 
-const { name, description, html_description, images, id } = Astro.props
+const { name, description, html_description, images, id, expandable = true } = Astro.props
 ---
 
 <div
@@ -30,6 +32,7 @@ const { name, description, html_description, images, id } = Astro.props
   <EpisodeCardDescription
     description={description}
     html_description={html_description}
+    expandable={expandable}
     client:load
   />
 </div>

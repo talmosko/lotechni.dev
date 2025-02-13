@@ -7,6 +7,7 @@ import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import Logo from '@components/astro/Logo.astro'
 import SuccessStories from '@sections/our-story/SuccessStories.astro'
 import CommunityCard from '@components/astro/CommunityCard.astro'
+import Heading from '@components/astro/typography/Heading.astro'
 const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 
 let parsedEpisodes = show.episodes.items.slice(0, 4)
@@ -26,9 +27,13 @@ let parsedEpisodes = show.episodes.items.slice(0, 4)
   <!-- Todo: Extract episodes to a separate Section -->
 
   <div class="container space-y-12 py-8 text-xl leading-relaxed">
+    <Heading level={2} className="text-center">הפרקים האחרונים</Heading>
     <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
       {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
     </ul>
+  </div>ֿֿ
+
+  <div class="container space-y-12 py-8 text-xl leading-relaxed">
     <CommunityCard />
   </div>
 
