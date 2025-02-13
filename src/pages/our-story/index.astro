@@ -1,15 +1,22 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import Heading from '@components/astro/typography/Heading.astro'
-import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import Logo from '@components/astro/Logo.astro'
+import DescriptionCard from '@components/astro/DescriptionCard.astro'
+import SuccessStories from '@sections/our-story/SuccessStories.astro'
 
-const title = 'Our Story'
+const title = 'מי אנחנו?'
+const description = `טל ואדיר, מפתחי תוכנה בתחום הפרונט-אנד ומנהלי קהילת "לא טכני ולא במקרה", מסייעים למפתחים ולמפתחות לגלות דרכים נכונות ופרואקטיביות למיתוג עצמי. אנו שמים דגש על ההשפעה של היבטים מקצועיים שאינם טכניים על קריירת הפיתוח, תהליך חיפוש העבודה, ועוד.
+הקהילה והפודקאסט שלנו מיועדים למפתחים ומפתחות שרוצים לפתח את עצמם גם מעבר ליכולות הטכניות. אנו מעניקים כלים שלדעתנו זוכים לפחות מדי התייחסות כיום, אך בעלי חשיבות עצומה להצלחה אישית ומקצועית..`
 ---
 
 <Layout title={title}>
-  <SectionContainer>
-    <Heading level={1} className="text-center">
-      This is <span class="text-gradient">{title}</span> page
-    </Heading>
-  </SectionContainer>
+  <Logo showName={title} />
+
+  <div class="container space-y-12 py-8 text-xl leading-relaxed">
+    <DescriptionCard>
+      {description}
+    </DescriptionCard>
+  </div>
+
+  <SuccessStories />
 </Layout>

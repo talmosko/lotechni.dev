@@ -1,0 +1,43 @@
+---
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import { Image } from 'astro:assets'
+import { successStoriesData } from '@data/pages-data/successStories'
+import type { SuccessStory } from '@data/types/successStories'
+
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
+const sectionTitle = compact ? 'חלק מסיפורי ההצלחה שלנו' : 'סיפורי ההצלחה שלנו'
+const shownSuccessStories = compact ? successStoriesData.slice(0, 3) : successStoriesData
+
+const getTiltClass = (index: number) => {
+  const tiltClasses = ['-rotate-2', 'rotate-2', '-rotate-1', 'rotate-1', '-rotate-3', 'rotate-3']
+  return tiltClasses[index % tiltClasses.length]
+}
+---
+
+<SectionContainer innerClasses="flex flex-col gap-8">
+  <Heading level={2} className="text-center">
+    {sectionTitle}
+  </Heading>
+
+  <div class="flex flex-wrap gap-6">
+    {
+      shownSuccessStories.map(({ image, title }: SuccessStory, index: number) => (
+        <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+          <ImageContainer
+            variant="grid"
+            showGradient
+            gradientOnlyOnHover
+            parentContainerClassName={getTiltClass(index)}>
+            <Image src={image} alt={title} class="w-full" />
+          </ImageContainer>
+        </div>
+      ))
+    }
+  </div>
+</SectionContainer>

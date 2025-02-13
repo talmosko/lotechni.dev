@@ -5,6 +5,7 @@ import { fetchShowData } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import Logo from '@components/astro/Logo.astro'
+import SuccessStories from '@sections/our-story/SuccessStories.astro'
 
 const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 let parsedEpisodes = show.episodes.items.slice(0, 4)
@@ -28,4 +29,6 @@ let parsedEpisodes = show.episodes.items.slice(0, 4)
       {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
     </ul>
   </div>
+
+  <SuccessStories compact />
 </Layout>
