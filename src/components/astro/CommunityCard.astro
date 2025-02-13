@@ -1,5 +1,25 @@
 ---
+import CardContainer from '@components/astro/containers/CardContainer.astro'
+import ImageContainer from '@components/astro/containers/ImageContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import { cn } from '@utils/cn'
+import { Image } from 'astro:assets'
+import Button from '@components/astro/Button.astro'
+
 const groups = [
+{
+    title: 'הקבוצה הראשית- דיונים על כל מה שמעבר לטכני',
+    link: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ots',
+    image: 'src/assets/images/community-img.jpeg',
+    description: `מפתחים תותחים ותותחיות לא רק כותבים קוד!
+    טל מוסקוביץ', אדיר קנדל ואורחים עוזרים למפתחים להישאר רלוונטיים ולפתח את עצמם:
+- איך אני יכול להתבלט כמפתח, בצוות, בחברה ובחיפוש העבודה?
+- איך מתכננים את הקפיצה הבאה בקריירה ולאן?
+- איזה ערך מוסף ייחודי אני מביא לשולחן?
+- איך לשפר את חווית הפיתוח שלי
+כל מה שהוא פיתוח והוא לא טכני, על השולחן שלנו.
+`,
+  },
   {
     title: 'פוסט ריוויו - קבלו ריוויו על הפוסט שלכם לפני הפרסום',
     link: 'https://chat.whatsapp.com/GrhVRS1kGZVGKRXTMtktAq',
@@ -25,43 +45,40 @@ const groups = [
     description: `פה נדבר על כלים שעוזרים למפתחים בפיתוח אבל כמובן שלא רק!
 גם כלים שעוזרים לנו להיות פרודוקטיביים ופרואקטיביים.`,
   },
-  {
-    title: 'הקבוצה הראשית- דיונים על כל מה שמעבר לטכני',
-    link: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ots',
-    image: 'src/assets/images/community-img.jpeg',
-    description: `מפתחים תותחים ותותחיות לא רק כותבים קוד!
-    טל מוסקוביץ', אדיר קנדל ואורחים עוזרים למפתחים להישאר רלוונטיים ולפתח את עצמם:
-- איך אני יכול להתבלט כמפתח, בצוות, בחברה ובחיפוש העבודה?
-- איך מתכננים את הקפיצה הבאה בקריירה ולאן?
-- איזה ערך מוסף ייחודי אני מביא לשולחן?
-- איך לשפר את חווית הפיתוח שלי
-כל מה שהוא פיתוח והוא לא טכני, על השולחן שלנו.
-`,
-  },
+
 ]
 ---
 
-<div class="mx-auto my-8 flex flex-col rounded-md bg-gradient-accent p-0.5">
-  <div class="flex flex-col gap-5 rounded-md bg-surface px-6 py-4 text-center">
-    <h3 class="text-gradient mt-6 text-3xl font-bold leading-tight">קישורים לקבוצות הקהילה</h3>
-    <ul class="flex flex-wrap justify-center gap-4">
-      {
-        groups.map((group) => (
-          <li class="r mb-4 flex max-w-full flex-1 flex-col justify-between p-2 shadow-md shadow-slate-700 transition-all hover:scale-105">
-            <div class="flex flex-col items-center">
-              <img class="mb-4 max-w-[200px] rounded-md" src={group.image} alt={group.title} />
-              <p class="text-lg hover:underline">{group.title}</p>
-              <p class="text-sm">{group.description}</p>
-            </div>
-            <a
-              class="mt-4 rounded-lg bg-[#5ECCD1] px-4 py-2 text-white hover:bg-[#5ECCD1]/80"
+<CardContainer className="mx-auto my-8 bg-black" showGradient>
+  <Heading level={2} className="text-center mb-8">קישורים לקבוצות הקהילה</Heading>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {groups.map((group, index) => (
+      <CardContainer className="group/card" containerClassName={cn([index === 0 && 'md:col-span-2'])} >
+        <div class="flex flex-col h-full">
+          <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName='self-center'>
+            <Image
+              src={group.image}
+              alt={group.title}
+              width={200}
+              height={200}
+              class="object-cover"
+            />
+          </ImageContainer>
+          <div class="flex flex-col flex-1 gap-4 p-4">
+            <Heading level={3} className="text-accent self-center">{group.title}</Heading>
+            <p class="flex-1">{group.description}</p>
+            <Button
+              variant="link"
               href={group.link}
-              target="_blank">
+              target="_blank"
+              rel="noopener"
+            >
               הצטרף לקבוצה
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+            </Button>
+          </div>
+        </div>
+      </CardContainer>
+     
+    ))}
   </div>
-</div>
+</CardContainer>

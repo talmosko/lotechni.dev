@@ -2,15 +2,16 @@
 import { cn } from '@utils/cn'
 
 interface Props {
+  containerClassName?: string
   className?: string
   showGradient?: boolean
   gradientOnlyOnHover?: boolean
 }
 
-const { className, showGradient = false, gradientOnlyOnHover = false } = Astro.props
+const { className, showGradient = false, gradientOnlyOnHover = false, containerClassName } = Astro.props
 ---
 
-<div class="group relative">
+<div class={cn('group relative', containerClassName)}>
   {
     showGradient && (
       <div

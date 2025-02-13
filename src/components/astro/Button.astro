@@ -1,0 +1,39 @@
+---
+interface Props {
+  variant?: 'button' | 'link'
+  href?: string
+  onClick?: string
+  class?: string
+  target?: string
+  rel?: string
+}
+
+const {
+  variant = 'button',
+  href,
+  onClick,
+  class: className = '',
+  target,
+  rel,
+} = Astro.props
+
+const baseStyles = "inline-flex justify-center rounded-lg bg-accent px-4 py-2 text-white hover:bg-accent/80 transition-colors"
+---
+
+{variant === 'link' ? (
+  <a
+    href={href}
+    target={target}
+    rel={rel}
+    class:list={[baseStyles, className]}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    onclick={onClick}
+    class:list={[baseStyles, className]}
+  >
+    <slot />
+  </button>
+)} 
