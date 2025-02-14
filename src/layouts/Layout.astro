@@ -2,7 +2,7 @@
 import Navbar from '@components/astro/Navbar.astro'
 import '@fontsource-variable/rubik'
 import Footer from '@components/astro/Footer.astro'
-
+import { allTasks } from 'nanostores'
 interface Props {
   title: string
 }
@@ -11,7 +11,7 @@ const { title } = Astro.props
 import { $showData } from '@store/episodes'
 import Logo from '@components/astro/Logo.astro'
 const show = $showData.get().data
-
+await allTasks()
 if (!show) {
   throw new Error('No show data found')
 }
