@@ -1,15 +1,25 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import { fetchShowData } from '@utils/spotify'
+import EpisodeCard from '@components/astro/EpisodeCard.astro'
+import Logo from '@components/astro/Logo.astro'
 
 const { id } = Astro.params
-const title = `Episode ${id}`
+const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+const lastIndex = show.episodes.items.length - 1
+const episode = show.episodes.items[lastIndex - parseInt(id ?? '0')]
+
+if (!episode) {
+  return Astro.redirect('/404')
+}
+
+const title = episode.name
 ---
 
 <Layout title={title}>
+  <Logo showName={show.name} />
   <SectionContainer>
-    <h1 class="text-center text-4xl font-bold">
-      This is <span class="text-gradient">{title}</span> page
-    </h1>
+    <EpisodeCard {...episode} expandable={false} />
   </SectionContainer>
 </Layout>

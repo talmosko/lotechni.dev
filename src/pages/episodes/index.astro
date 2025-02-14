@@ -7,14 +7,11 @@ import Heading from '@components/astro/typography/Heading.astro'
 // import DescriptionCard from '../../components/DescriptionCard.astro'
 // import Speakers from '../../components/Speakers.astro'
 import Logo from '@components/astro/Logo.astro'
+import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
-const parsedEpisodes = show.episodes.items
 ---
 
 <Layout title={show.name}>
   <Logo showName={show.name} />
-  <Heading level={2} className="text-gradient">פרקים</Heading>
-  <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
-    {parsedEpisodes?.map((episode) => <EpisodeCard {...episode} />)}
-  </ul>
+  <EpisodesGrid />
 </Layout>
