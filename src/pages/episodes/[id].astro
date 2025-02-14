@@ -1,12 +1,15 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-import { fetchShowData } from '@utils/spotify'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
-import Logo from '@components/astro/Logo.astro'
 
 const { id } = Astro.params
-const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+import { $showData } from '@store/episodes'
+const show = $showData.get().data
+
+if (!show) {
+  throw new Error('No show data found')
+}
 const lastIndex = show.episodes.items.length - 1
 const episode = show.episodes.items[lastIndex - parseInt(id ?? '0')]
 
@@ -18,7 +21,6 @@ const title = episode.name
 ---
 
 <Layout title={title}>
-  <Logo showName={show.name} />
   <SectionContainer>
     <EpisodeCard {...episode} expandable={false} />
   </SectionContainer>

@@ -8,6 +8,13 @@ interface Props {
 }
 
 const { title } = Astro.props
+import { $showData } from '@store/episodes'
+import Logo from '@components/astro/Logo.astro'
+const show = $showData.get().data
+
+if (!show) {
+  throw new Error('No show data found')
+}
 ---
 
 <!doctype html>
@@ -22,6 +29,7 @@ const { title } = Astro.props
   </head>
   <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
     <Navbar />
+    <Logo showName={show.name} />
     <main>
       <slot />
     </main>

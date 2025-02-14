@@ -1,14 +1,18 @@
 ---
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
-import { fetchShowData } from '@utils/spotify'
 
 interface Props {
   compact?: boolean
 }
 
 const { compact = false } = Astro.props
-const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+import { $showData } from '@store/episodes'
+const show = $showData.get().data
+
+if (!show) {
+  throw new Error('No show data found')
+}
 const parsedEpisodes = show.episodes.items
 
 const sectionTitle = compact ? 'הפרקים האחרונים' : 'פרקים'

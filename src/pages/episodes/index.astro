@@ -1,17 +1,20 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import { fetchShowData } from '@utils/spotify'
-import EpisodeCard from '@components/astro/EpisodeCard.astro'
-import Heading from '@components/astro/typography/Heading.astro'
-// No unused vars errors - to be added back when used
-// import DescriptionCard from '../../components/DescriptionCard.astro'
-// import Speakers from '../../components/Speakers.astro'
-import Logo from '@components/astro/Logo.astro'
+import DescriptionCard from '@components/astro/DescriptionCard.astro'
+import Speakers from '@components/astro/Speakers.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
-const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
+import { $showData } from '@store/episodes'
+const show = $showData.get().data
+
+if (!show) {
+  throw new Error('No show data found')
+}
 ---
 
 <Layout title={show.name}>
-  <Logo showName={show.name} />
+  <DescriptionCard>
+    {show.description}
+  </DescriptionCard>
+  <Speakers />
   <EpisodesGrid />
 </Layout>
