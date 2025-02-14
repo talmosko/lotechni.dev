@@ -28,10 +28,6 @@ export async function fetchAndUpdateShowData() {
   }
 }
 
-onStart($showData, async () => {
-  await fetchAndUpdateShowData()
-})
-
 onMount($showData, () => {
   let interval: NodeJS.Timeout | null = null
   task(async () => {
