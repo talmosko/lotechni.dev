@@ -1,4 +1,4 @@
-import { map, onMount, task } from 'nanostores'
+import { map, onMount, task, onStart } from 'nanostores'
 import { fetchShowData } from '@utils/spotify'
 import type { Show } from '@data/types/spotifyEpisodes'
 
@@ -27,6 +27,10 @@ export async function fetchAndUpdateShowData() {
     $showData.setKey('loading', false)
   }
 }
+
+onStart($showData, async () => {
+  await fetchAndUpdateShowData()
+})
 
 onMount($showData, () => {
   let interval: NodeJS.Timeout | null = null
