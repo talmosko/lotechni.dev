@@ -7,7 +7,7 @@ export const $showData = map<{
   loading: boolean
   error: string | null
 }>({
-  data: null,
+  data: await fetchShowData(),
   loading: false,
   error: null,
 })
