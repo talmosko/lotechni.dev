@@ -7,6 +7,9 @@ import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import Logo from '@components/astro/Logo.astro'
 import SuccessStories from '@sections/our-story/SuccessStories.astro'
 import CommunityCard from '@components/astro/CommunityCard.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
+import Button from '@components/astro/Button.astro'
 const show = await fetchShowData(import.meta.env.PUBLIC_SPOTIFY_SHOW_ID)
 
 let parsedEpisodes = show.episodes.items.slice(0, 4)
@@ -14,7 +17,6 @@ let parsedEpisodes = show.episodes.items.slice(0, 4)
 
 <Layout title={show.name}>
   <Logo showName={show.name} />
-  <!-- Todo: Extract description to a separate Section -->
 
   <div class="container space-y-12 py-8 text-xl leading-relaxed">
     <DescriptionCard>
@@ -23,12 +25,16 @@ let parsedEpisodes = show.episodes.items.slice(0, 4)
   </div>
 
   <Hosts />
-  <!-- Todo: Extract episodes to a separate Section -->
+
+  <EpisodesGrid compact />
+
+  <div class="container space-y-12 py-8 text-xl leading-relaxed flex justify-center">
+    <Button size='xl' variant='link' class='flex items-center gap-2' href="/episodes"><span class="icon-[tabler--headphones]"></span>לכל הפרקים
+    
+    </Button>
+  </div>
 
   <div class="container space-y-12 py-8 text-xl leading-relaxed">
-    <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
-      {parsedEpisodes.map((episode) => <EpisodeCard {...episode} />)}
-    </ul>
     <CommunityCard />
   </div>
 

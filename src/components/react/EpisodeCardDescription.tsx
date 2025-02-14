@@ -4,29 +4,33 @@ import { useState } from 'react'
 interface EpisodeCardDescriptionProps {
   description?: string
   html_description?: string
+  expandable?: boolean
 }
 
 export default function EpisodeCardDescription({
   description,
   html_description,
+  expandable = true,
 }: EpisodeCardDescriptionProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(!expandable)
 
   return (
     <div
-      className="mt-2 flex cursor-pointer items-center justify-between"
-      onClick={() => setOpen(!open)}>
+      className={cn('mt-2 flex items-center justify-between', expandable && 'cursor-pointer')}
+      onClick={() => expandable && setOpen(!open)}>
       {open && html_description ? (
         <div className="mt-2 inline-block" dangerouslySetInnerHTML={{ __html: html_description }} />
       ) : (
-        <span className="line-clamp-3">{description}</span>
+        <span className={cn('line-clamp-3', !expandable && 'line-clamp-none')}>{description}</span>
       )}
-      <span
-        className={cn(
-          'icon-[tabler--caret-down-filled] sticky top-24 min-w-8 self-start text-current transition-transform duration-200',
-          open && 'rotate-180'
-        )}
-      />
+      {expandable && (
+        <span
+          className={cn(
+            'icon-[tabler--caret-down-filled] sticky top-24 min-w-8 self-start text-current transition-transform duration-200',
+            open && 'rotate-180'
+          )}
+        />
+      )}
     </div>
   )
 }
