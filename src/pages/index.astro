@@ -7,6 +7,7 @@ import CommunityCard from '@components/astro/CommunityCard.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import Button from '@components/astro/Button.astro'
 import { $showData } from '@store/episodes'
+import Icon from '@components/astro/Icon.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -28,7 +29,9 @@ if (!show) {
   <EpisodesGrid compact />
 
   <div class="container space-y-12 py-8 text-xl leading-relaxed flex justify-center">
-    <Button size='xl' variant='link' class='flex items-center gap-2' href="/episodes"><span class="icon-[tabler--headphones]"></span>לכל הפרקים
+    <Button size='xl' variant='link' class='flex items-center gap-2' href="/episodes">
+      <Icon icon="headphones" />
+      לכל הפרקים
     
     </Button>
   </div>

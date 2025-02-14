@@ -47,6 +47,16 @@ export const ICONS = {
     label: 'Chevron Right',
     hoverColor: 'group-hover:text-accent',
   },
+  headphones: {
+    icon: 'icon-[tabler--headphones]',
+    label: 'Headphones',
+    hoverColor: 'group-hover:text-accent',
+  },
+  share: {
+    icon: 'icon-[tabler--share]',
+    label: 'Share',
+    hoverColor: 'group-hover:text-accent',
+  },
 }
 
 export type IconNames = keyof typeof ICONS
