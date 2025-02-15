@@ -2,18 +2,16 @@
 import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Episode } from '@data/types/spotifyEpisodes'
 import Heading from '@components/astro/typography/Heading.astro'
-import Icon from '@components/astro/Icon.astro'
-import { ICONS } from '@data/types/icons'
+import EpisodeShareButton from './EpisodeShareButton.astro'
 interface Props extends Episode {
   expandable?: boolean
 }
 
-const { name, description, html_description, images, id, episode_number, expandable = true } = Astro.props
+const { name, description, html_description, images, id, episode_number, release_date, expandable = true } = Astro.props
 ---
 
 <div
   class="flex flex-col rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
-  {episode_number}
   <div class="pb-5">
     {id ? (
     <iframe
@@ -32,6 +30,13 @@ const { name, description, html_description, images, id, episode_number, expanda
   <Heading level={5}>
     {name}
   </Heading>
+  <div class="flex items-center gap-2">
+    <EpisodeShareButton show_number={episode_number} />
+    <p class="text-sm text-gray-400 my-4">
+      {new Date(release_date).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+  </div>
+
   <EpisodeCardDescription
     description={description}
     html_description={html_description}
@@ -39,26 +44,6 @@ const { name, description, html_description, images, id, episode_number, expanda
     client:load
   />
 
-  <div class="flex items-center gap-2 justify-center mt-auto pt-5">
-    <button
-    data-id={id}
-    class="share-button border border-accent rounded-full p-2  group flex flex-col items-center justify-center gap-2 text-accent hover:text-accent-light hover:scale-110 active:scale-95 transition-transform duration-200">
-    <Icon icon="share" className={ICONS["share"].hoverColor} />
-  </button>
-  </div>
 </div>
 
 
-<script>
-import { toast } from "react-toastify"
-
-  const shareButtons = document.querySelectorAll(".share-button")
-  shareButtons.forEach((button) => {
-    if (button instanceof HTMLElement) {
-      button.addEventListener("click", () => {
-        navigator.clipboard.writeText(`https://open.spotify.com/episode/${button.dataset.id}`)
-        toast.info("שארינג איז קארינג ❤️ הקישור לפרק הועתק")
-      })
-    }
-  })
-</script>
