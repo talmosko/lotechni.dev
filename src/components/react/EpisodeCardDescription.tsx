@@ -15,24 +15,22 @@ export default function EpisodeCardDescription({
   const [open, setOpen] = useState(!expandable)
 
   return (
-    <div className="mt-4">
-      <div
-        className={cn('relative flex items-start gap-4', expandable && 'cursor-pointer')}
-        onClick={() => expandable && setOpen(!open)}>
-        <div className="prose flex-1">
-          {open && html_description ? (
-            <div dangerouslySetInnerHTML={{ __html: html_description }} />
-          ) : (
-            <p className={cn('line-clamp-3', !expandable && 'line-clamp-none')}>{description}</p>
+    <div
+      className={cn('mt-4 flex flex-col', expandable && 'cursor-pointer')}
+      onClick={() => expandable && setOpen(!open)}>
+      {expandable && (
+        <span
+          className={cn(
+            'icon-[tabler--caret-down-filled] self-end text-current transition-transform duration-200',
+            open && 'rotate-180'
           )}
-        </div>
-        {expandable && (
-          <span
-            className={cn(
-              'icon-[tabler--caret-down-filled] sticky top-24 text-current transition-transform duration-200',
-              open && 'rotate-180'
-            )}
-          />
+        />
+      )}
+      <div className="prose -mt-7 flex-1">
+        {open && html_description ? (
+          <div dangerouslySetInnerHTML={{ __html: html_description }} />
+        ) : (
+          <p className={cn('line-clamp-3', !expandable && 'line-clamp-none')}>{description}</p>
         )}
       </div>
     </div>
