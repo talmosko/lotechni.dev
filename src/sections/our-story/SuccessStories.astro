@@ -5,6 +5,7 @@ import ImageContainer from '@components/astro/containers/ImageContainer.astro'
 import { Image } from 'astro:assets'
 import { successStoriesData } from '@data/pages-data/successStories'
 import type { SuccessStory } from '@data/types/successStories'
+import Button from '@components/astro/Button.astro'
 
 interface Props {
   compact?: boolean
@@ -38,6 +39,16 @@ const getTiltClass = (index: number) => {
           </ImageContainer>
         </div>
       ))
+    }
+
+    {
+      compact && (
+        <div class="m-auto mt-8 flex items-center">
+          <Button size="xl" variant="link" class="flex items-center gap-2" href="/our-story">
+            הסיפור שלנו
+          </Button>
+        </div>
+      )
     }
   </div>
 </SectionContainer>

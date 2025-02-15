@@ -4,7 +4,9 @@ import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import SuccessStories from '@sections/our-story/SuccessStories.astro'
 import Hosts from '@sections/home/Hosts.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-const title = 'מי אנחנו?'
+import CommunityCard from '@components/astro/CommunityCard.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+const title = 'הסיפור שלנו'
 const description = `טל ואדיר, מפתחי תוכנה בתחום הפרונט-אנד ומנהלי קהילת "לא טכני ולא במקרה", מסייעים למפתחים ולמפתחות לגלות דרכים נכונות ופרואקטיביות למיתוג עצמי. אנו שמים דגש על ההשפעה של היבטים מקצועיים שאינם טכניים על קריירת הפיתוח, תהליך חיפוש העבודה, ועוד.
 הקהילה והפודקאסט שלנו מיועדים למפתחים ומפתחות שרוצים לפתח את עצמם גם מעבר ליכולות הטכניות. אנו מעניקים כלים שלדעתנו זוכים לפחות מדי התייחסות כיום, אך בעלי חשיבות עצומה להצלחה אישית ומקצועית..`
 ---
@@ -15,7 +17,11 @@ const description = `טל ואדיר, מפתחי תוכנה בתחום הפרו�
       {description}
     </DescriptionCard>
   </SectionContainer>
+  <Heading level={2} className="text-center">מנהלי הקהילה</Heading>
   <Hosts />
 
   <SuccessStories />
+  <SectionContainer>
+    <CommunityCard />
+  </SectionContainer>
 </Layout>
