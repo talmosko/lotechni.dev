@@ -8,31 +8,30 @@ import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import Button from '@components/astro/Button.astro'
 import { $showData } from '@store/episodes'
 import Icon from '@components/astro/Icon.astro'
+import Heading from '@components/astro/typography/Heading.astro'
 const show = $showData.get().data
 
 if (!show) {
   throw new Error('No show data found')
 }
-
 ---
 
 <Layout title={show.name}>
-
   <div class="container space-y-12 py-8 text-xl leading-relaxed">
     <DescriptionCard>
       {show.description}
     </DescriptionCard>
   </div>
+  <div class="container flex flex-col gap-12 py-8">
+    <Heading level={2} className="text-center">מי אנחנו?</Heading>
+    <Hosts />
+  </div>
+  <EpisodesGrid compact />
 
-  <Hosts />
-
-  <EpisodesGrid compact/>
-
-  <div class="container space-y-12 py-8 text-xl leading-relaxed flex justify-center">
-    <Button size='xl' variant='link' class='flex items-center gap-2' href="/episodes">
+  <div class="container flex justify-center space-y-12 py-8 text-xl leading-relaxed">
+    <Button size="xl" variant="link" class="flex items-center gap-2" href="/episodes">
       <Icon icon="headphones" />
       לכל הפרקים
-    
     </Button>
   </div>
 
