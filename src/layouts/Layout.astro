@@ -11,9 +11,10 @@ import type { Props as SEOProps } from 'astro-seo'
 interface Props {
   title: string
   seo?: Partial<SEOProps>
+  showLogo?: boolean
 }
 
-const { title, seo = {} } = Astro.props
+const { title, seo = {}, showLogo = true } = Astro.props
 const fullSEO = {
   ...defaultSEO,
   ...seo,
@@ -41,10 +42,10 @@ if (!show) {
     <link rel="sitemap" href="/sitemap.xml" />
     <title>{title}</title>
   </head>
-  <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
+  <body dir="rtl" class="flex min-h-dvh flex-col bg-surface-dark text-white antialiased">
     <Navbar />
-    <Logo showName={show.name} />
-    <main>
+    {showLogo && <Logo showName={show.name} />}
+    <main class="flex-1">
       <slot />
     </main>
     <Footer />

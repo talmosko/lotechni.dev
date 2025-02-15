@@ -1,0 +1,45 @@
+---
+import Layout from '@layouts/Layout.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import Button from '@components/astro/Button.astro'
+import Icon from '@components/astro/Icon.astro'
+
+const errorMessages = [
+  { message: 'אופס... לא טכני אבל הפעם במקרה', emoji: '😅' },
+  { message: 'לפעמים גם אנחנו נשברים', emoji: '😳' },
+  { message: 'שגיאה 404 - גם אנחנו לא מאמינים', emoji: '🙄' },
+  { message: 'יצאנו לשתות קפה, נחזור עוד מעט', emoji: '☕' },
+  { message: 'הדף הזה לא נמצא, אבל הפודקאסט שלנו כן!', emoji: '🎙️' },
+  { message: 'קוד שגיאה 404 - זה לא באג, זה פיצ׳ר', emoji: '🐛' },
+  { message: 'חיפשנו בכל מקום, אבל הדף הזה התחמק מאיתנו', emoji: '🔍' },
+  { message: 'הדף הזה כנראה עובד מהבית היום', emoji: '🏠' },
+]
+
+const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)]
+---
+
+<Layout title="404 - דף לא נמצא" showLogo={false}>
+  <SectionContainer>
+    <div class="flex flex-col items-center justify-center text-center">
+      <div class="mb-6 text-8xl">{randomError.emoji}</div>
+      <Heading level={1} className="mb-4 text-6xl md:text-7xl">404</Heading>
+      <Heading level={2} className="mb-8 text-xl md:text-2xl">
+        {randomError.message}
+      </Heading>
+      <p class="mb-6 text-lg text-white/80">
+        הדף שחיפשת לא נמצא, אבל יש לנו המון תוכן מעניין בשבילך
+      </p>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <Button variant="link" href="/" class="flex items-center gap-2">
+          <Icon icon="www" />
+          לדף הבית
+        </Button>
+        <Button variant="link" href="/episodes" class="flex items-center gap-2">
+          <Icon icon="headphones" />
+          לכל הפרקים
+        </Button>
+      </div>
+    </div>
+  </SectionContainer>
+</Layout>
