@@ -78,7 +78,8 @@ const EpisodesResponseSchema = z.object({
   episodes: SpotifyEpisodesResponseSchema,
 })
 
+type Show = z.infer<typeof EpisodesResponseSchema>
 type Episode = z.infer<typeof episodeSchema>
 
 // Export the new Spotify episodes response schema, the original EpisodesResponseSchema, and the Episode type.
-export { SpotifyEpisodesResponseSchema, EpisodesResponseSchema, type Episode }
+export { SpotifyEpisodesResponseSchema, EpisodesResponseSchema, type Episode, type Show }
