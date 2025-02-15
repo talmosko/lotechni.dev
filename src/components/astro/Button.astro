@@ -9,36 +9,27 @@ interface Props {
   rel?: string
 }
 
-const {
-  variant = 'button',
-  size = 'md',
-  href,
-  onClick,
-  class: className = '',
-} = Astro.props
+const { variant = 'button', size = 'md', href, onClick, class: className = '' } = Astro.props
 
 const sizeStyles = {
   sm: 'px-4 py-2 text-sm',
   md: 'px-5 py-2.5 text-base',
   lg: 'px-6 py-3 text-lg',
-  xl: 'px-7 py-4 text-xl'
+  xl: 'px-7 py-4 text-xl',
 }
 
-const baseStyles = "inline-flex justify-center rounded-lg bg-accent hover:bg-accent/80 transition-colors hover:scale-105 transition-transform duration-200"
+const baseStyles =
+  'inline-flex justify-center rounded-lg bg-accent hover:bg-accent/80 transition-colors hover:scale-105 transition-transform duration-200'
 ---
 
-{variant === 'link' ? (
-  <a
-    href={href}
-    class:list={[baseStyles, sizeStyles[size], className]}
-  >
-    <slot />
-  </a>
-) : (
-  <button
-    onclick={onClick}
-    class:list={[baseStyles, sizeStyles[size], className]}
-  >
-    <slot />
-  </button>
-)} 
+{
+  variant === 'link' ? (
+    <a href={href} class:list={[baseStyles, sizeStyles[size], className]}>
+      <slot />
+    </a>
+  ) : (
+    <button onclick={onClick} class:list={[baseStyles, sizeStyles[size], className]}>
+      <slot />
+    </button>
+  )
+}

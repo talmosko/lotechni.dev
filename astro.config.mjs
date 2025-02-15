@@ -11,4 +11,8 @@ export default defineConfig({
   }),
   prefetch: { prefetchAll: true },
   output: 'server',
+  image: {
+    domains: ['i.scdn.co'],
+    remotePatterns: [{ protocol: 'https' }],
+  },
 })

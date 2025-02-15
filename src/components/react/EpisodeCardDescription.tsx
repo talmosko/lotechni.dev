@@ -19,7 +19,7 @@ export default function EpisodeCardDescription({
       <div
         className={cn('relative flex items-start gap-4', expandable && 'cursor-pointer')}
         onClick={() => expandable && setOpen(!open)}>
-        <div className="prose flex-1">
+        <div className="prose prose-base md:prose-lg flex-1">
           {open && html_description ? (
             <div dangerouslySetInnerHTML={{ __html: html_description }} />
           ) : (

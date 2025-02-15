@@ -34,7 +34,7 @@ const getTiltClass = (index: number) => {
             showGradient
             gradientOnlyOnHover
             parentContainerClassName={getTiltClass(index)}>
-            <Image src={image} alt={title} class="w-full" />
+            <Image src={image} alt={title} class="w-full" format="webp" loading="lazy" />
           </ImageContainer>
         </div>
       ))
