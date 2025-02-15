@@ -2,15 +2,16 @@
 import { cn } from '@utils/cn'
 import type { IconNames, IconSize } from '@data/types/icons'
 import { ICONS, ICON_SIZES } from '@data/types/icons'
+import type { HTMLAttributes } from 'astro/types'
 
-interface Props {
+interface Props extends HTMLAttributes<'span'> {
   icon: IconNames
   size?: IconSize
   className?: string
   label?: string
 }
 
-const { icon, size = 'md', className, label } = Astro.props
+const { icon, size = 'md', className, label, ...rest } = Astro.props
 
 const iconConfig = ICONS[icon]
 const ariaLabel = label || iconConfig.label
@@ -19,5 +20,6 @@ const ariaLabel = label || iconConfig.label
 <span
   class={cn(iconConfig.icon, ICON_SIZES[size], 'transition duration-300', className)}
   aria-label={ariaLabel}
-  role="img">
+  role="img"
+  {...rest}>
 </span>

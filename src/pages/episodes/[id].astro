@@ -4,7 +4,7 @@ import SectionContainer from '@components/astro/containers/SectionContainer.astr
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 
 const { id } = Astro.params
-import { $showData } from '@store/episodes'
+import { $showData } from '@stores/episodes'
 const show = $showData.get().data
 
 if (!show || !id) {

@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { compact = false } = Astro.props
-import { $showData } from '@store/episodes'
+import { $showData } from '@stores/episodes'
 const show = $showData.get().data
 
 if (!show) {
@@ -24,4 +24,5 @@ const shownEpisodes = compact ? parsedEpisodes.slice(0, 4) : parsedEpisodes
   <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
     {shownEpisodes.map((episode) => <EpisodeCard {...episode} />)}
   </ul>
-</div> 
+</div>
+

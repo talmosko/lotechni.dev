@@ -57,6 +57,16 @@ export const ICONS = {
     label: 'Share',
     hoverColor: 'group-hover:text-social-linkedin',
   },
+  mobileMenuOpen: {
+    icon: 'icon-[tabler--menu-2]',
+    label: 'Mobile Menu Open',
+    hoverColor: 'group-hover:text-accent',
+  },
+  mobileMenuClose: {
+    icon: 'icon-[tabler--x]',
+    label: 'Mobile Menu Close',
+    hoverColor: 'group-hover:text-accent',
+  },
 }
 
 export type IconNames = keyof typeof ICONS
