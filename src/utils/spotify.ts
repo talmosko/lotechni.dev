@@ -1,6 +1,10 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
-import { SpotifyEpisodesResponseSchema, EpisodesResponseSchema } from '@data/types/spotifyEpisodes'
+import {
+  SpotifyEpisodesResponseSchema,
+  ShowSchema,
+  type Episode,
+} from '@data/types/spotifyEpisodes'
 
 export async function getAccessToken(clientId: string, clientSecret: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -77,9 +81,17 @@ export async function fetchShowData() {
 
   const data = await res.json()
 
-  const parsedData = EpisodesResponseSchema.parse(data)
+  const episodesWithNumbers = data.episodes.items.map((episode: Episode, index: number) => ({
+    ...episode,
+    episode_number: data.episodes.items.length - index,
+  }))
 
-  return parsedData
+  const parsedDataWithNumbers = ShowSchema.parse({
+    ...data,
+    episodes: { ...data.episodes, items: episodesWithNumbers },
+  })
+
+  return parsedDataWithNumbers
 }
 
 const getRssFeed = async () => {

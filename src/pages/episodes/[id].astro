@@ -7,11 +7,10 @@ const { id } = Astro.params
 import { $showData } from '@store/episodes'
 const show = $showData.get().data
 
-if (!show) {
+if (!show || !id) {
   throw new Error('No show data found')
 }
-const lastIndex = show.episodes.items.length - 1
-const episode = show.episodes.items[lastIndex - parseInt(id ?? '0')]
+const episode = show.episodes.items.find((episode) => episode.episode_number === parseInt(id))
 
 if (!episode) {
   return Astro.redirect('/404')
