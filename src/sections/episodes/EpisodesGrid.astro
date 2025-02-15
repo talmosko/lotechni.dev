@@ -10,6 +10,7 @@ const { compact = false } = Astro.props
 import { $showData } from '@stores/episodes'
 import Button from '@components/astro/Button.astro'
 import Icon from '@components/astro/Icon.astro'
+import CardContainer from '@components/astro/containers/CardContainer.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -23,6 +24,12 @@ const shownEpisodes = compact ? parsedEpisodes.slice(0, 4) : parsedEpisodes
 
 <SectionContainer>
   <Heading level={2} className="mb-8 text-center">{sectionTitle}</Heading>
+  <CardContainer className="mx-auto my-8" showGradient>
+    <Heading level={5} className="flex items-center justify-center gap-2 text-center">
+      <Icon icon="headphones" />
+      להאזנה בכל האפליקציות</Heading
+    >
+  </CardContainer>
   <ul role="list" class="mx-auto grid grid-cols-1 gap-8 p-0 md:grid-cols-2">
     {shownEpisodes.map((episode) => <EpisodeCard {...episode} />)}
   </ul>
