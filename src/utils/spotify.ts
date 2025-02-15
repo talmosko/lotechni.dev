@@ -42,10 +42,10 @@ export async function fetchShowData() {
   }
 
   const data = await res.json()
-
-  const episodesWithNumbers = data.episodes.items.map((episode: Episode, index: number) => ({
+  const liveEpisodes = data.episodes.items.filter((episode: Episode) => episode)
+  const episodesWithNumbers = liveEpisodes.map((episode: Episode, index: number) => ({
     ...episode,
-    episode_number: data.episodes.items.length - index - 1,
+    episode_number: liveEpisodes.length - index - 1,
   }))
 
   const parsedDataWithNumbers = ShowSchema.parse({
