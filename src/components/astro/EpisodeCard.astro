@@ -8,11 +8,12 @@ interface Props extends Episode {
   expandable?: boolean
 }
 
-const { name, description, html_description, images, id, expandable = true } = Astro.props
+const { name, description, html_description, images, id, episode_number, expandable = true } = Astro.props
 ---
 
 <div
   class="flex flex-col rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
+  {episode_number}
   <div class="pb-5">
     {id ? (
     <iframe
