@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
-
+import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
 const { id } = Astro.params
 import { $showData } from '@stores/episodes'
 const show = $showData.get().data
@@ -21,6 +21,7 @@ const title = episode.name
 
 <Layout title={title}>
   <SectionContainer>
+    <ListeningLinks />
     <EpisodeCard {...episode} expandable={false} />
   </SectionContainer>
 </Layout>

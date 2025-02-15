@@ -12,9 +12,14 @@ export const ICONS = {
     label: 'Spotify',
     hoverColor: 'group-hover:text-social-spotify',
   },
+  rss: {
+    icon: 'icon-[tabler--rss]',
+    label: 'RSS',
+    hoverColor: 'group-hover:text-orange-500',
+  },
   applePodcasts: {
     icon: 'icon-[tabler--brand-apple-podcast]',
-    label: 'Apple Podcasts',
+    label: 'Apple',
     hoverColor: 'group-hover:text-social-apple',
   },
   youtube: {

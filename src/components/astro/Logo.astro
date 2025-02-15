@@ -10,7 +10,7 @@ interface Props {
 const { showName } = Astro.props
 ---
 
-<div class="text-center">
+<div class="logo-container cursor-pointer text-center">
   <Image
     src={LogoSvg}
     alt={`${showName} logo`}
@@ -23,3 +23,12 @@ const { showName } = Astro.props
     {showName}
   </Heading>
 </div>
+
+<script>
+  const logoContainer = document.querySelector('.logo-container')
+  if (logoContainer) {
+    logoContainer.addEventListener('click', () => {
+      window.location.href = '/'
+    })
+  }
+</script>

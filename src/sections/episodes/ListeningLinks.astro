@@ -1,0 +1,61 @@
+---
+import CardContainer from '@components/astro/containers/CardContainer.astro'
+import Icon from '@components/astro/Icon.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import { ICONS, type IconNames } from '@data/types/icons'
+
+type ListeningLink = {
+  label: string
+  href: string
+  icon: IconNames
+  color: string
+}
+
+const links = [
+  {
+    label: ICONS.spotify.label,
+    href: 'https://open.spotify.com/show/331GnnQsHxjU7SjS1bFJnS',
+    icon: 'spotify',
+    color: 'text-social-spotify',
+  },
+  {
+    label: ICONS.applePodcasts.label,
+    href: 'https://podcasts.apple.com/us/podcast/%D7%9C%D7%90-%D7%98%D7%9B%D7%A0%D7%99-%D7%95%D7%9C%D7%90-%D7%91%D7%9E%D7%A7%D7%A8%D7%94/id1724399310',
+    icon: 'applePodcasts',
+    color: 'text-social-apple',
+  },
+  {
+    label: ICONS.youtube.label,
+    href: 'https://www.youtube.com/@lotechni',
+    icon: 'youtube',
+    color: 'text-social-youtube',
+  },
+  {
+    label: ICONS.rss.label,
+    href: 'https://anchor.fm/s/f01f6814/podcast/rss',
+    icon: 'rss',
+    color: 'text-orange-500',
+  },
+] satisfies ListeningLink[]
+---
+
+<CardContainer className="mx-auto my-8" showGradient>
+  <Heading level={5} className="flex items-center justify-center gap-2 text-center">
+    <Icon icon="headphones" />
+    להאזנה בכל האפליקציות
+  </Heading>
+
+  <div class="mt-5 flex flex-col items-center justify-center gap-4 md:flex-row md:gap-32">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          class="group flex flex-col items-center justify-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-90">
+          <Icon icon={link.icon} className={link.color} />
+          <span class="text-sm font-bold">{link.label}</span>
+        </a>
+      ))
+    }
+  </div>
+</CardContainer>
