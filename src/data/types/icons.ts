@@ -13,7 +13,7 @@ export const ICONS = {
     hoverColor: 'group-hover:text-social-spotify',
   },
   rss: {
-    icon: 'icon-[tabler-rss]',
+    icon: 'icon-[tabler--rss]',
     label: 'RSS',
     hoverColor: 'group-hover:text-orange-500',
   },
