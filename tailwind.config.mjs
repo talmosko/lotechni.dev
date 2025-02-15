@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { fontFamily } from 'tailwindcss/defaultTheme'
 import { addDynamicIconSelectors } from '@iconify/tailwind'
+import typography from '@tailwindcss/typography'
 
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -52,11 +53,41 @@ export default {
       backgroundSize: {
         'gradient-lg': '400%',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            '--tw-prose-body': 'white',
+            '--tw-prose-headings': 'white',
+            '--tw-prose-lead': 'rgb(209 213 219)',
+            '--tw-prose-links': 'oklch(77.94% 0.127 196.83)', // accent color
+            '--tw-prose-bold': 'white',
+            '--tw-prose-counters': 'rgb(156 163 175)',
+            '--tw-prose-bullets': 'rgb(107 114 128)',
+            '--tw-prose-hr': 'rgb(75 85 99)',
+            '--tw-prose-quotes': 'rgb(243 244 246)',
+            '--tw-prose-quote-borders': 'oklch(77.94% 0.127 196.83)', // accent color
+            '--tw-prose-captions': 'rgb(156 163 175)',
+            '--tw-prose-code': 'white',
+            '--tw-prose-pre-code': 'rgb(209 213 219)',
+            '--tw-prose-pre-bg': 'rgb(0 0 0 / 50%)',
+            '--tw-prose-th-borders': 'rgb(75 85 99)',
+            '--tw-prose-td-borders': 'rgb(55 65 81)',
+            'a:hover': {
+              color: 'oklch(85.93% 0.063 195.95)', // accent-light color
+            },
+            'p, ul, ol': {
+              marginTop: '0.75em',
+              marginBottom: '0.75em',
+            },
+          },
+        },
+      },
     },
   },
   plugins: [
     addDynamicIconSelectors({
       collections: ['tabler'],
     }),
+    typography(),
   ],
 }

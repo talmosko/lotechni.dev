@@ -1,4 +1,4 @@
-import { map, onMount, task, onStart } from 'nanostores'
+import { map, onMount, task } from 'nanostores'
 import { fetchShowData } from '@utils/spotify'
 import type { Show } from '@data/types/spotifyEpisodes'
 
@@ -29,7 +29,7 @@ export async function fetchAndUpdateShowData() {
 }
 
 onMount($showData, () => {
-  let interval: NodeJS.Timeout | null = null
+  let interval: ReturnType<typeof setInterval> | null = null
   task(async () => {
     await fetchAndUpdateShowData()
     interval = setInterval(fetchAndUpdateShowData, POLLING_INTERVAL)
