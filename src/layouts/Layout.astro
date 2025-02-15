@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { title } = Astro.props
-import { $showData } from '@store/episodes'
+import { $showData } from '@stores/episodes'
 import Logo from '@components/astro/Logo.astro'
 const show = $showData.get().data
 await allTasks()
@@ -28,7 +28,7 @@ if (!show) {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
+  <body dir="rtl" class="bg-surface-dark min-h-dvh text-white antialiased">
     <Navbar />
     <Logo showName={show.name} />
     <main>
@@ -36,7 +36,7 @@ if (!show) {
     </main>
     <Footer />
     <ToastContainer
-      client:load
+      client:idle
       position="bottom-center"
       autoClose={1000}
       hideProgressBar

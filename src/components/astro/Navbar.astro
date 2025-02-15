@@ -1,6 +1,7 @@
 ---
 import OutlinedText from './OutlinedText.astro'
 import { cn } from '@utils/cn'
+import Icon from './Icon.astro'
 
 interface Props {
   className?: string
@@ -60,6 +61,16 @@ const navLinks = [
         }
       </div>
 
+      <!-- Mobile Menu - button -->
+      <button
+        id="mobile-menu-button"
+        class="flex items-center md:hidden"
+        aria-label="Toggle menu"
+        aria-expanded="false">
+        <Icon icon="mobileMenuOpen" size="lg" data-menu-icon="open" />
+        <Icon icon="mobileMenuClose" size="lg" data-menu-icon="close" className="hidden" />
+      </button>
+
       <!-- Logo  -->
       <a href="/" class="flex items-center">
         <div>
@@ -76,22 +87,6 @@ const navLinks = [
           </div>
         </div>
       </a>
-
-      <!-- Mobile Menu - button -->
-      <button
-        id="mobile-menu-button"
-        class="flex items-center md:hidden"
-        aria-label="Toggle menu"
-        aria-expanded="false">
-        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16">
-          </path>
-        </svg>
-      </button>
     </div>
 
     <!-- Mobile Menu - overlay -->
@@ -124,15 +119,21 @@ const navLinks = [
 <script>
   const mobileMenuButton = document.getElementById('mobile-menu-button')
   const mobileMenu = document.getElementById('mobile-menu')
+  const menuOpenIcon = document.querySelector('[data-menu-icon="open"]')
+  const menuCloseIcon = document.querySelector('[data-menu-icon="close"]')
   let isMenuOpen = false
 
-  if (mobileMenuButton && mobileMenu) {
+  if (mobileMenuButton && mobileMenu && menuOpenIcon && menuCloseIcon) {
     mobileMenuButton.addEventListener('click', () => {
       isMenuOpen = !isMenuOpen
       mobileMenu.classList.toggle('translate-x-full')
       mobileMenu.setAttribute('aria-hidden', (!isMenuOpen).toString())
       mobileMenuButton.setAttribute('aria-expanded', isMenuOpen.toString())
       document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+
+      // Toggle icons
+      menuOpenIcon.classList.toggle('hidden')
+      menuCloseIcon.classList.toggle('hidden')
     })
 
     // close menu when click outside
@@ -148,6 +149,10 @@ const navLinks = [
         mobileMenu.setAttribute('aria-hidden', 'true')
         mobileMenuButton.setAttribute('aria-expanded', 'false')
         document.body.style.overflow = ''
+
+        // Reset icons
+        menuOpenIcon.classList.remove('hidden')
+        menuCloseIcon.classList.add('hidden')
       }
     })
   }

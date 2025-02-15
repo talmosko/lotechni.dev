@@ -11,7 +11,7 @@
       "@sections/*": ["src/sections/*"],
       "@utils/*": ["src/utils/*"],
       "@data/*": ["src/data/*"],
-      "@store/*": ["src/store/*"]
+      "@stores/*": ["src/stores/*"]
     },
     "types": ["astro/client"]
   },

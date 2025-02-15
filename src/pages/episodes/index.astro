@@ -2,7 +2,7 @@
 import Layout from '@layouts/Layout.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
-import { $showData } from '@store/episodes'
+import { $showData } from '@stores/episodes'
 const show = $showData.get().data
 
 if (!show) {
