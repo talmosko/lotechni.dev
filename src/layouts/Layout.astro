@@ -3,7 +3,7 @@ import Navbar from '@components/astro/Navbar.astro'
 import '@fontsource-variable/rubik'
 import Footer from '@components/astro/Footer.astro'
 import { allTasks } from 'nanostores'
-import { Flip, ToastContainer, Zoom } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 interface Props {
   title: string
 }
@@ -38,7 +38,7 @@ if (!show) {
     <ToastContainer
       client:load
       position="bottom-center"
-      autoClose={500}
+      autoClose={1000}
       hideProgressBar
       newestOnTop={false}
       closeOnClick
