@@ -12,7 +12,7 @@ import MeetOnMeetupImg from '@assets/images/meet-on-meetup.jpg'
 import ToolsForDevelopersImg from '@assets/images/tools-for-developers.jpg'
 
 const groups = [
-{
+  {
     title: 'הקבוצה הראשית- דיונים על כל מה שמעבר לטכני',
     link: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ots',
     image: CommunityImg.src,
@@ -50,40 +50,39 @@ const groups = [
     description: `פה נדבר על כלים שעוזרים למפתחים בפיתוח אבל כמובן שלא רק!
 גם כלים שעוזרים לנו להיות פרודוקטיביים ופרואקטיביים.`,
   },
-
 ]
 ---
 
 <CardContainer className="mx-auto my-8 bg-black" showGradient>
-  <Heading level={2} className="text-center mb-8">קישורים לקבוצות הקהילה</Heading>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {groups.map((group, index) => (
-      <CardContainer className="group/card" containerClassName={cn([index === 0 && 'md:col-span-2'])} >
-        <div class="flex flex-col h-full">
-          <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName='self-center'>
-            <Image
-              src={group.image}
-              alt={group.title}
-              width={200}
-              height={200}
-              class="object-cover"
-            />
-          </ImageContainer>
-          <div class="flex flex-col flex-1 gap-4 p-4">
-            <Heading level={3} className="text-accent self-center">{group.title}</Heading>
-            <p class="flex-1">{group.description}</p>
-            <Button
-              variant="link"
-              href={group.link}
-              target="_blank"
-              rel="noopener"
-            >
-              הצטרף לקבוצה
-            </Button>
+  <Heading level={2} className="mb-8 text-center">קישורים לקבוצות הקהילה</Heading>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    {
+      groups.map((group, index) => (
+        <CardContainer
+          className="group/card"
+          containerClassName={cn([index === 0 && 'md:col-span-2'])}>
+          <div class="flex h-full flex-col">
+            <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName="self-center">
+              <Image
+                src={group.image}
+                alt={group.title}
+                width={200}
+                height={200}
+                class="object-cover"
+              />
+            </ImageContainer>
+            <div class="flex flex-1 flex-col gap-4 p-4">
+              <Heading level={3} className="text-accent self-center">
+                {group.title}
+              </Heading>
+              <p class="flex-1 text-lg">{group.description}</p>
+              <Button variant="link" href={group.link} target="_blank" rel="noopener">
+                הצטרף לקבוצה
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardContainer>
-     
-    ))}
+        </CardContainer>
+      ))
+    }
   </div>
 </CardContainer>
