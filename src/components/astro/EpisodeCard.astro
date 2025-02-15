@@ -3,23 +3,29 @@ import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Episode } from '@data/types/spotifyEpisodes'
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
+import { cleanHtmlContent } from '@utils/cleanHtml'
+
 interface Props extends Episode {
   expandable?: boolean
 }
 
 const { name, description, html_description, images, id, episode_number, release_date, expandable = true } = Astro.props
+
+const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
 <div
-  class="flex flex-col rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
-  <div class="pb-5">
+  class="flex flex-col overflow-hidden scrollbar-hide rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10"
+  >
+  <div class="pb-5 overflow-hidden scrollbar-hide space-y-4">
     {id ? (
     <iframe
-      style="border-radius:12px"
+      class="scrollbar-hide rounded-lg"
+      style="scrollbar-width: none; -ms-overflow-style: none; ::-webkit-scrollbar { display: none; }"
       src=`https://open.spotify.com/embed/episode/${id}/video?utm_source=generator`
       width="100%"
       height="300"
-      allowfullscreen=""
+      allowfullscreen
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
     </iframe>
@@ -27,23 +33,24 @@ const { name, description, html_description, images, id, episode_number, release
       <img src={images[0].url} alt={name} width="300" height="300" />
     )}
   </div>
-  <Heading level={5}>
-    {name}
-  </Heading>
-  <div class="flex items-center gap-2">
-    <EpisodeShareButton show_number={episode_number} />
-    <p class="text-sm text-gray-400 my-4">
+  <div class="min-h-12 flex items-start">
+    <Heading level={5}>
+      {name}
+    </Heading>
+  </div>
+  <div class="flex items-center justify-between border-b border-white/10 pb-4">
+    <p class="text-sm text-gray-400">
       {new Date(release_date).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}
     </p>
+    <EpisodeShareButton show_number={episode_number} />
   </div>
 
   <EpisodeCardDescription
     description={description}
-    html_description={html_description}
+    html_description={cleanedHtmlDescription}
     expandable={expandable}
     client:load
   />
-
 </div>
 
 
