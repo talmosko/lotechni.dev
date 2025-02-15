@@ -55,7 +55,7 @@ export const ICONS = {
   share: {
     icon: 'icon-[tabler--share]',
     label: 'Share',
-    hoverColor: 'group-hover:text-accent',
+    hoverColor: 'group-hover:text-social-linkedin',
   },
 }
 
