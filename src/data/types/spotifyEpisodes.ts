@@ -47,6 +47,10 @@ const episodeSchema = z.object({
   restrictions: restrictionSchema.optional(),
 })
 
+const EpisodeSchemaWithNumber = episodeSchema.extend({
+  episode_number: z.number(),
+})
+
 const SpotifyEpisodesResponseSchema = z.object({
   href: z.string(),
   limit: z.number(),
@@ -54,10 +58,10 @@ const SpotifyEpisodesResponseSchema = z.object({
   offset: z.number(),
   previous: z.string().nullable(),
   total: z.number(),
-  items: z.array(episodeSchema),
+  items: z.array(EpisodeSchemaWithNumber),
 })
 
-const EpisodesResponseSchema = z.object({
+const ShowSchema = z.object({
   available_markets: z.array(z.string()),
   copyrights: z.array(copyrightSchema),
   description: z.string(),
@@ -78,8 +82,8 @@ const EpisodesResponseSchema = z.object({
   episodes: SpotifyEpisodesResponseSchema,
 })
 
-type Show = z.infer<typeof EpisodesResponseSchema>
-type Episode = z.infer<typeof episodeSchema>
+type Show = z.infer<typeof ShowSchema>
+type Episode = z.infer<typeof EpisodeSchemaWithNumber>
 
 // Export the new Spotify episodes response schema, the original EpisodesResponseSchema, and the Episode type.
-export { SpotifyEpisodesResponseSchema, EpisodesResponseSchema, type Episode, type Show }
+export { SpotifyEpisodesResponseSchema, ShowSchema, type Episode, type Show }

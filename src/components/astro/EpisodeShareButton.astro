@@ -1,0 +1,27 @@
+---
+import { ICONS } from '@data/types/icons'
+import Icon from '@components/astro/Icon.astro'
+
+const { show_number } = Astro.props
+const url = Astro.url.origin
+---
+
+<button
+  data-episode-url={`${url}/episodes/${show_number}`}
+  class="share-button group flex flex-col items-center justify-center gap-2 rounded-full border border-accent p-1 text-accent transition-transform duration-200 hover:scale-110 hover:text-accent-light active:scale-95">
+  <Icon icon="share" className={ICONS['share'].hoverColor} size="sm" />
+</button>
+
+<script>
+  import { toast } from 'react-toastify'
+
+  const shareButtons = document.querySelectorAll('.share-button')
+  shareButtons.forEach((button) => {
+    if (button instanceof HTMLElement) {
+      button.addEventListener('click', () => {
+        navigator.clipboard.writeText(`${button.dataset.episodeUrl}`)
+        toast.info('שארינג איז קארינג ❤️ הקישור לפרק הועתק')
+      })
+    }
+  })
+</script>
