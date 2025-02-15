@@ -37,6 +37,6 @@ const speakers: Host[] = [
 ]
 ---
 
-<SectionContainer innerClasses="flex flex-col gap-4">
+<SectionContainer innerClasses="flex flex-col md:grid md:grid-cols-2 gap-4">
   {speakers.map((speaker, index) => <HostCard {...speaker} reversed={index % 2 === 0} />)}
 </SectionContainer>
