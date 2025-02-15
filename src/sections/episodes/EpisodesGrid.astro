@@ -1,13 +1,15 @@
 ---
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
-
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 interface Props {
   compact?: boolean
 }
 
 const { compact = false } = Astro.props
 import { $showData } from '@stores/episodes'
+import Button from '@components/astro/Button.astro'
+import Icon from '@components/astro/Icon.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -19,10 +21,20 @@ const sectionTitle = compact ? 'הפרקים האחרונים' : 'פרקים'
 const shownEpisodes = compact ? parsedEpisodes.slice(0, 4) : parsedEpisodes
 ---
 
-<div class="container space-y-12 py-8 text-xl leading-relaxed">
-  <Heading level={2} className="text-center">{sectionTitle}</Heading>
-  <ul role="list" class="mx-auto grid max-w-7xl grid-cols-1 gap-8 p-0 md:grid-cols-2">
+<SectionContainer>
+  <Heading level={2} className="mb-8 text-center">{sectionTitle}</Heading>
+  <ul role="list" class="mx-auto grid grid-cols-1 gap-8 p-0 md:grid-cols-2">
     {shownEpisodes.map((episode) => <EpisodeCard {...episode} />)}
   </ul>
-</div>
 
+  {
+    compact && (
+      <div class="mt-8 flex justify-center">
+        <Button size="xl" variant="link" class="flex items-center gap-2" href="/episodes">
+          <Icon icon="headphones" />
+          לכל הפרקים
+        </Button>
+      </div>
+    )
+  }
+</SectionContainer>

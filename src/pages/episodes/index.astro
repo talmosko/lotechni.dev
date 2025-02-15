@@ -3,6 +3,7 @@ import Layout from '@layouts/Layout.astro'
 import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import { $showData } from '@stores/episodes'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -11,10 +12,10 @@ if (!show) {
 ---
 
 <Layout title={show.name}>
-  <div class="container flex flex-col gap-12 py-8">
+  <SectionContainer>
     <DescriptionCard>
       {show.description}
     </DescriptionCard>
-  </div>
+  </SectionContainer>
   <EpisodesGrid />
 </Layout>
