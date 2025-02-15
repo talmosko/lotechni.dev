@@ -8,7 +8,7 @@ const url = Astro.url.origin
 
 <button
   data-episode-url={`${url}/episodes/${show_number}`}
-  class="share-button group flex flex-col items-center justify-center gap-2 rounded-full border border-accent p-1 text-accent transition-transform duration-200 hover:scale-110 hover:text-accent-light active:scale-95">
+  class="share-button group flex items-center justify-center rounded-full border border-accent p-2 text-accent transition-transform duration-200 hover:scale-110 hover:text-accent-light active:scale-95">
   <Icon icon="share" className={ICONS['share'].hoverColor} size="sm" />
 </button>
 
