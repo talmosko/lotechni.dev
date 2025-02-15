@@ -3,8 +3,10 @@ import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
-const { id } = Astro.params
 import { $showData } from '@stores/episodes'
+import { getEpisodeSEO } from '@data/seo/defaultSeo'
+
+const { id } = Astro.params
 const show = $showData.get().data
 
 if (!show || !id) {
@@ -17,9 +19,10 @@ if (!episode) {
 }
 
 const title = episode.name
+const episodeSEO = getEpisodeSEO(episode)
 ---
 
-<Layout title={title}>
+<Layout title={title} seo={episodeSEO}>
   <SectionContainer>
     <ListeningLinks />
     <EpisodeCard {...episode} expandable={false} />

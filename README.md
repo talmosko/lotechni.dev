@@ -1,7 +1,7 @@
 # Lo Techni Community Site
 
 <div align="center">
-<img src="https://github.com/talmosko/lotechni.dev/blob/initial-site-update/src/assets/logos/logo.svg" alt="Lo Techni Logo" width="256" height="256" style="border-radius: 50%;">
+<img src="https://github.com/talmosko/lotechni.dev/blob/master/src/assets/logos/logo.svg" alt="Lo Techni Logo" width="256" height="256" style="border-radius: 50%;">
 </div>
 
 > A community site for the Lo Techni podcast - Where developers talk about everything except code 🎙️
@@ -76,10 +76,10 @@ pnpm format
 
 ```typescript
 // Instead of this 😢
-import EpisodeCard from "../../components/EpisodeCard.astro";
+import EpisodeCard from '../../components/EpisodeCard.astro'
 
 // Do this 🎉
-import EpisodeCard from "@components/EpisodeCard.astro";
+import EpisodeCard from '@components/EpisodeCard.astro'
 ```
 
 Available aliases:

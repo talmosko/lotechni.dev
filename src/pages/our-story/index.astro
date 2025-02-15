@@ -6,12 +6,34 @@ import Hosts from '@sections/home/Hosts.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import CommunityCard from '@components/astro/CommunityCard.astro'
 import Heading from '@components/astro/typography/Heading.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
 const title = 'הסיפור שלנו'
 const description = `טל ואדיר, מפתחי תוכנה בתחום הפרונט-אנד ומנהלי קהילת "לא טכני ולא במקרה", מסייעים למפתחים ולמפתחות לגלות דרכים נכונות ופרואקטיביות למיתוג עצמי. אנו שמים דגש על ההשפעה של היבטים מקצועיים שאינם טכניים על קריירת הפיתוח, תהליך חיפוש העבודה, ועוד.
 הקהילה והפודקאסט שלנו מיועדים למפתחים ומפתחות שרוצים לפתח את עצמם גם מעבר ליכולות הטכניות. אנו מעניקים כלים שלדעתנו זוכים לפחות מדי התייחסות כיום, אך בעלי חשיבות עצומה להצלחה אישית ומקצועית..`
+
+const pageSEO: Partial<SEOProps> = {
+  title: 'הסיפור שלנו',
+  description,
+  openGraph: {
+    basic: {
+      title: 'הסיפור שלנו - לא טכני ולא במקרה',
+      type: 'website',
+      image: '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description,
+    },
+    article: {
+      authors: ['Adir Kandel', 'Tal Moskovich'],
+      tags: ['podcast', 'community', 'developers', 'tech community', 'career development'],
+    },
+  },
+}
 ---
 
-<Layout title={title}>
+<Layout title={title} seo={pageSEO}>
   <SectionContainer>
     <DescriptionCard>
       {description}
