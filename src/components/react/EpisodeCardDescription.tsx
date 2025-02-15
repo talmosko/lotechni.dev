@@ -26,7 +26,7 @@ export default function EpisodeCardDescription({
           )}
         />
       )}
-      <div className="prose -mt-7 flex-1">
+      <div className="flex-1">
         {open && html_description ? (
           <div dangerouslySetInnerHTML={{ __html: html_description }} />
         ) : (
