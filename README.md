@@ -31,6 +31,10 @@ git clone https://github.com/yourusername/lotechni.dev.git
 pnpm install
 ```
 
+### Environment Variables
+
+Create a `.env` file from the `.env.example` file and update the values.
+
 ## 🛠️ Development
 
 ```bash
