@@ -5,6 +5,7 @@ import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
 import { $showData } from '@stores/episodes'
 import { getEpisodeSEO } from '@data/seo/defaultSeo'
+import Icon from '@components/astro/Icon.astro'
 
 const { id } = Astro.params
 const show = $showData.get().data
@@ -24,6 +25,12 @@ const episodeSEO = getEpisodeSEO(episode)
 
 <Layout title={title} seo={episodeSEO}>
   <SectionContainer>
+    <a
+      href="/episodes"
+      class="inline-flex w-fit items-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-95">
+      <Icon icon="chevronRight" />
+      לכל הפרקים
+    </a>
     <ListeningLinks />
     <EpisodeCard {...episode} expandable={false} />
   </SectionContainer>

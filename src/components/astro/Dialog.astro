@@ -1,0 +1,54 @@
+---
+import { cn } from '@utils/cn'
+import CardContainer from './containers/CardContainer.astro'
+import SectionContainer from './containers/SectionContainer.astro'
+
+interface Props {
+  triggerId: string
+  title?: string
+  className?: string
+  triggerClassName?: string
+}
+
+const { triggerId, title, className, triggerClassName } = Astro.props
+---
+
+<dialog
+  id={triggerId}
+  class={cn(
+    'backdrop:bg-surface-dark/80 backdrop:backdrop-blur-sm',
+    'rounded-lg border-none bg-transparent p-0',
+    'fixed inset-0 m-auto h-auto max-h-[90vh] w-fit',
+    'overflow-hidden',
+    'animate-fade-in',
+    'backdrop:animate-fade-in',
+    'overflow-visible',
+    className
+  )}>
+  <CardContainer showGradient className={cn('h-full w-[90vw] max-w-2xl', triggerClassName)}>
+    <div class="flex h-full flex-col">
+      <div class="mb-4 flex items-start justify-between">
+        {title && <h2 class="text-xl font-semibold text-white">{title}</h2>}
+        <button
+          onclick="this.closest('dialog').close()"
+          class="text-white/60 transition-colors duration-200 hover:text-white"
+          aria-label="Close dialog">
+          <span class="icon-[tabler--x] h-6 w-6"></span>
+        </button>
+      </div>
+      <div class="flex-1 overflow-y-auto pr-2">
+        <slot />
+      </div>
+    </div>
+  </CardContainer>
+</dialog>
+
+<style>
+  /* Hide scrollbar while allowing scrolling */
+  dialog {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+</style>
