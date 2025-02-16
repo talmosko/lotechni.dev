@@ -1,5 +1,5 @@
 import type { Props as SEOProps } from 'astro-seo'
-import ogImage from '@assets/seo/og-default.png'
+import ogImage from '@assets/logos/logo.svg'
 
 // Base SEO props that will be used across all pages
 export const defaultSEO: SEOProps = {
