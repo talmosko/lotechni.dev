@@ -1,10 +1,9 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import { $showData } from '@stores/episodes'
-import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import type { Props as SEOProps } from 'astro-seo'
+import Description from '@sections/common/description.astro'
 
 const show = $showData.get().data
 
@@ -30,10 +29,6 @@ const pageSEO: Partial<SEOProps> = {
 ---
 
 <Layout title={show.name} seo={pageSEO}>
-  <SectionContainer>
-    <DescriptionCard>
-      {show.description}
-    </DescriptionCard>
-  </SectionContainer>
+  <Description description={show.description} />
   <EpisodesGrid />
 </Layout>

@@ -1,12 +1,12 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import SuccessStories from '@sections/our-story/SuccessStories.astro'
 import Hosts from '@sections/home/Hosts.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import CommunityCard from '@components/astro/CommunityCard.astro'
 import Heading from '@components/astro/typography/Heading.astro'
 import type { Props as SEOProps } from 'astro-seo'
+import Description from '@sections/common/description.astro'
 
 const title = 'הסיפור שלנו'
 const description = `טל ואדיר, מפתחי תוכנה בתחום הפרונט-אנד ומנהלי קהילת "לא טכני ולא במקרה", מסייעים למפתחים ולמפתחות לגלות דרכים נכונות ופרואקטיביות למיתוג עצמי. אנו שמים דגש על ההשפעה של היבטים מקצועיים שאינם טכניים על קריירת הפיתוח, תהליך חיפוש העבודה, ועוד.
@@ -34,11 +34,7 @@ const pageSEO: Partial<SEOProps> = {
 ---
 
 <Layout title={title} seo={pageSEO}>
-  <SectionContainer>
-    <DescriptionCard>
-      {description}
-    </DescriptionCard>
-  </SectionContainer>
+  <Description description={description} />
   <Heading level={2} className="text-center">מנהלי הקהילה</Heading>
   <Hosts />
 
