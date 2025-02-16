@@ -8,14 +8,32 @@ import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import { $showData } from '@stores/episodes'
 import Heading from '@components/astro/typography/Heading.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
 const show = $showData.get().data
 
 if (!show) {
   throw new Error('No show data found')
 }
+
+const pageSEO: Partial<SEOProps> = {
+  title: 'דף הבית',
+  description: show.description.substring(0, 155) + '...',
+  openGraph: {
+    basic: {
+      title: 'לא טכני ולא במקרה - פודקאסט למפתחים ומפתחות',
+      type: 'website',
+      image: '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: show.description.substring(0, 155) + '...',
+    },
+  },
+}
 ---
 
-<Layout title={show.name}>
+<Layout title={show.name} seo={pageSEO}>
   <SectionContainer>
     <DescriptionCard>
       {show.description}

@@ -4,14 +4,32 @@ import DescriptionCard from '@components/astro/DescriptionCard.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import { $showData } from '@stores/episodes'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
 const show = $showData.get().data
 
 if (!show) {
   throw new Error('No show data found')
 }
+
+const pageSEO: Partial<SEOProps> = {
+  title: 'הפרקים שלנו',
+  description: `האזינו לכל הפרקים של הפודקאסט ${show.name}. תוכן איכותי ומקורי עבור קהילת המפתחים בישראל.`,
+  openGraph: {
+    basic: {
+      title: 'כל הפרקים - לא טכני ולא במקרה',
+      type: 'website',
+      image: '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: `פרקים מרתקים בנושאי קריירה, פיתוח אישי ומקצועי בעולם ההייטק. מתעדכן באופן שוטף עם תוכן חדש.`,
+    },
+  },
+}
 ---
 
-<Layout title={show.name}>
+<Layout title={show.name} seo={pageSEO}>
   <SectionContainer>
     <DescriptionCard>
       {show.description}

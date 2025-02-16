@@ -4,11 +4,23 @@ import '@fontsource-variable/rubik'
 import Footer from '@components/astro/Footer.astro'
 import { allTasks } from 'nanostores'
 import { ToastContainer } from 'react-toastify'
+import { SEO } from 'astro-seo'
+import { defaultSEO } from '@data/seo/defaultSeo'
+import type { Props as SEOProps } from 'astro-seo'
+
 interface Props {
   title: string
+  seo?: Partial<SEOProps>
+  showLogo?: boolean
 }
 
-const { title } = Astro.props
+const { title, seo = {}, showLogo = true } = Astro.props
+const fullSEO = {
+  ...defaultSEO,
+  ...seo,
+  title: title,
+}
+
 import { $showData } from '@stores/episodes'
 import Logo from '@components/astro/Logo.astro'
 const show = $showData.get().data
@@ -24,14 +36,16 @@ if (!show) {
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-logo.svg" />
     <meta name="generator" content={Astro.generator} />
+    <SEO {...fullSEO} />
+    <link rel="sitemap" href="/sitemap.xml" />
     <title>{title}</title>
   </head>
-  <body dir="rtl" class="min-h-dvh bg-surface-dark text-white antialiased">
+  <body dir="rtl" class="flex min-h-dvh flex-col bg-surface-dark text-white antialiased">
     <Navbar />
-    <Logo showName={show.name} />
-    <main>
+    {showLogo && <Logo showName={show.name} />}
+    <main class="flex-1">
       <slot />
     </main>
     <Footer />

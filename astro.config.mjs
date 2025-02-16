@@ -5,6 +5,8 @@ import vercel from '@astrojs/vercel'
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://lotechni-dev.vercel.app', // Development
+  // site: 'https://lotechni.dev', // Production - TODO - Uncomment and delete the line above when we will go live
   integrations: [react(), tailwind()],
   adapter: vercel({
     imageService: true,
