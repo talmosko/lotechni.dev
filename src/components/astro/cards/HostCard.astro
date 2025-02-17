@@ -20,9 +20,12 @@ const { name, image, description, socials, reversed = false } = Astro.props
 ---
 
 <CardContainer className="group/card relative flex flex-col justify-between gap-2">
-  <div class={cn('flex flex-col gap-4 md:flex-row', reversed && 'md:flex-row-reverse')}>
-    <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName="self-start">
-      <Image class="block aspect-square h-full" src={image} alt={name} />
+  <div class={cn('flex flex-col gap-4 xl:flex-row', reversed && 'xl:flex-row-reverse')}>
+    <ImageContainer
+      showGradient
+      gradientOnlyOnHover
+      parentContainerClassName="self-start h-full w-full">
+      <Image class="block aspect-square h-full w-full" src={image} alt={name} />
     </ImageContainer>
     <div class="flex flex-col gap-4">
       <Heading level={3} className="text-accent">{name}</Heading>
