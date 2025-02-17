@@ -12,20 +12,22 @@ import { cn } from '@utils/cn'
 interface Props extends Episode {
   expandable?: boolean
   show_iframe?: boolean
+  clickable?: boolean
 }
 
 const {
   name,
   description,
   html_description,
-  images,
-  id,
+  // images,
+  // id, - unused but should keep in mind existing here
   episode_number,
   release_date,
   iframe_url,
   thumbnail_url,
   expandable = true,
   show_iframe = true,
+  clickable = true,
 } = Astro.props
 const episodeUrl = `${Astro.url.origin}/episodes/${episode_number}`
 const cleanedHtmlDescription = cleanHtmlContent(html_description)
@@ -45,15 +47,31 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
         />
       ) : (
         <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
-          <img src={thumbnail_url} alt={name} loading="lazy" class="h-full w-full object-cover" />
+          <Image
+            src={thumbnail_url}
+            alt={name}
+            width={640}
+            height={360}
+            loading="lazy"
+            class="h-full w-full object-cover"
+            format="webp"
+          />
           <PlayButtonOverlay playButtonLink={episodeUrl} />
         </ImageContainer>
       )
     }
   </div>
-  <div class="flex min-h-12 items-start pt-4">
+  <div class="flex min-h-20 items-start pt-4">
     <Heading level={5}>
-      {name}
+      {
+        clickable ? (
+          <a href={episodeUrl} class="transition-colors duration-300 hover:text-accent">
+            {name}
+          </a>
+        ) : (
+          name
+        )
+      }
     </Heading>
   </div>
   <div class="flex items-center justify-between border-b border-white/10 pb-4">

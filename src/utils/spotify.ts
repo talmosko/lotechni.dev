@@ -51,7 +51,6 @@ export async function fetchShowData() {
     }
 
     const episodeData = await res.json()
-    console.log(episodeData)
     return {
       ...episode,
       episode_number: liveEpisodes.length - index - 1,
