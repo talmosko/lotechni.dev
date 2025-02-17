@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
-import { ShowSchema, type Episode, type Show } from '@data/types/spotifyEpisodes'
+import { ShowSchema, type Episode } from '@data/types/spotifyEpisodes'
 
 export async function getAccessToken(clientId: string, clientSecret: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -20,7 +20,7 @@ export async function getAccessToken(clientId: string, clientSecret: string) {
   return data.access_token
 }
 
-export async function fetchShowData(oldData?: Show | null) {
+export async function fetchShowData() {
   const showId = import.meta.env.PUBLIC_SPOTIFY_SHOW_ID
   const clientId = import.meta.env.SPOTIFY_CLIENT_ID
   const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET
@@ -43,11 +43,6 @@ export async function fetchShowData(oldData?: Show | null) {
 
   const data = await res.json()
   const liveEpisodes = data.episodes.items.filter((episode: Episode) => episode)
-
-  if (oldData && oldData.episodes.items.length === liveEpisodes.length) {
-    return oldData
-  }
-
   const episodesWithNumbers = liveEpisodes.map(async (episode: Episode, index: number) => {
     const res = await fetch(`https://embed.spotify.com/oembed?url=${episode.uri}&format=json`, {})
 
