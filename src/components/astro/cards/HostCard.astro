@@ -19,10 +19,10 @@ interface Props {
 const { name, image, description, socials, reversed = false } = Astro.props
 ---
 
-<CardContainer className="group/card relative">
+<CardContainer className="group/card relative flex flex-col gap-2">
   <div class={cn('flex flex-col gap-4 md:flex-row', reversed && 'md:flex-row-reverse')}>
-    <ImageContainer showGradient gradientOnlyOnHover>
-      <Image class="block aspect-square h-full min-w-40 md:max-w-48" src={image} alt={name} />
+    <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName="self-start">
+      <Image class="block aspect-square h-full" src={image} alt={name} />
     </ImageContainer>
     <div class="flex flex-col gap-4">
       <Heading level={3} className="text-accent">{name}</Heading>
@@ -31,7 +31,7 @@ const { name, image, description, socials, reversed = false } = Astro.props
       </p>
     </div>
   </div>
-  <div class="bottom-0 left-0 right-0 flex justify-center gap-4 pt-4 lg:absolute">
+  <div class="flex gap-6 self-center">
     {
       socials.map(({ icon, url }) => (
         <a href={url} target="_blank" rel="noopener">
