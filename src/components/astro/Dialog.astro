@@ -15,11 +15,10 @@ const { triggerId, title, className, triggerClassName } = Astro.props
 
 <dialog
   id={triggerId}
+  dir="rtl"
   class={cn(
     'backdrop:bg-surface-dark/80 backdrop:backdrop-blur-sm',
     'rounded-lg border-none bg-transparent p-0',
-    'fixed inset-0 m-auto h-auto max-h-[90vh] w-fit',
-    'overflow-hidden',
     'animate-fade-in',
     'backdrop:animate-fade-in',
     'overflow-visible',
@@ -36,19 +35,11 @@ const { triggerId, title, className, triggerClassName } = Astro.props
           <span class="icon-[tabler--x] h-6 w-6"></span>
         </button>
       </div>
-      <div class="flex-1 overflow-y-auto pr-2">
-        <slot />
+      <div class="max-h-[60vh] flex-1 overflow-y-auto px-2 text-white" dir="ltr">
+        <div dir="rtl">
+          <slot />
+        </div>
       </div>
     </div>
   </CardContainer>
 </dialog>
-
-<style>
-  /* Hide scrollbar while allowing scrolling */
-  dialog {
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    scrollbar-width: none;
-  }
-</style>

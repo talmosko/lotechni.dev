@@ -66,13 +66,40 @@ if (!show) {
 </html>
 
 <style is:global>
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  /* Global scrollbar styles */
+  * {
+    /* For Webkit browsers like Chrome/Safari */
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: oklch(17.95% 0.012 255.31 / 0.5); /* surface color with opacity */
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: oklch(77.94% 0.127 196.83); /* accent color */
+      border-radius: 4px;
+
+      &:hover {
+        background: oklch(85.93% 0.063 195.95); /* accent-light color */
+      }
+    }
+
+    /* For Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: oklch(77.94% 0.127 196.83) oklch(17.95% 0.012 255.31 / 0.5);
   }
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  /* Hide scrollbar utility class */
+  .scrollbar-hide {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .text-gradient {

@@ -3,6 +3,7 @@ import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
+import Dialog from '@components/astro/Dialog.astro'
 import { $showData } from '@stores/episodes'
 import { getEpisodeSEO } from '@data/seo/defaultSeo'
 import Icon from '@components/astro/Icon.astro'
@@ -25,13 +26,35 @@ const episodeSEO = getEpisodeSEO(episode)
 
 <Layout title={title} seo={episodeSEO}>
   <SectionContainer>
-    <a
-      href="/episodes"
-      class="inline-flex w-fit items-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-95">
-      <Icon icon="chevronRight" />
-      לכל הפרקים
-    </a>
+    <div class="flex items-center justify-between">
+      <a
+        href="/episodes"
+        class="inline-flex w-fit items-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-95">
+        <Icon icon="chevronRight" />
+        לכל הפרקים
+      </a>
+      <button
+        onclick="document.getElementById('episode-modal').showModal()"
+        class="rounded-lg bg-accent px-4 py-2 text-white transition-all duration-300 hover:bg-accent-light active:scale-95">
+        פתח בחלון
+      </button>
+    </div>
+
     <ListeningLinks />
     <EpisodeCard {...episode} expandable={false} />
+
+    <Dialog triggerId="episode-modal" title={title}>
+      <div class="space-y-6">
+        <ListeningLinks />
+        <EpisodeCard {...episode} expandable={false} />
+      </div>
+    </Dialog>
   </SectionContainer>
 </Layout>
+
+<script>
+  const dialog = document.getElementById('episode-modal')
+  if (dialog && dialog instanceof HTMLDialogElement) {
+    dialog.showModal()
+  }
+</script>
