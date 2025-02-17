@@ -9,7 +9,7 @@ import { $showData } from '@stores/episodes'
 import Heading from '@components/astro/typography/Heading.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import type { Props as SEOProps } from 'astro-seo'
-
+import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -41,7 +41,12 @@ const pageSEO: Partial<SEOProps> = {
   </SectionContainer>
   <Heading level={2} className="text-center">מי אנחנו?</Heading>
   <Hosts />
-  <EpisodesGrid compact />
+
+  <SectionContainer>
+    <Heading level={2} className="mb-8 text-center">כמה מהפרקים האחרונים</Heading>
+    <ListeningLinks />
+    <EpisodesGrid compact />
+  </SectionContainer>
 
   <SectionContainer>
     <CommunityCard />

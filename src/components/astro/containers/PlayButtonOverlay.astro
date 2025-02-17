@@ -1,0 +1,18 @@
+---
+import PlayIcon from '@components/astro/icons/PlayIcon.astro'
+
+interface Props {
+  playButtonLink: string
+}
+
+const { playButtonLink } = Astro.props
+---
+
+<a href={playButtonLink} class="contents">
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="rounded-full bg-black/50 p-4 transition-transform hover:scale-110">
+      <PlayIcon />
+    </div>
+  </div>
+</a>

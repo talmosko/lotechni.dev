@@ -5,7 +5,8 @@ import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 import { $showData } from '@stores/episodes'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import type { Props as SEOProps } from 'astro-seo'
-
+import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
+import Heading from '@components/astro/typography/Heading.astro'
 const show = $showData.get().data
 
 if (!show) {
@@ -35,5 +36,9 @@ const pageSEO: Partial<SEOProps> = {
       {show.description}
     </DescriptionCard>
   </SectionContainer>
-  <EpisodesGrid />
+  <SectionContainer>
+    <Heading level={2} className="mb-8 text-center">פרקים</Heading>
+    <ListeningLinks />
+    <EpisodesGrid />
+  </SectionContainer>
 </Layout>
