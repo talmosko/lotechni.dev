@@ -19,7 +19,7 @@ export async function fetchAndUpdateShowData() {
     $showData.setKey('loading', true)
     $showData.setKey('error', null)
 
-    const data = await fetchShowData()
+    const data = await fetchShowData($showData.get().data)
     $showData.setKey('data', data)
   } catch (error) {
     $showData.setKey('error', error instanceof Error ? error.message : 'Failed to fetch show data')
