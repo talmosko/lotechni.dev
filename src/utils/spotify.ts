@@ -43,14 +43,26 @@ export async function fetchShowData() {
 
   const data = await res.json()
   const liveEpisodes = data.episodes.items.filter((episode: Episode) => episode)
-  const episodesWithNumbers = liveEpisodes.map((episode: Episode, index: number) => ({
-    ...episode,
-    episode_number: liveEpisodes.length - index - 1,
-  }))
+  const episodesWithNumbers = liveEpisodes.map(async (episode: Episode, index: number) => {
+    const res = await fetch(`https://embed.spotify.com/oembed?url=${episode.uri}&format=json`, {})
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch episode data: ${res.statusText}`)
+    }
+
+    const episodeData = await res.json()
+    console.log(episodeData)
+    return {
+      ...episode,
+      episode_number: liveEpisodes.length - index - 1,
+      thumbnail_url: episodeData.thumbnail_url,
+      iframe_url: episodeData.iframe_url,
+    }
+  })
 
   const parsedDataWithNumbers = ShowSchema.parse({
     ...data,
-    episodes: { ...data.episodes, items: episodesWithNumbers },
+    episodes: { ...data.episodes, items: await Promise.all(episodesWithNumbers) },
   })
 
   return parsedDataWithNumbers

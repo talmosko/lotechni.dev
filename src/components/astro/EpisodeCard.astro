@@ -4,43 +4,67 @@ import type { Episode } from '@data/types/spotifyEpisodes'
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
 import { cleanHtmlContent } from '@utils/cleanHtml'
+import { Image } from 'astro:assets'
+import ImageContainer from './containers/ImageContainer.astro'
+import PlayButtonOverlay from '@components/astro/containers/PlayButtonOverlay.astro'
+import { cn } from '@utils/cn'
 
 interface Props extends Episode {
   expandable?: boolean
+  show_iframe?: boolean
 }
 
-const { name, description, html_description, images, id, episode_number, release_date, expandable = true } = Astro.props
-
+const {
+  name,
+  description,
+  html_description,
+  images,
+  id,
+  episode_number,
+  release_date,
+  iframe_url,
+  thumbnail_url,
+  expandable = true,
+  show_iframe = true,
+} = Astro.props
+const episodeUrl = `${Astro.url.origin}/episodes/${episode_number}`
 const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
 <div
-  class="flex flex-col overflow-hidden scrollbar-hide rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10"
-  >
-  <div class="pb-5 overflow-hidden scrollbar-hide space-y-4">
-    {id ? (
-    <iframe
-      class="scrollbar-hide rounded-lg"
-      style="scrollbar-width: none; -ms-overflow-style: none; ::-webkit-scrollbar { display: none; }"
-      src=`https://open.spotify.com/embed/episode/${id}/video?utm_source=generator`
-      width="100%"
-      height="300"
-      allowfullscreen
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-    ) : (
-      <img src={images[0].url} alt={name} width="300" height="300" />
-    )}
+  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
+  <div class={cn('relative w-full', show_iframe && 'aspect-video')}>
+    {
+      show_iframe ? (
+        <iframe
+          class="absolute inset-0 h-full w-full rounded-lg"
+          src={iframe_url}
+          allowfullscreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+      ) : (
+        <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
+          <img src={thumbnail_url} alt={name} loading="lazy" class="h-full w-full object-cover" />
+          <PlayButtonOverlay playButtonLink={episodeUrl} />
+        </ImageContainer>
+      )
+    }
   </div>
-  <div class="min-h-12 flex items-start">
+  <div class="flex min-h-12 items-start pt-4">
     <Heading level={5}>
       {name}
     </Heading>
   </div>
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
     <p class="text-sm text-gray-400">
-      {new Date(release_date).toLocaleDateString('he-IL', { year: 'numeric', month: 'long', day: 'numeric' })}
+      {
+        new Date(release_date).toLocaleDateString('he-IL', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      }
     </p>
     <EpisodeShareButton show_number={episode_number} />
   </div>
@@ -52,5 +76,3 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
     client:load
   />
 </div>
-
-
