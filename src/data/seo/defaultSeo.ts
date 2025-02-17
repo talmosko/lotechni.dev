@@ -1,5 +1,6 @@
 import type { Props as SEOProps } from 'astro-seo'
 import ogImage from '@assets/logos/logo.svg'
+import type { Episode } from '@data/types/spotifyEpisodes'
 
 // Base SEO props that will be used across all pages
 export const defaultSEO: SEOProps = {
@@ -42,13 +43,7 @@ export const defaultSEO: SEOProps = {
 }
 
 // Helper function for episode pages
-export const getEpisodeSEO = (episode: {
-  name: string
-  description: string
-  images: { url: string }[]
-  release_date: string
-  episode_number: number
-}): Partial<SEOProps> => {
+export const getEpisodeSEO = (episode: Episode): Partial<SEOProps> => {
   return {
     title: episode.name,
     description: episode.description.substring(0, 155) + '...',
@@ -56,7 +51,7 @@ export const getEpisodeSEO = (episode: {
       basic: {
         title: episode.name,
         type: 'article',
-        image: episode.images[0].url,
+        image: episode.thumbnail_url,
         url: `https://lotechni.dev/episodes/${episode.episode_number}`,
       },
       optional: {
@@ -70,7 +65,7 @@ export const getEpisodeSEO = (episode: {
     },
     twitter: {
       card: 'summary_large_image',
-      image: episode.images[0].url,
+      image: episode.thumbnail_url,
       title: episode.name,
       description: episode.description.substring(0, 155) + '...',
     },

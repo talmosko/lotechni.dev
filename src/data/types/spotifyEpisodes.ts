@@ -49,6 +49,8 @@ const episodeSchema = z.object({
 
 const EpisodeSchemaWithNumber = episodeSchema.extend({
   episode_number: z.number(),
+  thumbnail_url: z.string(),
+  iframe_url: z.string(),
 })
 
 const SpotifyEpisodesResponseSchema = z.object({
