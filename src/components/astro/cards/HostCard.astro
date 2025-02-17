@@ -19,7 +19,7 @@ interface Props {
 const { name, image, description, socials, reversed = false } = Astro.props
 ---
 
-<CardContainer className="group/card relative flex flex-col gap-2">
+<CardContainer className="group/card relative flex flex-col justify-between gap-2">
   <div class={cn('flex flex-col gap-4 md:flex-row', reversed && 'md:flex-row-reverse')}>
     <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName="self-start">
       <Image class="block aspect-square h-full" src={image} alt={name} />
