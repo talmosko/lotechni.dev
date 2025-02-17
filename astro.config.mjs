@@ -11,6 +11,19 @@ export default defineConfig({
   adapter: vercel({
     imageService: true,
   }),
+  image: {
+    domains: ['image-cdn-ak.spotifycdn.com', 'image-cdn-fa.spotifycdn.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image-cdn-ak.spotifycdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image-cdn-fa.spotifycdn.com',
+      },
+    ],
+  },
   prefetch: { prefetchAll: true },
   output: 'server',
 })
