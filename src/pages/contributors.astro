@@ -1,0 +1,74 @@
+---
+import Layout from '@layouts/Layout.astro'
+import ContributorsSection from '@sections/contributors/ContributorsSection.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import Description from '@sections/common/Description.astro'
+import type { Props as SEOProps } from 'astro-seo'
+import tempImage from '@assets/images/community-img.jpeg'
+
+const siteContributors = [
+  {
+    name: 'מאיר יוסף כהן',
+    englishName: 'Meir Josef Cohen',
+    image: tempImage,
+    description: 'מאיר יוסף כהן הוא מפתח ומפתח מומחה בפרוייקטים של מפתחים ומפתחות',
+    linkedin: 'https://www.linkedin.com/in/meirjcohen/',
+    github: 'https://github.com/meirjcohen',
+  },
+  {
+    name: 'סער דוידסון',
+    englishName: 'Saar Davidson',
+    image: tempImage,
+    description: 'סער דוידסון הוא מפתח ומפתח מומחה בפרוייקטים של מפתחים ומפתחות',
+    linkedin: 'https://www.linkedin.com/in/saar-davidson/',
+    github: 'https://github.com/saar-davidson',
+  },
+  {
+    name: 'אפק סקג׳ו',
+    englishName: 'Afek Sakaju',
+    image: tempImage,
+    description: 'אפק סקג׳ו הוא מפתח ומפתח מומחה בפרוייקטים של מפתחים ומפתחות',
+    linkedin: 'https://www.linkedin.com/in/afeksa/',
+    github: 'https://github.com/afeksa',
+  },
+  {
+    name: 'שמואל כהן',
+    englishName: 'Shmuel Cohen',
+    image: tempImage,
+    description: 'שמואל כהן הוא מפתח ומפתח מומחה בפרוייקטים של מפתחים ומפתחות',
+    linkedin: 'https://www.linkedin.com/in/shmuel-c/',
+    github: 'https://github.com/shmuel-c',
+  },
+]
+
+const contributorNames = siteContributors.map((c) => c.englishName).join(', ')
+
+const pageSEO: Partial<SEOProps> = {
+  title: 'צוות האתר - לא טכני',
+  description: `הכירו את צוות המתנדבים שבנו את האתר: ${contributorNames}`,
+  openGraph: {
+    basic: {
+      title: 'צוות האתר - לא טכני',
+      type: 'website',
+      image: '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: `הכירו את צוות המתנדבים שבנו את האתר: ${contributorNames}`,
+    },
+  },
+}
+---
+
+<Layout title={'צוות האתר'} seo={pageSEO}>
+  <Description
+    description={'אנחנו רוצים להודות לצוות המתנדבים המדהים שלנו, שבזכותם האתר הזה קם והתאפשר. הכישרון והמסירות שלהם הפכו את החזון שלנו למציאות.'}
+  />
+
+  <SectionContainer>
+    <Heading level={2} className="text-center">המתנדבים שבנו את האתר</Heading>
+  </SectionContainer>
+
+  <ContributorsSection contributors={siteContributors} />
+</Layout>
