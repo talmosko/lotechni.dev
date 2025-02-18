@@ -25,7 +25,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/lotechni.dev.git
+git clone https://github.com/talmosko/lotechni.dev.git
 
 # Install dependencies
 pnpm install

@@ -72,6 +72,11 @@ export const ICONS = {
     label: 'Mobile Menu Close',
     hoverColor: 'group-hover:text-accent',
   },
+  github: {
+    icon: 'icon-[tabler--brand-github]',
+    label: 'GitHub',
+    hoverColor: 'group-hover:text-accent',
+  },
 }
 
 export type IconNames = keyof typeof ICONS

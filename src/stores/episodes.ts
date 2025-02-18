@@ -24,10 +24,6 @@ export async function fetchAndUpdateShowData() {
 
     //filter out episodes that have a thumbnail_url
     const episodesWithoutThumbnail = newEpisodes.filter((episode) => !episode.thumbnail_url)
-    console.log(
-      'fetching episodesWithoutThumbnail',
-      episodesWithoutThumbnail.map((e) => e.id)
-    )
 
     //fetch thumbnail_url from spotify
     const thumbnailUrls = await fetchEpisodeThumbnails(episodesWithoutThumbnail)
