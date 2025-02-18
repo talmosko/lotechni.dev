@@ -19,7 +19,7 @@ const {
   name,
   description,
   html_description,
-  // images,
+  images,
   // id, - unused but should keep in mind existing here
   episode_number,
   release_date,
@@ -48,7 +48,7 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
       ) : (
         <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
           <Image
-            src={thumbnail_url}
+            src={thumbnail_url || images[0].url || ''}
             alt={name}
             width={640}
             height={360}

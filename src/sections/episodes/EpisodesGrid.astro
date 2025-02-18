@@ -6,10 +6,10 @@ interface Props {
 }
 
 const { compact = false, excludeEpisode } = Astro.props
-import { $showData } from '@stores/episodes'
+import { getShowData } from '@stores/episodes'
 import Button from '@components/astro/Button.astro'
 import Icon from '@components/astro/Icon.astro'
-const show = $showData.get().data
+const show = await getShowData()
 
 if (!show) {
   throw new Error('No show data found')

@@ -51,7 +51,7 @@ export const getEpisodeSEO = (episode: Episode): Partial<SEOProps> => {
       basic: {
         title: episode.name,
         type: 'article',
-        image: episode.thumbnail_url,
+        image: episode.thumbnail_url || episode.images[0].url || '',
         url: `https://lotechni.dev/episodes/${episode.episode_number}`,
       },
       optional: {

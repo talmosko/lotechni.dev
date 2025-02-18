@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
-import { ShowSchema, type Episode } from '@data/types/spotifyEpisodes'
+import { ShowSchema, type Episode, SpotifyEmbedResponseSchema } from '@data/types/spotifyEpisodes'
 
 export async function getAccessToken(clientId: string, clientSecret: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -43,25 +43,18 @@ export async function fetchShowData() {
 
   const data = await res.json()
   const liveEpisodes = data.episodes.items.filter((episode: Episode) => episode)
-  const episodesWithNumbers = liveEpisodes.map(async (episode: Episode, index: number) => {
-    const res = await fetch(`https://embed.spotify.com/oembed?url=${episode.uri}&format=json`, {})
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch episode data: ${res.statusText}`)
-    }
-
-    const episodeData = await res.json()
+  const episodesWithNumbers = liveEpisodes.map((episode: Episode, index: number) => {
     return {
       ...episode,
       episode_number: liveEpisodes.length - index - 1,
-      thumbnail_url: episodeData.thumbnail_url,
-      iframe_url: episodeData.iframe_url,
+      iframe_url: `https://open.spotify.com/embed/episode/${episode.id}/video?utm_source=oembed`,
+      embed_url: `https://embed.spotify.com/oembed?url=${episode.uri}&format=json`,
     }
   })
 
   const parsedDataWithNumbers = ShowSchema.parse({
     ...data,
-    episodes: { ...data.episodes, items: await Promise.all(episodesWithNumbers) },
+    episodes: { ...data.episodes, items: episodesWithNumbers },
   })
 
   return parsedDataWithNumbers
@@ -76,4 +69,29 @@ const getRssFeed = async () => {
   const json = parser.parse(xml)
   const rssFeed = PodcastRSSFeed.parse(json)
   return rssFeed
+}
+
+export async function fetchEpisodeThumbnails(episodes: Episode[]) {
+  const thumbnailMap: Record<string, string> = {}
+
+  await Promise.all(
+    episodes.map(async (episode) => {
+      try {
+        const response = await fetch(episode.embed_url)
+        if (!response.ok) {
+          console.error(`Failed to fetch embed data for episode ${episode.id}`)
+          return
+        }
+
+        const embedData = await response.json()
+        const parsedEmbed = SpotifyEmbedResponseSchema.parse(embedData)
+
+        thumbnailMap[episode.id] = parsedEmbed.thumbnail_url
+      } catch (error) {
+        console.error(`Error processing episode ${episode.id}:`, error)
+      }
+    })
+  )
+
+  return thumbnailMap
 }
