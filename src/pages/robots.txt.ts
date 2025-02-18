@@ -1,14 +1,9 @@
 import type { APIRoute } from 'astro'
 
 const getRobotsTxt = (baseUrl: string) => `
-# Development/Staging Environment
 User-agent: *
-Disallow: /
-
-# Production Environment - TODO uncomment (remove "#") when going live and remove above)
-# User-agent: *
-# Allow: /
-# Sitemap: ${baseUrl}/sitemap.xml
+Allow: /
+Sitemap: ${baseUrl}/sitemap.xml
 `
 
 export const GET: APIRoute = ({ site }) => {
