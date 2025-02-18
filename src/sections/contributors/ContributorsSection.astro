@@ -19,6 +19,6 @@ interface Props {
 const { contributors } = Astro.props
 ---
 
-<SectionContainer innerClasses="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-8">
+<SectionContainer innerClasses="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
   {contributors.map((contributor) => <ContributorCard {...contributor} />)}
 </SectionContainer>
