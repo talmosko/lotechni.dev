@@ -4,7 +4,7 @@ import type { Show } from '@data/types/spotifyEpisodes'
 
 let showData: Show | null = null
 
-const POLLING_INTERVAL = 1 * 60 * 1000 //1 min
+const POLLING_INTERVAL = 1 * 60 * 60 * 1000 //1 hour
 
 export async function fetchAndUpdateShowData() {
   try {
@@ -25,13 +25,12 @@ export async function fetchAndUpdateShowData() {
     //filter out episodes that have a thumbnail_url
     const episodesWithoutThumbnail = newEpisodes.filter((episode) => !episode.thumbnail_url)
     console.log(
-      'episodesWithoutThumbnail',
+      'fetching episodesWithoutThumbnail',
       episodesWithoutThumbnail.map((e) => e.id)
     )
 
     //fetch thumbnail_url from spotify
     const thumbnailUrls = await fetchEpisodeThumbnails(episodesWithoutThumbnail)
-    console.log('thumbnailUrls', thumbnailUrls)
 
     //update episodes with thumbnail_url
     newEpisodes.forEach((episode) => {
