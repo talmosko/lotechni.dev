@@ -1,13 +1,13 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
-import { $showData } from '@stores/episodes'
+import { getShowData } from '@stores/episodes'
 import type { Props as SEOProps } from 'astro-seo'
 import Description from '@sections/common/Description.astro'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
 import Heading from '@components/astro/typography/Heading.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-const show = $showData.get().data
+const show = await getShowData()
 
 if (!show) {
   throw new Error('No show data found')

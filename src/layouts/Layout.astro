@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import { SEO } from 'astro-seo'
 import { defaultSEO } from '@data/seo/defaultSeo'
 import type { Props as SEOProps } from 'astro-seo'
-
+import { getShowData } from '@stores/episodes'
 interface Props {
   title: string
   seo?: Partial<SEOProps>
@@ -21,10 +21,8 @@ const fullSEO = {
   title: title,
 }
 
-import { $showData } from '@stores/episodes'
 import Logo from '@components/astro/Logo.astro'
-const show = $showData.get().data
-await allTasks()
+const show = await getShowData()
 if (!show) {
   throw new Error('No show data found')
 }

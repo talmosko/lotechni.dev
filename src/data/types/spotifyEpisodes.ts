@@ -49,8 +49,9 @@ const episodeSchema = z.object({
 
 const EpisodeSchemaWithNumber = episodeSchema.extend({
   episode_number: z.number(),
-  thumbnail_url: z.string(),
   iframe_url: z.string(),
+  embed_url: z.string(),
+  thumbnail_url: z.string().optional(),
 })
 
 const SpotifyEpisodesResponseSchema = z.object({
@@ -84,8 +85,28 @@ const ShowSchema = z.object({
   episodes: SpotifyEpisodesResponseSchema,
 })
 
+const SpotifyEmbedResponseSchema = z.object({
+  html: z.string(),
+  iframe_url: z.string(),
+  width: z.number(),
+  height: z.number(),
+  version: z.string(),
+  provider_name: z.string(),
+  provider_url: z.string(),
+  type: z.string(),
+  title: z.string(),
+  thumbnail_url: z.string(),
+  thumbnail_width: z.number(),
+  thumbnail_height: z.number(),
+})
+
 type Show = z.infer<typeof ShowSchema>
 type Episode = z.infer<typeof EpisodeSchemaWithNumber>
 
-// Export the new Spotify episodes response schema, the original EpisodesResponseSchema, and the Episode type.
-export { SpotifyEpisodesResponseSchema, ShowSchema, type Episode, type Show }
+export {
+  SpotifyEpisodesResponseSchema,
+  ShowSchema,
+  SpotifyEmbedResponseSchema,
+  type Episode,
+  type Show,
+}

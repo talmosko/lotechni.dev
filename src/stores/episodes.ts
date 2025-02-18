@@ -1,44 +1,68 @@
 import { map, onMount, task } from 'nanostores'
-import { fetchShowData } from '@utils/spotify'
+import { fetchEpisodeThumbnails, fetchShowData } from '@utils/spotify'
 import type { Show } from '@data/types/spotifyEpisodes'
 
-export const $showData = map<{
-  data: Show | null
-  loading: boolean
-  error: string | null
-}>({
-  data: await fetchShowData(),
-  loading: false,
-  error: null,
-})
+let showData: Show | null = null
 
-const POLLING_INTERVAL = 60 * 60 * 1000 // 1 hour in milliseconds
+const POLLING_INTERVAL = 1 * 60 * 1000 //1 min
 
 export async function fetchAndUpdateShowData() {
   try {
-    $showData.setKey('loading', true)
-    $showData.setKey('error', null)
+    const show = await fetchShowData()
+    const newEpisodes = show.episodes.items
 
-    const data = await fetchShowData()
-    $showData.setKey('data', data)
+    if (showData) {
+      const oldEpisodes = showData.episodes.items
+      //get tumbnail_url from old episodes
+      newEpisodes.forEach((episode) => {
+        const oldEpisode = oldEpisodes?.find((e) => e.id === episode.id)
+        if (oldEpisode) {
+          episode.thumbnail_url = oldEpisode.thumbnail_url
+        }
+      })
+    }
+
+    //filter out episodes that have a thumbnail_url
+    const episodesWithoutThumbnail = newEpisodes.filter((episode) => !episode.thumbnail_url)
+    console.log(
+      'episodesWithoutThumbnail',
+      episodesWithoutThumbnail.map((e) => e.id)
+    )
+
+    //fetch thumbnail_url from spotify
+    const thumbnailUrls = await fetchEpisodeThumbnails(episodesWithoutThumbnail)
+    console.log('thumbnailUrls', thumbnailUrls)
+
+    //update episodes with thumbnail_url
+    newEpisodes.forEach((episode) => {
+      if (episode.id in thumbnailUrls) {
+        episode.thumbnail_url = thumbnailUrls[episode.id]
+      }
+    })
+
+    return show
   } catch (error) {
-    $showData.setKey('error', error instanceof Error ? error.message : 'Failed to fetch show data')
-  } finally {
-    $showData.setKey('loading', false)
+    console.error(error)
   }
 }
 
-onMount($showData, () => {
-  let interval: ReturnType<typeof setInterval> | null = null
-  task(async () => {
-    await fetchAndUpdateShowData()
-    interval = setInterval(fetchAndUpdateShowData, POLLING_INTERVAL)
-  })
-  return () => {
-    if (interval) {
-      clearInterval(interval)
+setInterval(
+  () =>
+    task(async () => {
+      const show = await fetchAndUpdateShowData()
+      if (show) {
+        showData = show
+      }
+    }),
+  POLLING_INTERVAL
+)
+
+export const getShowData = async () => {
+  if (!showData) {
+    const show = await fetchAndUpdateShowData()
+    if (show) {
+      showData = show
     }
   }
-})
-
-$showData.subscribe(() => {})
+  return showData
+}

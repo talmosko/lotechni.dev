@@ -3,13 +3,13 @@ import Layout from '@layouts/Layout.astro'
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
-import { $showData } from '@stores/episodes'
+import { getShowData } from '@stores/episodes'
 import { getEpisodeSEO } from '@data/seo/defaultSeo'
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
 
 const { id } = Astro.params
-const show = $showData.get().data
+const show = await getShowData()
 
 if (!show || !id) {
   throw new Error('No show data found')
