@@ -33,12 +33,13 @@ const episodeUrl = `${Astro.url.origin}/episodes/${episode_number}`
 const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
-<div
+<article
   class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
   <div class={cn('relative w-full', show_iframe && 'aspect-video')}>
     {
       show_iframe ? (
         <iframe
+          title={`פודקאסט לא טכני ולא במקרה - ${name}`}
           class="absolute inset-0 h-full w-full rounded-lg"
           src={iframe_url}
           allowfullscreen
@@ -62,10 +63,14 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
     }
   </div>
   <div class="flex min-h-20 items-start pt-4">
-    <Heading level={5}>
+    <Heading level={3} className="text-lg font-semibold md:text-xl">
       {
         clickable ? (
-          <a href={episodeUrl} class="transition-colors duration-300 hover:text-accent">
+          <a
+            href={episodeUrl}
+            class="transition-colors duration-300 hover:text-accent"
+            aria-label={`עבור לעמוד של ${name}`}>
+            <span class="sr-only">עבור לעמוד של </span>
             {name}
           </a>
         ) : (
@@ -75,7 +80,7 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
     </Heading>
   </div>
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
-    <p class="text-sm text-gray-400">
+    <time datetime={release_date} class="text-sm text-gray-400">
       {
         new Date(release_date).toLocaleDateString('he-IL', {
           year: 'numeric',
@@ -83,8 +88,8 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
           day: 'numeric',
         })
       }
-    </p>
-    <EpisodeShareButton show_number={episode_number} />
+    </time>
+    <EpisodeShareButton show_number={episode_number} episode_name={name} />
   </div>
 
   <EpisodeCardDescription
@@ -93,4 +98,4 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
     expandable={expandable}
     client:load
   />
-</div>
+</article>

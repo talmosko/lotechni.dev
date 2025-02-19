@@ -26,19 +26,23 @@ const shownEpisodes = compact
   : parsedEpisodes
 ---
 
-<>
-  <ul role="list" class="mx-auto grid grid-cols-1 gap-8 p-0 md:grid-cols-2">
-    {shownEpisodes.map((episode) => <EpisodeCard {...episode} show_iframe={false} />)}
-  </ul>
-
+<ul class="mx-auto grid grid-cols-1 gap-8 p-0 md:grid-cols-2">
   {
-    compact && (
-      <div class="mt-8 flex justify-center">
-        <Button size="xl" variant="link" class="flex items-center gap-2" href="/episodes">
-          <Icon icon="headphones" />
-          לכל הפרקים
-        </Button>
-      </div>
-    )
+    shownEpisodes.map((episode) => (
+      <li>
+        <EpisodeCard {...episode} />
+      </li>
+    ))
   }
-</>
+</ul>
+
+{
+  compact && (
+    <div class="mt-8 flex justify-center">
+      <Button size="xl" variant="link" class="flex items-center gap-2" href="/episodes">
+        <Icon icon="headphones" />
+        לכל הפרקים
+      </Button>
+    </div>
+  )
+}
