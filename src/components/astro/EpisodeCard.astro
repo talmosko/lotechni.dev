@@ -49,7 +49,7 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
         <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
           <Image
             src={thumbnail_url || images[0].url || ''}
-            alt={name}
+            alt={`תמונת כריכה לפרק ${name}`}
             width={640}
             height={360}
             loading="lazy"
