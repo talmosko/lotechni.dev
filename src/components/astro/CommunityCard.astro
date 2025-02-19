@@ -15,7 +15,7 @@ const groups = [
   {
     title: 'הקבוצה הראשית- דיונים על כל מה שמעבר לטכני',
     link: 'https://chat.whatsapp.com/CAQ7EnWJJQF6z3SLMhE8ots',
-    image: CommunityImg.src,
+    image: CommunityImg,
     description: `מפתחים תותחים ותותחיות לא רק כותבים קוד!
     טל מוסקוביץ', אדיר קנדל ואורחים עוזרים למפתחים להישאר רלוונטיים ולפתח את עצמם:
 - איך אני יכול להתבלט כמפתח, בצוות, בחברה ובחיפוש העבודה?
@@ -28,25 +28,25 @@ const groups = [
   {
     title: `פוסט ריוויו`,
     link: 'https://chat.whatsapp.com/GrhVRS1kGZVGKRXTMtktAq',
-    image: PostReviewImg.src,
+    image: PostReviewImg,
     description: `כמו קוד ריוויו, רק לפוסטים בלינקדאין. במקום ללמוד איך לכתוב בצורה אפקטיבית, ולקבל פידבק על פוסטים לפני פרסום.`,
   },
   {
     title: 'כותבים ומפרגנים לתוכן',
     link: 'https://chat.whatsapp.com/KnrinMGG99fFmgUTYboRHL',
-    image: SupportContentImg.src,
+    image: SupportContentImg,
     description: 'פרסמתם תוכן למפתחים ואתם צריכים חיבוק, לייק או תגובה? פרסמו אותו כאן',
   },
   {
     title: 'נפגשים במיטאפ',
     link: 'https://chat.whatsapp.com/DOINKYhviAbDSQXObQEfpjx',
-    image: MeetOnMeetupImg.src,
+    image: MeetOnMeetupImg,
     description: 'כאן נפרסם מיטאפים וכנסים שווים באקוסיסטם, וגם אפשר לשאול מי בא ולאן',
   },
   {
     title: 'כלים למפתחים פרואקטיביים',
     link: 'https://chat.whatsapp.com/DOINKYhviAbDSQXObQEfpjx',
-    image: ToolsForDevelopersImg.src,
+    image: ToolsForDevelopersImg,
     description: `פה נדבר על כלים שעוזרים למפתחים בפיתוח אבל כמובן שלא רק!
 גם כלים שעוזרים לנו להיות פרודוקטיביים ופרואקטיביים.`,
   },
@@ -66,8 +66,8 @@ const groups = [
               <Image
                 src={group.image}
                 alt={group.title}
-                width={200}
-                height={200}
+                width={group.image.width}
+                height={group.image.height}
                 class="object-cover"
               />
             </ImageContainer>

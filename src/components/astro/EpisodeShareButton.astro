@@ -2,12 +2,13 @@
 import { ICONS } from '@data/types/icons'
 import Icon from '@components/astro/Icon.astro'
 
-const { show_number } = Astro.props
+const { show_number, episode_name } = Astro.props
 const url = Astro.url.origin
 ---
 
 <button
   data-episode-url={`${url}/episodes/${show_number}`}
+  aria-label={`שתף את הפרק ${episode_name}`}
   class="share-button group flex items-center justify-center rounded-full border border-accent p-2 text-accent transition-transform duration-200 hover:scale-110 hover:text-accent-light active:scale-95">
   <Icon icon="share" className={ICONS['share'].hoverColor} size="sm" />
 </button>

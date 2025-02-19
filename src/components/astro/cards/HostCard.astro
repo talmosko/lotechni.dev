@@ -25,7 +25,14 @@ const { name, image, description, socials, reversed = false } = Astro.props
       showGradient
       gradientOnlyOnHover
       parentContainerClassName="self-start w-full xl:basis-1/3">
-      <Image class="block aspect-square h-full w-full" src={image} alt={name} />
+      <Image
+        class="block aspect-square h-full w-full"
+        src={image}
+        width={image.width}
+        height={image.height}
+        alt={name}
+        quality={100}
+      />
     </ImageContainer>
     <div class="flex flex-col gap-4 xl:basis-2/3">
       <Heading level={3} className="text-accent">{name}</Heading>
