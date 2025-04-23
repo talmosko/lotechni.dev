@@ -10,6 +10,8 @@ import SectionContainer from '@components/astro/containers/SectionContainer.astr
 import Description from '@sections/common/Description.astro'
 import type { Props as SEOProps } from 'astro-seo'
 import ListeningLinks from '@sections/episodes/ListeningLinks.astro'
+import Button from '@components/astro/Button.astro'
+import Icon from '@components/astro/Icon.astro'
 const show = await getShowData()
 
 if (!show) {
@@ -35,16 +37,37 @@ const pageSEO: Partial<SEOProps> = {
 
 <Layout title={show.name} seo={pageSEO}>
   <Description description={show.description} />
+
+  <div class="mb-12 mt-4 flex justify-center gap-6">
+    <Button
+      variant="link"
+      size="xl"
+      href="#podcast"
+      class="flex items-center justify-center gap-1 text-center">
+      <Icon icon="headphones" />
+      הפודקאסט
+    </Button>
+
+    <Button
+      variant="link"
+      size="xl"
+      href="#community"
+      class="flex items-center justify-center gap-1 text-center">
+      <Icon icon="whatsapp" />
+      הקהילה
+    </Button>
+  </div>
+
   <Heading level={2} className="text-center">מי אנחנו?</Heading>
   <Hosts />
 
-  <SectionContainer>
+  <SectionContainer id="podcast">
     <Heading level={2} className="mb-8 text-center">כמה מהפרקים האחרונים</Heading>
     <ListeningLinks headingLevel={3} />
     <EpisodesGrid compact />
   </SectionContainer>
 
-  <SectionContainer>
+  <SectionContainer id="community">
     <CommunityCard />
   </SectionContainer>
 
