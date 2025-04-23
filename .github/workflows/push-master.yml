@@ -1,0 +1,27 @@
+name: Push to Master
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # 02:00 IDT (UTC+3)
+    - cron: '0 23 * * *'
+    # 14:00 IDT (UTC+3)
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  push-to-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to master
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git push origin master
