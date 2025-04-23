@@ -37,10 +37,18 @@ const links = [
     color: 'text-orange-500',
   },
 ] satisfies ListeningLink[]
+
+interface Props {
+  headingLevel?: 2 | 3 | 4
+}
+
+const { headingLevel = 3 } = Astro.props
 ---
 
 <CardContainer className="mx-auto my-8" showGradient>
-  <Heading level={5} className="flex items-center justify-center gap-2 text-center">
+  <Heading
+    level={headingLevel}
+    className="flex items-center justify-center gap-2 text-center text-lg font-semibold md:text-xl">
     <Icon icon="headphones" />
     להאזנה בכל האפליקציות
   </Heading>
