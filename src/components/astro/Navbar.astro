@@ -61,15 +61,16 @@ const navLinks = [
       <button
         id="mobile-menu-button"
         class="flex items-center md:hidden"
-        aria-label="Toggle menu"
+        aria-label="פתח תפריט"
+        aria-controls="mobile-menu"
         aria-expanded="false">
         <Icon icon="mobileMenuOpen" size="lg" data-menu-icon="open" />
         <Icon icon="mobileMenuClose" size="lg" data-menu-icon="close" className="hidden" />
       </button>
 
       <!-- Logo  -->
-      <a href="/" class="flex items-center">
-        <div>
+      <a href="/" class="flex items-center" aria-label="לא טכני ולא במקרה - חזרה לדף הבית">
+        <div aria-hidden="true">
           <div class="flex items-center gap-1.5">
             <OutlinedText className="text-xs md:text-sm">&lt;</OutlinedText>
             <OutlinedText className="text-base md:text-lg lg:text-xl" underline>לא</OutlinedText>
@@ -89,7 +90,8 @@ const navLinks = [
     <div
       id="mobile-menu"
       class="fixed inset-y-0 right-0 top-16 z-50 flex h-[calc(100vh-4rem)] w-full translate-x-full transform bg-surface transition-transform duration-300 ease-in-out md:hidden"
-      aria-hidden="true">
+      aria-label="תפריט נייד"
+      inert>
       <div class="flex h-full w-full flex-col items-center justify-center space-y-8 p-4">
         {
           navLinks.map(({ href, label }) => {
@@ -119,17 +121,35 @@ const navLinks = [
   const menuCloseIcon = document.querySelector('[data-menu-icon="close"]')
   let isMenuOpen = false
 
+  function openMenu() {
+    isMenuOpen = true
+    mobileMenu?.classList.remove('translate-x-full')
+    mobileMenuButton?.setAttribute('aria-expanded', 'true')
+    mobileMenuButton?.setAttribute('aria-label', 'סגור תפריט')
+    document.body.style.overflow = 'hidden'
+    menuOpenIcon?.classList.add('hidden')
+    menuCloseIcon?.classList.remove('hidden')
+    mobileMenu?.removeAttribute('inert')
+  }
+
+  function closeMenu() {
+    isMenuOpen = false
+    mobileMenu?.classList.add('translate-x-full')
+    mobileMenuButton?.setAttribute('aria-expanded', 'false')
+    mobileMenuButton?.setAttribute('aria-label', 'פתח תפריט')
+    document.body.style.overflow = ''
+    menuOpenIcon?.classList.remove('hidden')
+    menuCloseIcon?.classList.add('hidden')
+    mobileMenu?.setAttribute('inert', '')
+  }
+
   if (mobileMenuButton && mobileMenu && menuOpenIcon && menuCloseIcon) {
     mobileMenuButton.addEventListener('click', () => {
-      isMenuOpen = !isMenuOpen
-      mobileMenu.classList.toggle('translate-x-full')
-      mobileMenu.setAttribute('aria-hidden', (!isMenuOpen).toString())
-      mobileMenuButton.setAttribute('aria-expanded', isMenuOpen.toString())
-      document.body.style.overflow = isMenuOpen ? 'hidden' : ''
-
-      // Toggle icons
-      menuOpenIcon.classList.toggle('hidden')
-      menuCloseIcon.classList.toggle('hidden')
+      if (isMenuOpen) {
+        closeMenu()
+      } else {
+        openMenu()
+      }
     })
 
     // close menu when click outside
@@ -140,15 +160,15 @@ const navLinks = [
         !mobileMenu.contains(event.target as Node) &&
         !mobileMenuButton?.contains(event.target as Node)
       ) {
-        isMenuOpen = false
-        mobileMenu.classList.add('translate-x-full')
-        mobileMenu.setAttribute('aria-hidden', 'true')
-        mobileMenuButton.setAttribute('aria-expanded', 'false')
-        document.body.style.overflow = ''
+        closeMenu()
+      }
+    })
 
-        // Reset icons
-        menuOpenIcon.classList.remove('hidden')
-        menuCloseIcon.classList.add('hidden')
+    // Handle Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        closeMenu()
+        mobileMenuButton?.focus()
       }
     })
   }
