@@ -24,5 +24,5 @@ export default defineConfig({
     ],
   },
   prefetch: { prefetchAll: true },
-  output: 'server',
+  output: 'static',
 })

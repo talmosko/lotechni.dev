@@ -22,6 +22,13 @@ if (!episode) {
 
 const title = episode.name
 const episodeSEO = getEpisodeSEO(episode)
+
+export const getStaticPaths = async () => {
+  const _show = await getShowData()
+  return _show?.episodes.items.map((episode) => ({
+    params: { id: episode.episode_number.toString() },
+  }))
+}
 ---
 
 <Layout title={title} seo={episodeSEO}>
