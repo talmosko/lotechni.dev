@@ -30,7 +30,7 @@ const shownEpisodes = compact
   {
     shownEpisodes.map((episode) => (
       <li>
-        <EpisodeCard {...episode} />
+        <EpisodeCard {...episode} show_iframe={false} />
       </li>
     ))
   }
