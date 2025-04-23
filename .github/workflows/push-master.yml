@@ -13,19 +13,17 @@ permissions:
   contents: write
 
 jobs:
-  push-to-master:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          # Use default GITHUB_TOKEN with enhanced permissions
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to master
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          # Use the GITHUB_TOKEN which now has write permissions
-          git push origin master
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
+          scope: ${{ secrets.VERCEL_TEAM_ID }}
