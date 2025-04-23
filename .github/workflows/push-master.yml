@@ -1,11 +1,9 @@
-name: Push to Master
+name: Deploy to Vercel
 
 on:
   schedule:
-    # 04:00 IDT (UTC+3)
-    - cron: '0 01 * * *'
-    # 14:00 IDT (UTC+3)
-    - cron: '0 11 * * *'
+    # 04:00 IDT (UTC+3) on Sunday, Monday, and Tuesday
+    - cron: '0 1 * * 0,1,2'
   workflow_dispatch:
 
 # Add permissions block to grant write access
