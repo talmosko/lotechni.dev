@@ -6,36 +6,35 @@ let showData: Show | null = null
 
 const POLLING_INTERVAL = 1 * 60 * 60 * 1000 //1 hour
 
+const rulledOutEpisodes = [
+  '79SCKYsZmqwpBuQ0A2xfrb', // invitation to vote geektime 2025
+]
+
 export async function fetchAndUpdateShowData() {
   try {
     const show = await fetchShowData()
     const newEpisodes = show.episodes.items
-
-    if (showData) {
-      const oldEpisodes = showData.episodes.items
-      //get tumbnail_url from old episodes
-      newEpisodes.forEach((episode) => {
-        const oldEpisode = oldEpisodes?.find((e) => e.id === episode.id)
-        if (oldEpisode) {
-          episode.thumbnail_url = oldEpisode.thumbnail_url
-        }
-      })
-    }
-
-    //filter out episodes that have a thumbnail_url
-    const episodesWithoutThumbnail = newEpisodes.filter((episode) => !episode.thumbnail_url)
+    const filteredEpisodes = newEpisodes.filter(
+      (episode) => !rulledOutEpisodes.includes(episode.id)
+    )
 
     //fetch thumbnail_url from spotify
-    const thumbnailUrls = await fetchEpisodeThumbnails(episodesWithoutThumbnail)
+    const thumbnailUrls = await fetchEpisodeThumbnails(filteredEpisodes)
 
     //update episodes with thumbnail_url
-    newEpisodes.forEach((episode) => {
+    filteredEpisodes.forEach((episode) => {
       if (episode.id in thumbnailUrls) {
         episode.thumbnail_url = thumbnailUrls[episode.id]
       }
     })
 
-    return show
+    return {
+      ...show,
+      episodes: {
+        ...show.episodes,
+        items: filteredEpisodes,
+      },
+    }
   } catch (error) {
     console.error(error)
   }
