@@ -2,6 +2,10 @@ import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
 import { ShowSchema, type Episode, SpotifyEmbedResponseSchema } from '@data/types/spotifyEpisodes'
 
+const excludedEpisodes = [
+  '79SCKYsZmqwpBuQ0A2xfrb', // invitation to vote geektime 2025
+]
+
 export async function getAccessToken(clientId: string, clientSecret: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
@@ -42,7 +46,10 @@ export async function fetchShowData() {
   }
 
   const data = await res.json()
-  const liveEpisodes = data.episodes.items.filter((episode: Episode) => episode)
+  const liveEpisodes = data.episodes.items.filter(
+    (episode: Episode) => episode && !excludedEpisodes.includes(episode.id)
+  )
+
   const episodesWithNumbers = liveEpisodes.map((episode: Episode, index: number) => {
     return {
       ...episode,
