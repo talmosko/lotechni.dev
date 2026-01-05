@@ -6,23 +6,16 @@ let showData: Show | null = null
 
 const POLLING_INTERVAL = 1 * 60 * 60 * 1000 //1 hour
 
-const rulledOutEpisodes = [
-  '79SCKYsZmqwpBuQ0A2xfrb', // invitation to vote geektime 2025
-]
-
 export async function fetchAndUpdateShowData() {
   try {
     const show = await fetchShowData()
     const newEpisodes = show.episodes.items
-    const filteredEpisodes = newEpisodes.filter(
-      (episode) => !rulledOutEpisodes.includes(episode.id)
-    )
 
     //fetch thumbnail_url from spotify
-    const thumbnailUrls = await fetchEpisodeThumbnails(filteredEpisodes)
+    const thumbnailUrls = await fetchEpisodeThumbnails(newEpisodes)
 
     //update episodes with thumbnail_url
-    filteredEpisodes.forEach((episode) => {
+    newEpisodes.forEach((episode) => {
       if (episode.id in thumbnailUrls) {
         episode.thumbnail_url = thumbnailUrls[episode.id]
       }
@@ -32,7 +25,7 @@ export async function fetchAndUpdateShowData() {
       ...show,
       episodes: {
         ...show.episodes,
-        items: filteredEpisodes,
+        items: newEpisodes,
       },
     }
   } catch (error) {
