@@ -1,5 +1,5 @@
 ---
-import LogoSvg from '@assets/logos/logo.svg'
+import LogoPng from '@assets/logos/podcast_artwork.png'
 import Heading from '@components/astro/typography/Heading.astro'
 import { Image } from 'astro:assets'
 
@@ -15,14 +15,11 @@ const Tag = clickable ? 'a' : 'header'
 
 <Tag class="py-6 text-center md:py-12" {...clickable && { href: '/' }}>
   <Image
-    src={LogoSvg}
+    src={LogoPng}
     alt={`${showName} logo`}
-    class="mx-auto block h-auto w-72"
+    class="mx-auto block h-auto w-96"
     format="webp"
     quality={95}
     loading="eager"
   />
-  <Heading level={1} class="text-gradient mt-6 text-5xl font-bold leading-tight">
-    {showName}
-  </Heading>
 </Tag>
