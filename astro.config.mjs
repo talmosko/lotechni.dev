@@ -11,7 +11,11 @@ export default defineConfig({
     imageService: true,
   }),
   image: {
-    domains: ['image-cdn-ak.spotifycdn.com', 'image-cdn-fa.spotifycdn.com'],
+    domains: [
+      'image-cdn-ak.spotifycdn.com',
+      'image-cdn-fa.spotifycdn.com',
+      'd3t3ozftmdmh3i.cloudfront.net',
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -20,6 +24,10 @@ export default defineConfig({
       {
         protocol: 'https',
         hostname: 'image-cdn-fa.spotifycdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'd3t3ozftmdmh3i.cloudfront.net',
       },
     ],
   },
