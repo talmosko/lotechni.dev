@@ -20,23 +20,24 @@ async function getRssFeed() {
   return PodcastRSSFeed.parse(json)
 }
 
+type SpotifyEpisodeData = { episodeId: string; embedUrl: string; thumbnailUrl: string }
+
 /**
- * Fetches the Spotify episode ID list from the n8n Playwright workflow.
+ * Fetches episode data from the n8n Playwright workflow.
  * Returns an ordered array (newest first) matching the RSS feed order.
  * Falls back to an empty array if the env var is not configured or the call fails.
  *
  * NOTE: The n8n workflow runs Playwright synchronously (~2 min). The Astro
  * build will wait for the response before continuing.
  */
-async function fetchSpotifyEpisodeIds(): Promise<string[]> {
+async function fetchSpotifyEpisodeData(): Promise<SpotifyEpisodeData[]> {
   const webhookUrl = import.meta.env.N8N_SPOTIFY_WEBHOOK_URL
   if (!webhookUrl) return []
 
   try {
     const res = await fetch(webhookUrl, { signal: AbortSignal.timeout(180_000) })
     if (!res.ok) return []
-    const data: { episodeId: string }[] = await res.json()
-    return data.map((ep) => ep.episodeId)
+    return await res.json()
   } catch {
     return []
   }
@@ -58,34 +59,34 @@ function buildAnchorEmbedUrl(rssLink: string): string {
 }
 
 export async function fetchShowData() {
-  const [rssFeed, spotifyIds] = await Promise.all([getRssFeed(), fetchSpotifyEpisodeIds()])
+  const [rssFeed, spotifyData] = await Promise.all([getRssFeed(), fetchSpotifyEpisodeData()])
 
   const channel = rssFeed.rss.channel
   const items = channel.item
   const showImageUrl = channel['itunes:image']?.['@_href'] || ''
 
   const episodeItems = items.map((item, index) => {
-    const episodeImageUrl = item['itunes:image']?.['@_href'] || showImageUrl
     const episodeNumber = extractEpisodeNumber(item.title)
 
-    // Prefer the Spotify video embed if we have the ID from n8n, otherwise use Anchor embed
-    const spotifyId = spotifyIds[index]
-    const iframeUrl = spotifyId
-      ? `https://open.spotify.com/embed/episode/${spotifyId}/video?utm_source=oembed`
-      : buildAnchorEmbedUrl(item.link || '')
+    const spotify = spotifyData[index]
+    const iframeUrl = spotify?.embedUrl || buildAnchorEmbedUrl(item.link || '')
+
+    // Prefer Spotify CDN thumbnail; fall back to RSS feed image
+    const thumbnailUrl =
+      spotify?.thumbnailUrl || item['itunes:image']?.['@_href'] || showImageUrl
 
     return {
-      id: spotifyId || item.link || '',
+      id: spotify?.episodeId || item.link || '',
       name: item.title,
       description: item.description,
       html_description: item.description,
       release_date: new Date(item.pubDate).toISOString().split('T')[0],
       release_date_precision: 'day',
-      images: [{ url: episodeImageUrl, height: null, width: null }],
+      images: [{ url: thumbnailUrl, height: null, width: null }],
       episode_number: episodeNumber ?? -1,
       iframe_url: iframeUrl,
       embed_url: iframeUrl,
-      thumbnail_url: episodeImageUrl,
+      thumbnail_url: thumbnailUrl,
       audio_preview_url: null,
       explicit: item['itunes:explicit'] === true || item['itunes:explicit'] === 'true',
     }
