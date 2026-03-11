@@ -66,7 +66,7 @@ const Channel = z.object({
   title: z.string(),
   description: z.string(),
   link: z.string(),
-  image: Image,
+  image: Image.optional(),
   generator: z.string().optional(),
   lastBuildDate: z.string().optional(),
   'atom:link': AtomLink,

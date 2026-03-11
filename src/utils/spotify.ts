@@ -1,104 +1,117 @@
 import { XMLParser } from 'fast-xml-parser'
 import PodcastRSSFeed from '@data/types/rssFeed'
-import { ShowSchema, type Episode, SpotifyEmbedResponseSchema } from '@data/types/spotifyEpisodes'
+import { ShowSchema } from '@data/types/spotifyEpisodes'
 
-const excludedEpisodes = [
-  '79SCKYsZmqwpBuQ0A2xfrb', // invitation to vote geektime 2025
+// Titles of non-episode RSS items to exclude (e.g. vote callouts, announcements)
+const EXCLUDED_TITLE_PATTERNS = [
+  /הצביעו לנו/i, // geektime vote callout
 ]
 
-export async function getAccessToken(clientId: string, clientSecret: string) {
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'grant_type=client_credentials',
-  })
+function extractEpisodeNumber(title: string): number | null {
+  const match = title.match(/פרק \{(\d+)\}/)
+  return match ? parseInt(match[1]) : null
+}
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch access token')
+async function getRssFeed() {
+  const res = await fetch('https://anchor.fm/s/f01f6814/podcast/rss')
+  const xml = await res.text()
+  const parser = new XMLParser({ ignoreAttributes: false })
+  const json = parser.parse(xml)
+  return PodcastRSSFeed.parse(json)
+}
+
+type SpotifyEpisodeData = { episodeId: string; embedUrl: string; thumbnailUrl: string }
+
+/**
+ * Fetches episode data from the n8n Playwright workflow.
+ * Returns an ordered array (newest first) matching the RSS feed order.
+ * Falls back to an empty array if the env var is not configured or the call fails.
+ *
+ * NOTE: The n8n workflow runs Playwright synchronously (~2 min). The Astro
+ * build will wait for the response before continuing.
+ */
+async function fetchSpotifyEpisodeData(): Promise<SpotifyEpisodeData[]> {
+  const webhookUrl = import.meta.env.N8N_SPOTIFY_WEBHOOK_URL
+  if (!webhookUrl) return []
+
+  try {
+    const res = await fetch(webhookUrl, { signal: AbortSignal.timeout(180_000) })
+    if (!res.ok) return []
+    return await res.json()
+  } catch {
+    return []
   }
+}
 
-  const data = await response.json()
-  return data.access_token
+/**
+ * Converts an RSS episode link (podcasters.spotify.com) to a Spotify/Anchor
+ * embeddable iframe URL (creators.spotify.com).
+ *
+ * Input:  https://podcasters.spotify.com/pod/show/lotechni/episodes/44---e3g4k4n
+ * Output: https://creators.spotify.com/pod/profile/lotechni/embed/episodes/44---e3g4k4n
+ */
+function buildAnchorEmbedUrl(rssLink: string): string {
+  if (!rssLink) return ''
+  const match = rssLink.match(/\/pod\/show\/([^/]+)\/episodes\/([^?#]+)/)
+  if (!match) return ''
+  const [, handle, slug] = match
+  return `https://creators.spotify.com/pod/profile/${handle}/embed/episodes/${slug}`
 }
 
 export async function fetchShowData() {
-  const showId = import.meta.env.PUBLIC_SPOTIFY_SHOW_ID
-  const clientId = import.meta.env.SPOTIFY_CLIENT_ID
-  const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET
+  const [rssFeed, spotifyData] = await Promise.all([getRssFeed(), fetchSpotifyEpisodeData()])
 
-  if (!clientId || !clientSecret) {
-    throw new Error('Missing Spotify client credentials in environment variables.')
-  }
+  const channel = rssFeed.rss.channel
+  const items = channel.item
+  const showImageUrl = channel['itunes:image']?.['@_href'] || ''
 
-  const accessToken = await getAccessToken(clientId, clientSecret)
+  const episodeItems = items.map((item, index) => {
+    const episodeNumber = extractEpisodeNumber(item.title)
 
-  const res = await fetch(`https://api.spotify.com/v1/shows/${showId}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    const spotify = spotifyData[index]
+    const iframeUrl = spotify?.embedUrl || buildAnchorEmbedUrl(item.link || '')
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch show data: ${res.statusText}`)
-  }
+    // Prefer Spotify CDN thumbnail; fall back to RSS feed image
+    const thumbnailUrl =
+      spotify?.thumbnailUrl || item['itunes:image']?.['@_href'] || showImageUrl
 
-  const data = await res.json()
-  const liveEpisodes = data.episodes.items.filter(
-    (episode: Episode) => episode && !excludedEpisodes.includes(episode.id)
-  )
-
-  const episodesWithNumbers = liveEpisodes.map((episode: Episode, index: number) => {
     return {
-      ...episode,
-      episode_number: liveEpisodes.length - index - 1,
-      iframe_url: `https://open.spotify.com/embed/episode/${episode.id}/video?utm_source=oembed`,
-      embed_url: `https://embed.spotify.com/oembed?url=${episode.uri}&format=json`,
+      id: spotify?.episodeId || item.link || '',
+      name: item.title,
+      description: item.description,
+      html_description: item.description,
+      release_date: new Date(item.pubDate).toISOString().split('T')[0],
+      release_date_precision: 'day',
+      images: [{ url: thumbnailUrl, height: null, width: null }],
+      episode_number: episodeNumber ?? -1,
+      iframe_url: iframeUrl,
+      embed_url: iframeUrl,
+      thumbnail_url: thumbnailUrl,
+      audio_preview_url: null,
+      explicit: item['itunes:explicit'] === true || item['itunes:explicit'] === 'true',
     }
   })
 
-  const parsedDataWithNumbers = ShowSchema.parse({
-    ...data,
-    episodes: { ...data.episodes, items: episodesWithNumbers },
-  })
-
-  return parsedDataWithNumbers
-}
-
-const getRssFeed = async () => {
-  const res = await fetch('https://anchor.fm/s/f01f6814/podcast/rss')
-  const xml = await res.text()
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-  })
-  const json = parser.parse(xml)
-  const rssFeed = PodcastRSSFeed.parse(json)
-  return rssFeed
-}
-
-export async function fetchEpisodeThumbnails(episodes: Episode[]) {
-  const thumbnailMap: Record<string, string> = {}
-
-  await Promise.all(
-    episodes.map(async (episode) => {
-      try {
-        const response = await fetch(episode.embed_url)
-        if (!response.ok) {
-          console.error(`Failed to fetch embed data for episode ${episode.id}`)
-          return
-        }
-
-        const embedData = await response.json()
-        const parsedEmbed = SpotifyEmbedResponseSchema.parse(embedData)
-
-        thumbnailMap[episode.id] = parsedEmbed.thumbnail_url
-      } catch (error) {
-        console.error(`Error processing episode ${episode.id}:`, error)
-      }
-    })
+  // Filter out items without a valid episode number (announcements, vote callouts, etc.)
+  const liveEpisodes = episodeItems.filter(
+    (ep) =>
+      ep.episode_number >= 0 &&
+      !EXCLUDED_TITLE_PATTERNS.some((pattern) => pattern.test(ep.name))
   )
 
-  return thumbnailMap
+  return ShowSchema.parse({
+    name: channel.title,
+    description: channel.description,
+    images: [{ url: showImageUrl, height: null, width: null }],
+    total_episodes: liveEpisodes.length,
+    episodes: {
+      href: '',
+      limit: liveEpisodes.length,
+      next: null,
+      offset: 0,
+      previous: null,
+      total: liveEpisodes.length,
+      items: liveEpisodes,
+    },
+  })
 }
