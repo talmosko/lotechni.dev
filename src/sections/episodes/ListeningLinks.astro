@@ -1,5 +1,5 @@
 ---
-import CardContainer from '@components/astro/containers/CardContainer.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import Icon from '@components/astro/Icon.astro'
 import Heading from '@components/astro/typography/Heading.astro'
 import { ICONS, type IconNames } from '@data/types/icons'
@@ -45,26 +45,27 @@ interface Props {
 const { headingLevel = 3 } = Astro.props
 ---
 
-<CardContainer className="mx-auto my-8" showGradient>
-  <Heading
-    level={headingLevel}
-    className="flex items-center justify-center gap-2 text-center text-lg font-semibold md:text-xl">
-    <Icon icon="headphones" />
-    להאזנה בכל האפליקציות
-  </Heading>
+<SectionContainer>
+  <div class="mx-auto my-8 max-w-lg rounded-lg border border-white/5 bg-surface/50 p-6">
+    <Heading
+      level={headingLevel}
+      className="flex items-center justify-center gap-2 text-center text-lg font-semibold md:text-xl">
+      <Icon icon="headphones" />
+      להאזנה בכל האפליקציות
+    </Heading>
 
-  <div
-    class="mt-5 grid grid-cols-2 items-center justify-center gap-4 md:flex md:flex-row md:gap-32">
-    {
-      links.map((link) => (
-        <a
-          href={link.href}
-          target="_blank"
-          class="group flex flex-col items-center justify-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-90">
-          <Icon icon={link.icon} className={link.color} />
-          <span class="text-sm font-bold">{link.label}</span>
-        </a>
-      ))
-    }
+    <div class="mt-5 grid grid-cols-2 items-center justify-center gap-4 md:flex md:flex-row md:gap-32">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            class="group flex flex-col items-center justify-center gap-2 text-accent transition-all duration-300 hover:scale-110 hover:text-accent-light active:scale-90">
+            <Icon icon={link.icon} className={link.color} />
+            <span class="text-sm font-bold">{link.label}</span>
+          </a>
+        ))
+      }
+    </div>
   </div>
-</CardContainer>
+</SectionContainer>

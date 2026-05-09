@@ -2,6 +2,8 @@ import type { Props as SEOProps } from 'astro-seo'
 import ogImage from '@assets/logos/logo.svg'
 import type { Episode } from '@data/types/spotifyEpisodes'
 
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://lotechni.dev'
+
 // Base SEO props that will be used across all pages
 export const defaultSEO: SEOProps = {
   title: 'לא טכני ולא במקרה',
@@ -14,7 +16,7 @@ export const defaultSEO: SEOProps = {
       title: 'לא טכני ולא במקרה - פודקאסט למפתחים',
       type: 'website',
       image: ogImage.src,
-      url: 'https://lotechni.dev',
+      url: SITE_URL,
     },
     optional: {
       locale: 'he_IL',
@@ -52,7 +54,7 @@ export const getEpisodeSEO = (episode: Episode): Partial<SEOProps> => {
         title: episode.name,
         type: 'article',
         image: episode.thumbnail_url || episode.images[0].url || '',
-        url: `https://lotechni.dev/episodes/${episode.episode_number}`,
+        url: `${SITE_URL}/episodes/${episode.episode_number}`,
       },
       optional: {
         description: episode.description.substring(0, 155) + '...',

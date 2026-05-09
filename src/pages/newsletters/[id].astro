@@ -1,0 +1,611 @@
+---
+import Layout from '@layouts/Layout.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import NewsletterCard from '@components/astro/NewsletterCard.astro'
+import NewsletterSubscribe from '@components/astro/NewsletterSubscribe.astro'
+import NewslettersGrid from '@sections/newsletters/NewslettersGrid.astro'
+import { getNewsletters } from '@stores/newsletters'
+import Heading from '@components/astro/typography/Heading.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
+export const getStaticPaths = async () => {
+  const _newsletters = await getNewsletters()
+  return _newsletters.map((n) => ({
+    params: { id: n.id },
+  }))
+}
+
+const { id } = Astro.params
+const newsletters = await getNewsletters()
+
+if (!id) {
+  return Astro.redirect('/404')
+}
+
+const newsletter = newsletters.find((n) => n.id === id)
+
+if (!newsletter) {
+  return Astro.redirect('/404')
+}
+
+const title = newsletter.name
+const pageSEO: Partial<SEOProps> = {
+  title: `${title} - ניוזלטר`,
+  description: newsletter.subject.substring(0, 155),
+  openGraph: {
+    basic: {
+      title: `${title} - לא טכני ולא במקרה`,
+      type: 'article',
+      image: newsletter.screenshot_url || '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: newsletter.subject.substring(0, 155),
+    },
+  },
+}
+---
+
+<Layout title={title} seo={pageSEO}>
+  <SectionContainer>
+    <NewsletterCard {...newsletter} clickable={false} />
+
+    <!-- Full HTML content — styled with newsletter CSS -->
+    {
+      newsletter.html_content && (
+        <div class="nl-content mx-auto mt-8 max-w-3xl">
+          <div set:html={newsletter.html_content} />
+        </div>
+      )
+    }
+  </SectionContainer>
+
+  <SectionContainer>
+    <Heading level={2} class="mb-8 text-center">עוד אינסייטים</Heading>
+    <NewslettersGrid compact excludeId={id} />
+  </SectionContainer>
+
+  <NewsletterSubscribe />
+</Layout>
+
+<style is:global>
+  /* ═══════════════════════════════════════════
+     Newsletter Content — scoped to .nl-content
+     Mirrors the email template's design system
+     ═══════════════════════════════════════════ */
+
+  .nl-content {
+    direction: rtl;
+    text-align: right;
+    color: #cbd5e1;
+    line-height: 1.8;
+  }
+
+  /* Kill overflow: constrain everything */
+  .nl-content,
+  .nl-content * {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+  .nl-content img {
+    max-width: 100%;
+    height: auto;
+  }
+  .nl-content table {
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  .nl-content pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* ── Typography ── */
+  .nl-content h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 1rem 0;
+    line-height: 1.3;
+    text-align: right;
+  }
+  .nl-content h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 2rem 0 0.75rem 0;
+    text-align: right;
+  }
+  .nl-content h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 1.5rem 0 0.5rem 0;
+    text-align: right;
+  }
+  .nl-content p {
+    font-size: 1rem;
+    color: #cbd5e1;
+    margin: 0 0 1rem 0;
+    text-align: right;
+  }
+  .nl-content a {
+    color: oklch(75% 0.12 190);
+    text-decoration: underline;
+  }
+  .nl-content blockquote {
+    border-right: 3px solid oklch(75% 0.12 190);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0 8px 8px 0;
+    text-align: right;
+    font-style: italic;
+    color: #94a3b8;
+  }
+  .nl-content .divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 2rem 0;
+  }
+
+  /* ── Header (email logo area) ── */
+  .nl-content .header {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 2rem;
+  }
+  .nl-content .header .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+  .nl-content .header .logo .lt {
+    color: oklch(75% 0.12 190);
+  }
+  .nl-content .header .tagline {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  /* ── Footer ── */
+  .nl-content .footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 3rem;
+    font-size: 0.8125rem;
+    color: #64748b;
+  }
+  .nl-content .footer a {
+    color: #64748b;
+  }
+
+  /* ── CTA Button ── */
+  .nl-content .cta {
+    display: inline-block;
+    background: oklch(75% 0.12 190);
+    color: #0f0f16 !important;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    text-decoration: none !important;
+    margin: 1rem 0;
+  }
+  .nl-content .cta:hover {
+    background: oklch(83% 0.06 190);
+  }
+
+  /* ── Bullet List ── */
+  .nl-content .bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    text-align: right;
+  }
+  .nl-content .bullet-list li {
+    padding: 0.375rem 0;
+    padding-right: 1.5rem;
+    position: relative;
+    color: #cbd5e1;
+    text-align: right;
+  }
+  .nl-content .bullet-list li::before {
+    content: '▸';
+    position: absolute;
+    right: 0;
+    color: oklch(75% 0.12 190);
+  }
+
+  /* ── Highlight Box ── */
+  .nl-content .highlight-box {
+    background: linear-gradient(135deg, rgba(13, 184, 184, 0.12), rgba(13, 184, 184, 0.05));
+    border: 1px solid rgba(13, 184, 184, 0.25);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    text-align: right;
+  }
+  .nl-content .highlight-box .hb-icon {
+    font-size: 1.25rem;
+    margin-left: 0.5rem;
+  }
+  .nl-content .highlight-box .hb-title {
+    font-weight: 700;
+    color: oklch(75% 0.12 190);
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+  .nl-content .highlight-box p {
+    margin: 0;
+    color: #e2e8f0;
+    text-align: right;
+  }
+
+  /* ── Insight Card ── */
+  .nl-content .insight-card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 1.125rem 1.25rem;
+    margin: 1.25rem 0;
+    text-align: right;
+  }
+  .nl-content .insight-card .ic-emoji {
+    font-size: 1.375rem;
+    float: right;
+    margin-left: 0.75rem;
+  }
+  .nl-content .insight-card .ic-title {
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0 0 0.375rem 0;
+    font-size: 1rem;
+    text-align: right;
+  }
+  .nl-content .insight-card p {
+    margin: 0;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+
+  /* ── Code Block ── */
+  .nl-content .code-block {
+    background: #0c0e14;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+    direction: ltr;
+    text-align: left;
+  }
+  .nl-content .code-block pre {
+    margin: 0;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    direction: ltr;
+    text-align: left;
+  }
+  .nl-content .code-block .code-lang {
+    font-size: 0.6875rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: block;
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* ── Tip Box ── */
+  .nl-content .tip-box {
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-right: 4px solid #34d399;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    text-align: right;
+  }
+  .nl-content .tip-box .tb-label {
+    font-weight: 700;
+    color: #34d399;
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    text-align: right;
+  }
+  .nl-content .tip-box p {
+    margin: 0;
+    color: #d1fae5;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+
+  /* ── Warning Box ── */
+  .nl-content .warning-box {
+    background: rgba(251, 191, 36, 0.06);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-right: 4px solid #fbbf24;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    text-align: right;
+  }
+  .nl-content .warning-box .wb-label {
+    font-weight: 700;
+    color: #fbbf24;
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    text-align: right;
+  }
+  .nl-content .warning-box p {
+    margin: 0;
+    color: #fef3c7;
+    font-size: 0.9375rem;
+    text-align: right;
+  }
+
+  /* ── Stat Box ── */
+  .nl-content .stat-box {
+    background: rgba(13, 184, 184, 0.08);
+    border: 1px solid rgba(13, 184, 184, 0.2);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    text-align: center;
+  }
+  .nl-content .stat-box .stat-number {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: oklch(75% 0.12 190);
+    line-height: 1.2;
+  }
+  .nl-content .stat-box .stat-label {
+    font-size: 0.875rem;
+    color: #c4b5fd;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Quote Box ── */
+  .nl-content .quote-box {
+    background: rgba(255, 255, 255, 0.03);
+    border-right: 3px solid oklch(75% 0.12 190);
+    border-radius: 0 8px 8px 0;
+    padding: 1.125rem 1.5rem;
+    margin: 1.5rem 0;
+    text-align: right;
+  }
+  .nl-content .quote-box .quote-text {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.7;
+    text-align: right;
+  }
+  .nl-content .quote-box .quote-author {
+    color: oklch(75% 0.12 190);
+    font-size: 0.875rem;
+    font-style: normal;
+  }
+  .nl-content .quote-box .quote-role {
+    color: #64748b;
+    font-size: 0.8125rem;
+  }
+
+  /* ── Link Card ── */
+  .nl-content .link-card {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.125rem 0;
+    text-align: right;
+  }
+  .nl-content .link-card .lc-domain {
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .nl-content .link-card .lc-title {
+    font-weight: 700;
+    color: oklch(75% 0.12 190);
+    margin: 0.25rem 0 0.375rem 0;
+    font-size: 1rem;
+    text-align: right;
+  }
+  .nl-content .link-card .lc-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .nl-content .link-card .lc-desc {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0;
+    text-align: right;
+  }
+  .nl-content .link-card .lc-arrow {
+    color: oklch(75% 0.12 190);
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  /* ── Step List ── */
+  .nl-content .step-list {
+    margin: 1.5rem 0;
+  }
+  .nl-content .step-item {
+    display: block;
+    margin-bottom: 1rem;
+    clear: both;
+  }
+  .nl-content .step-item .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: oklch(75% 0.12 190);
+    color: #0f0f16;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 0.875rem;
+    float: right;
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+  }
+  .nl-content .step-item .step-content {
+    overflow: hidden;
+    text-align: right;
+  }
+  .nl-content .step-item .step-title {
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    text-align: right;
+  }
+  .nl-content .step-item .step-desc {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0;
+    text-align: right;
+  }
+
+  /* ── Compare Table ── */
+  .nl-content .compare-wrap {
+    margin: 1.5rem 0;
+  }
+  .nl-content .compare-wrap .compare-header {
+    font-weight: 700;
+    color: #e2e8f0;
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+    text-align: right;
+  }
+  .nl-content .compare-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.75rem;
+    table-layout: fixed;
+  }
+  .nl-content .compare-col {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 1rem;
+    vertical-align: top;
+    width: 50%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .nl-content .compare-col.good {
+    border-color: rgba(52, 211, 153, 0.3);
+    background: rgba(52, 211, 153, 0.06);
+  }
+  .nl-content .compare-col.bad {
+    border-color: rgba(248, 113, 113, 0.3);
+    background: rgba(248, 113, 113, 0.05);
+  }
+  .nl-content .compare-col h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    text-align: right;
+  }
+  .nl-content .compare-col.good h4 {
+    color: #34d399;
+  }
+  .nl-content .compare-col.bad h4 {
+    color: #f87171;
+  }
+  .nl-content .compare-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nl-content .compare-col li {
+    font-size: 0.875rem;
+    color: #cbd5e1;
+    padding: 0.1875rem 0;
+    text-align: right;
+  }
+  .nl-content .compare-col.good li::before {
+    content: '✓';
+    color: #34d399;
+    margin-left: 0.375rem;
+  }
+  .nl-content .compare-col.bad li::before {
+    content: '✗';
+    color: #f87171;
+    margin-left: 0.375rem;
+  }
+
+  /* ── Next Teaser ── */
+  .nl-content .next-teaser {
+    background: linear-gradient(135deg, rgba(13, 184, 184, 0.08), rgba(167, 139, 250, 0.06));
+    border: 1px dashed rgba(13, 184, 184, 0.3);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0 0 0;
+    text-align: center;
+  }
+  .nl-content .next-teaser .nt-label {
+    font-size: 0.8125rem;
+    color: oklch(75% 0.12 190);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .nl-content .next-teaser .nt-title {
+    font-weight: 700;
+    color: #e2e8f0;
+    font-size: 1.125rem;
+    margin: 0.5rem 0;
+  }
+  .nl-content .next-teaser .nt-hint {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .nl-content h1 {
+      font-size: 1.375rem;
+    }
+    .nl-content h2 {
+      font-size: 1.125rem;
+    }
+    .nl-content .compare-col {
+      display: block;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+    .nl-content .compare-grid,
+    .nl-content .compare-grid tbody,
+    .nl-content .compare-grid tr {
+      display: block;
+    }
+    .nl-content .cta {
+      display: block;
+      text-align: center;
+    }
+    .nl-content .stat-box .stat-number {
+      font-size: 1.75rem;
+    }
+  }
+</style>

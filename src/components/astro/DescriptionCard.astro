@@ -1,9 +1,9 @@
 ---
-import CardContainer from '@components/astro/containers/CardContainer.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 ---
 
-<CardContainer showGradient>
-  <p class="rounded-md bg-surface py-4 text-lg">
+<SectionContainer>
+  <p class="mx-auto max-w-3xl rounded-md border border-white/5 bg-surface/30 px-6 py-5 text-center text-lg leading-relaxed text-gray-200">
     <slot />
   </p>
-</CardContainer>
+</SectionContainer>

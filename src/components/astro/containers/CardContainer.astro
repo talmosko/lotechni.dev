@@ -23,7 +23,7 @@ const { className, showGradient = false, gradientOnlyOnHover = false, containerC
     )
   }
 
-  <div class={cn('relative h-full rounded-lg bg-surface p-6', className)}>
+  <div class={cn('relative h-full rounded-lg bg-surface p-6 shadow-sm shadow-black/20 transition-shadow duration-300 hover:shadow-md hover:shadow-accent/5', className)}>
     <slot />
   </div>
 </div>

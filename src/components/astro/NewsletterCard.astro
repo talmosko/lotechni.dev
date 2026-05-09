@@ -1,0 +1,82 @@
+---
+import type { Newsletter } from '@data/types/newsletter'
+import Heading from '@components/astro/typography/Heading.astro'
+import EpisodeShareButton from './EpisodeShareButton.astro'
+import { Image } from 'astro:assets'
+import ImageContainer from './containers/ImageContainer.astro'
+import fallbackImg from '@assets/logos/podcast_artwork.png'
+
+interface Props extends Newsletter {
+  clickable?: boolean
+}
+
+const {
+  id,
+  name,
+  subject,
+  screenshot_url,
+  sent_at,
+  clickable = true,
+} = Astro.props
+
+const newsletterUrl = `/newsletters/${id}`
+---
+
+<article class="relative flex h-min flex-col overflow-hidden rounded-lg bg-surface">
+  <!-- Entire card clickable (grid view) -->
+  {
+    clickable && (
+      <a href={newsletterUrl} class="absolute inset-0 z-10" aria-label={`קרא את ${name}`}>
+        <span class="sr-only">קרא את {name}</span>
+      </a>
+    )
+  }
+
+  <!-- Cover Image -->
+  <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
+    {
+      screenshot_url ? (
+        <img
+          src={screenshot_url}
+          alt={`תמונת כריכה לניוזלטר ${name}`}
+          loading="lazy"
+          class="h-full w-full object-cover"
+        />
+      ) : (
+        <Image
+          src={fallbackImg}
+          alt={`תמונת כריכה לניוזלטר ${name}`}
+          width={640}
+          height={360}
+          loading="lazy"
+          class="h-full w-full object-cover"
+          format="webp"
+        />
+      )
+    }
+  </ImageContainer>
+
+  <div class="flex flex-col gap-3 p-6">
+    <!-- Title -->
+    <Heading level={3} class="text-lg font-semibold md:text-xl">
+      {name}
+    </Heading>
+
+    <!-- Subject (always visible, no expand) -->
+    <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
+
+    <!-- Date + Share -->
+    <div class="flex items-center justify-between border-t border-white/10 pt-4">
+      <time datetime={sent_at} class="text-sm text-gray-500">
+        {
+          new Date(sent_at).toLocaleDateString('he-IL', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        }
+      </time>
+      <EpisodeShareButton show_number={id} episode_name={name} />
+    </div>
+  </div>
+</article>

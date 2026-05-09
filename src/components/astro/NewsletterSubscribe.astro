@@ -1,0 +1,24 @@
+---
+// Newsletter subscription form — React component for client-side interactivity
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import NewsletterForm from '@components/react/NewsletterForm'
+---
+
+<div id="newsletter-subscribe" class="w-full">
+  <SectionContainer>
+    <div
+      class="mx-auto max-w-md rounded-lg bg-surface p-8 shadow-inner shadow-white/10"
+    >
+      <Heading level={3} class="mb-2 text-center text-xl">
+        📬 אינסייטים שעולים מהשטח
+      </Heading>
+      <p class="mb-6 text-center text-sm text-gray-400">
+        כל שבועיים — תובנות ממה שקורה סביבנו ואיך זה משפיע עלינו כמפתחים.
+        בלי ספאם, בלי שטויות.
+      </p>
+
+      <NewsletterForm client:load />
+    </div>
+  </SectionContainer>
+</div>

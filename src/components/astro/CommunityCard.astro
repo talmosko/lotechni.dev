@@ -1,7 +1,7 @@
 ---
-import CardContainer from '@components/astro/containers/CardContainer.astro'
 import ImageContainer from '@components/astro/containers/ImageContainer.astro'
 import Heading from '@components/astro/typography/Heading.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import { cn } from '@utils/cn'
 import { Image } from 'astro:assets'
 import Button from '@components/astro/Button.astro'
@@ -53,36 +53,47 @@ const groups = [
 ]
 ---
 
-<CardContainer className="mx-auto my-8 bg-black" showGradient>
+<SectionContainer id="community">
   <Heading level={2} className="mb-8 text-center">קישורים לקבוצות הקהילה</Heading>
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     {
       groups.map((group, index) => (
-        <CardContainer
-          className="group/card"
-          containerClassName={cn([index === 0 && 'md:col-span-2'])}>
-          <div class="flex h-full flex-col">
+        <div
+          class={cn(
+            'group flex flex-col rounded-lg border border-white/5 bg-surface/50 p-5 transition-all duration-300 hover:border-accent/30 hover:bg-surface',
+            index === 0 && 'md:col-span-2 md:flex-row md:items-center md:gap-6'
+          )}>
+          <!-- Image -->
+          <div class={cn(
+            'mx-auto mb-3 shrink-0 md:mb-0',
+            index === 0 ? 'w-32' : 'w-20'
+          )}>
             <ImageContainer showGradient gradientOnlyOnHover parentContainerClassName="self-center">
               <Image
                 src={group.image}
                 alt={group.title}
-                width={group.image.width}
-                height={group.image.height}
-                class="object-cover"
+                width={index === 0 ? 128 : 80}
+                height={index === 0 ? 128 : 80}
+                class="aspect-square w-full rounded-lg object-cover"
               />
             </ImageContainer>
-            <div class="flex flex-1 flex-col gap-4 p-4">
-              <Heading level={3} className="text-accent self-center">
-                {group.title}
-              </Heading>
-              <p class="flex-1 text-lg">{group.description}</p>
-              <Button variant="link" href={group.link} target="_blank" rel="noopener">
+          </div>
+
+          <!-- Content -->
+          <div class="flex flex-1 flex-col gap-2">
+            <Heading level={3} className="text-accent text-center text-base md:text-right">
+              {group.title}
+            </Heading>
+            <p class="flex-1 whitespace-pre-line text-center text-sm text-gray-300 md:text-right">{group.description}</p>
+            <div class="text-center md:text-right">
+              <Button variant="link" size="sm" href={group.link} target="_blank" rel="noopener">
                 הצטרף לקבוצה
               </Button>
             </div>
           </div>
-        </CardContainer>
+        </div>
       ))
     }
   </div>
-</CardContainer>
+</SectionContainer>

@@ -1,0 +1,58 @@
+---
+import NewsletterCard from '@components/astro/NewsletterCard.astro'
+
+interface Props {
+  compact?: boolean
+  excludeId?: string
+}
+
+const { compact = false, excludeId } = Astro.props
+
+import { getNewsletters } from '@stores/newsletters'
+import Button from '@components/astro/Button.astro'
+import Icon from '@components/astro/Icon.astro'
+
+const newsletters = await getNewsletters()
+
+let parsedNewsletters = newsletters
+if (excludeId) {
+  parsedNewsletters = parsedNewsletters.filter((n) => n.id !== excludeId)
+}
+
+const shownNewsletters = compact
+  ? parsedNewsletters.slice(0, 4)
+  : parsedNewsletters
+---
+
+{
+  shownNewsletters.length > 0 ? (
+    <ul class="mx-auto grid grid-cols-1 gap-8 p-0 md:grid-cols-2">
+      {shownNewsletters.map((newsletter) => (
+        <li>
+          <NewsletterCard {...newsletter} />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <div class="py-16 text-center text-gray-400">
+      <p class="text-lg">עוד אין ניוזלטרים. בקרוב!</p>
+      <p class="mt-2 text-sm">ההרשמה למטה ואתם ראשונים לקבל 🚀</p>
+    </div>
+  )
+}
+
+{
+  compact && shownNewsletters.length > 0 && (
+    <div class="mt-8 flex justify-center">
+      <Button
+        size="xl"
+        variant="link"
+        class="flex items-center gap-2"
+        href="/newsletters"
+      >
+        <Icon icon="mail" />
+        לכל הניוזלטרים
+      </Button>
+    </div>
+  )
+}

@@ -20,7 +20,6 @@ const {
   description,
   html_description,
   images,
-  // id, - unused but should keep in mind existing here
   episode_number,
   release_date,
   iframe_url,
@@ -29,12 +28,13 @@ const {
   show_iframe = true,
   clickable = true,
 } = Astro.props
-const episodeUrl = `${Astro.url.origin}/episodes/${episode_number}`
+const episodeUrl = `/episodes/${episode_number}`
 const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
 <article
-  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
+  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white"
+>
   <div class={cn('relative w-full', show_iframe && 'aspect-video')}>
     {
       show_iframe ? (
@@ -49,7 +49,7 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
       ) : (
         <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
           <Image
-            src={thumbnail_url || images[0].url || ''}
+            src={thumbnail_url || images[0]?.url || ''}
             alt={`תמונת כריכה לפרק ${name}`}
             width={640}
             height={360}
