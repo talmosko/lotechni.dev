@@ -1,8 +1,8 @@
 ---
-// Newsletter subscription form with MailerLite embed
-// Uses MailerLite's embedded form JS + fallback to API
+// Newsletter subscription form — React component for client-side interactivity
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
 import Heading from '@components/astro/typography/Heading.astro'
+import NewsletterForm from '@components/react/NewsletterForm'
 ---
 
 <div id="newsletter-subscribe" class="w-full">
@@ -18,106 +18,7 @@ import Heading from '@components/astro/typography/Heading.astro'
         בלי ספאם, בלי שטויות.
       </p>
 
-      <!-- MailerLite Embedded Form -->
-      <div id="mlb2-embedded" class="ml-form-embed">
-        <form
-          id="newsletter-form"
-          class="flex flex-col gap-4"
-          onsubmit="return handleNewsletterSubmit(event)"
-        >
-          <div>
-            <label for="nl-name" class="mb-1 block text-sm text-gray-300">
-              שם
-            </label>
-            <input
-              id="nl-name"
-              type="text"
-              name="name"
-              required
-              placeholder="איך קוראים לך?"
-              class="w-full rounded-md border border-white/10 bg-surface-dark px-4 py-2 text-white placeholder:text-gray-500 focus:border-accent focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label for="nl-email" class="mb-1 block text-sm text-gray-300">
-              אימייל
-            </label>
-            <input
-              id="nl-email"
-              type="email"
-              name="email"
-              required
-              placeholder="your@email.com"
-              class="w-full rounded-md border border-white/10 bg-surface-dark px-4 py-2 text-white placeholder:text-gray-500 focus:border-accent focus:outline-none"
-              dir="ltr"
-            />
-          </div>
-
-          <div class="flex items-start gap-2">
-            <input
-              id="nl-consent"
-              type="checkbox"
-              name="consent"
-              required
-              class="mt-1 h-4 w-4 rounded border-white/10 bg-surface-dark accent-accent"
-            />
-            <label for="nl-consent" class="text-xs text-gray-400">
-              אני מאשר/ת לקבל מיילים מ"לא טכני ולא במקרה". אפשר לבטל בכל
-              רגע בלחיצת כפתור.
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            class="w-full rounded-md bg-accent px-6 py-3 font-bold text-surface transition-colors hover:bg-accent-light disabled:opacity-50"
-          >
-            🔥 שלחו לי אינסייטים
-          </button>
-
-          <p id="nl-message" class="hidden text-center text-sm"></p>
-        </form>
-      </div>
+      <NewsletterForm client:load />
     </div>
   </SectionContainer>
 </div>
-
-<script>
-  async function handleNewsletterSubmit(event: Event) {
-    event.preventDefault()
-    const form = event.target as HTMLFormElement
-    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement
-    const msg = document.getElementById('nl-message')!
-
-    btn.disabled = true
-    btn.textContent = 'שולח...'
-
-    try {
-      const formData = new FormData(form)
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          email: formData.get('email'),
-          consent: true,
-        }),
-      })
-
-      if (res.ok) {
-        msg.className = 'mt-4 text-center text-sm text-green-400'
-        msg.textContent = '✅ נרשמת בהצלחה! תודה 🙏'
-        form.reset()
-      } else {
-        const data = await res.json()
-        throw new Error(data.message || 'שגיאה בהרשמה')
-      }
-    } catch (err: any) {
-      msg.className = 'mt-4 text-center text-sm text-red-400'
-      msg.textContent = `❌ ${err.message || 'משהו השתבש, נסה שוב'}`
-    } finally {
-      btn.disabled = false
-      btn.textContent = '🔥 שלחו לי אינסייטים'
-    }
-  }
-</script>
