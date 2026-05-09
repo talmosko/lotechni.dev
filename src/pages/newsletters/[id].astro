@@ -8,6 +8,13 @@ import { getNewsletters } from '@stores/newsletters'
 import Heading from '@components/astro/typography/Heading.astro'
 import type { Props as SEOProps } from 'astro-seo'
 
+export const getStaticPaths = async () => {
+  const _newsletters = await getNewsletters()
+  return _newsletters.map((n) => ({
+    params: { id: n.id },
+  }))
+}
+
 const { id } = Astro.params
 const newsletters = await getNewsletters()
 
@@ -37,18 +44,20 @@ const pageSEO: Partial<SEOProps> = {
     },
   },
 }
-
-export const getStaticPaths = async () => {
-  const _newsletters = await getNewsletters()
-  return _newsletters.map((n) => ({
-    params: { id: n.id },
-  }))
-}
 ---
 
 <Layout title={title} seo={pageSEO}>
   <SectionContainer>
-    <NewsletterCard {...newsletter} expandable={false} clickable={false} />
+    <NewsletterCard {...newsletter} clickable={false} />
+
+    <!-- Full HTML content (always visible, no expand/collapse) -->
+    {
+      newsletter.html_content && (
+        <div class="prose prose-invert mx-auto mt-8 max-w-3xl">
+          <div set:html={newsletter.html_content} />
+        </div>
+      )
+    }
   </SectionContainer>
 
   <SectionContainer>

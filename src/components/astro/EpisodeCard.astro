@@ -11,7 +11,7 @@ import { cn } from '@utils/cn'
 
 interface Props extends Episode {
   expandable?: boolean
-  show_iframe?: boolean
+  showThumbOverlay?: boolean
   clickable?: boolean
 }
 
@@ -20,13 +20,12 @@ const {
   description,
   html_description,
   images,
-  // id, - unused but should keep in mind existing here
   episode_number,
   release_date,
   iframe_url,
   thumbnail_url,
   expandable = true,
-  show_iframe = true,
+  showThumbOverlay = false,
   clickable = true,
 } = Astro.props
 const episodeUrl = `${Astro.url.origin}/episodes/${episode_number}`
@@ -36,32 +35,44 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
 <article
   class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white"
 >
-  <div class={cn('relative w-full', show_iframe && 'aspect-video')}>
-      show_iframe ? (
-        <iframe
-          title={`פודקאסט לא טכני ולא במקרה - ${name}`}
-          class="absolute inset-0 h-full w-full rounded-lg"
-          src={iframe_url}
-          allowfullscreen
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-        />
-      ) : (
-        <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
-          <Image
-            src={thumbnail_url || images[0].url || ''}
-            alt={`תמונת כריכה לפרק ${name}`}
-            width={640}
-            height={360}
-            loading="lazy"
-            class="h-full w-full object-cover"
-            format="webp"
-          />
-          <PlayButtonOverlay playButtonLink={episodeUrl} />
-        </ImageContainer>
+  <!-- Media area: iframe always present, optional thumbnail overlay -->
+  <div class="relative aspect-video w-full">
+    <!-- Iframe (always shown) -->
+    <iframe
+      title={`פודקאסט לא טכני ולא במקרה - ${name}`}
+      class="absolute inset-0 h-full w-full rounded-lg"
+      src={iframe_url}
+      allowfullscreen
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    />
+
+    <!-- Thumbnail overlay (grid mode) — covers the iframe, clickable to episode -->
+    {
+      showThumbOverlay && (
+        <a
+          href={episodeUrl}
+          class="absolute inset-0 z-10 rounded-lg"
+          aria-label={`עבור לעמוד של ${name}`}
+        >
+          <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
+            <Image
+              src={thumbnail_url || images[0]?.url || ''}
+              alt={`תמונת כריכה לפרק ${name}`}
+              width={640}
+              height={360}
+              loading="lazy"
+              class="h-full w-full rounded-lg object-cover"
+              format="webp"
+            />
+            <PlayButtonOverlay playButtonLink={episodeUrl} />
+          </ImageContainer>
+        </a>
       )
     }
   </div>
+
+  <!-- Title -->
   <div class="flex min-h-20 items-start pt-4">
     <Heading level={3} className="text-lg font-semibold md:text-xl">
       {
@@ -79,6 +90,8 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
       }
     </Heading>
   </div>
+
+  <!-- Date + Share -->
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
     <time datetime={release_date} class="text-sm text-gray-400">
       {

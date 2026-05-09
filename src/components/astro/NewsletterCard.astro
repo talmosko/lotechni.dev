@@ -1,13 +1,12 @@
 ---
-import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Newsletter } from '@data/types/newsletter'
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
 import { Image } from 'astro:assets'
 import ImageContainer from './containers/ImageContainer.astro'
+import fallbackImg from '@assets/logos/podcast_artwork.png'
 
 interface Props extends Newsletter {
-  expandable?: boolean
   clickable?: boolean
 }
 
@@ -18,74 +17,57 @@ const {
   html_content,
   screenshot_url,
   sent_at,
-  expandable = true,
   clickable = true,
 } = Astro.props
 
 const newsletterUrl = `${Astro.url.origin}/newsletters/${id}`
-const cleanedHtml = html_content
+const imgSrc = screenshot_url || fallbackImg
 ---
 
-<article
-  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white"
->
-  <!-- Screenshot / Cover Image -->
+<article class="relative flex h-min flex-col overflow-hidden rounded-lg bg-surface">
+  <!-- Entire card clickable (grid view) -->
   {
-    screenshot_url && (
-      <div class="relative w-full">
-        <ImageContainer variant="grid" parentContainerClassName="h-full w-full">
-          <Image
-            src={screenshot_url}
-            alt={`תמונת כריכה לניוזלטר ${name}`}
-            width={640}
-            height={360}
-            loading="lazy"
-            class="h-full w-full rounded-lg object-cover"
-            format="webp"
-          />
-        </ImageContainer>
-      </div>
+    clickable && (
+      <a href={newsletterUrl} class="absolute inset-0 z-10" aria-label={`קרא את ${name}`}>
+        <span class="sr-only">קרא את {name}</span>
+      </a>
     )
   }
 
-  <!-- Title -->
-  <div class="flex min-h-20 items-start pt-4">
+  <!-- Screenshot / Cover Image -->
+  <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
+    <Image
+      src={imgSrc}
+      alt={`תמונת כריכה לניוזלטר ${name}`}
+      width={640}
+      height={360}
+      loading="lazy"
+      class="h-full w-full object-cover"
+      format="webp"
+    />
+  </ImageContainer>
+
+  <div class="flex flex-col gap-3 p-6">
+    <!-- Title -->
     <Heading level={3} class="text-lg font-semibold md:text-xl">
-      {
-        clickable ? (
-          <a
-            href={newsletterUrl}
-            class="transition-colors duration-300 hover:text-accent"
-            aria-label={`קרא את ${name}`}
-          >
-            {name}
-          </a>
-        ) : (
-          name
-        )
-      }
+      {name}
     </Heading>
-  </div>
 
-  <!-- Date + Share -->
-  <div class="flex items-center justify-between border-b border-white/10 pb-4">
-    <time datetime={sent_at} class="text-sm text-gray-400">
-      {
-        new Date(sent_at).toLocaleDateString('he-IL', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })
-      }
-    </time>
-    <EpisodeShareButton show_number={id} episode_name={name} />
-  </div>
+    <!-- Subject (always visible, no expand) -->
+    <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
 
-  <!-- HTML Content (same component as episodes!) -->
-  <EpisodeCardDescription
-    description={subject}
-    html_description={cleanedHtml}
-    expandable={expandable}
-    client:load
-  />
+    <!-- Date + Share -->
+    <div class="flex items-center justify-between border-t border-white/10 pt-4">
+      <time datetime={sent_at} class="text-sm text-gray-500">
+        {
+          new Date(sent_at).toLocaleDateString('he-IL', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        }
+      </time>
+      <EpisodeShareButton show_number={id} episode_name={name} />
+    </div>
+  </div>
 </article>
