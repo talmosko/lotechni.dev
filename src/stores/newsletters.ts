@@ -19,11 +19,13 @@ function extractNewsletterBody(fullHtml: string): string {
   // Strip MailerLite tracking attributes
   body = body.replace(/\s*(builder-link-id|data-link-id|data-link-type|data-track)="[^"]*"/gi, '')
 
-  // Strip MailerLite footer tables (everything after the newsletter's .footer div)
-  // Match the last </table> before "Sent by MailerLite" or unsubscribe text
+  // Strip MailerLite footer/unsubscribe tables (NOT the content wrapper!)
   body = body.replace(/<table[^>]*>[\s\S]*?Sent by MailerLite[\s\S]*?<\/table>/gi, '')
   body = body.replace(/<table[^>]*>[\s\S]*?You received this email[\s\S]*?<\/table>/gi, '')
-  // Also strip any remaining MailerLite tracking pixels
+  // Remove fixed widths from MailerLite wrapper tables (they cause overflow)
+  body = body.replace(/(<table[^>]*)\s*width="[^"]*"/gi, '$1')
+  body = body.replace(/(<table[^>]*)\s*style="[^"]*width:\s*[^;"]*[;"]/gi, '$1 style="')
+  body = body.replace(/(<td[^>]*)\s*style="[^"]*width:\s*[^;"]*[;"]/gi, '$1 style="')
   body = body.replace(/<img[^>]*mailerlite[^>]*>/gi, '')
   body = body.replace(/<img[^>]*track[^>]*>/gi, '')
 
