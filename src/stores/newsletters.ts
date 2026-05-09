@@ -19,6 +19,15 @@ function extractNewsletterBody(fullHtml: string): string {
   // Strip MailerLite tracking attributes
   body = body.replace(/\s*(builder-link-id|data-link-id|data-link-type|data-track)="[^"]*"/gi, '')
 
+  // Strip MailerLite footer tables (everything after the newsletter's .footer div)
+  // Match the last </table> before "Sent by MailerLite" or unsubscribe text
+  body = body.replace(/<table[^>]*>[\s\S]*?Sent by MailerLite[\s\S]*?<\/table>/gi, '')
+  body = body.replace(/<table[^>]*>[\s\S]*?You received this email[\s\S]*?<\/table>/gi, '')
+  // Also strip any remaining MailerLite tracking pixels
+  body = body.replace(/<img[^>]*mailerlite[^>]*>/gi, '')
+  body = body.replace(/<img[^>]*track[^>]*>/gi, '')
+
+  // Try to find the main content wrapper (email content before MailerLite's chrome)
   const contentMatch = body.match(
     /<(?:div|article|main|table)[^>]*(?:class|id)\s*=\s*["'][^"']*(?:email|content|body|wrapper|container)[^"']*["'][^>]*>([\s\S]*)<\/(?:div|article|main|table)>/i
   )
