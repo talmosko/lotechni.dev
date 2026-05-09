@@ -19,14 +19,13 @@ function extractNewsletterBody(fullHtml: string): string {
   // Strip MailerLite tracking attributes
   body = body.replace(/\s*(builder-link-id|data-link-id|data-link-type|data-track)="[^"]*"/gi, '')
 
-  // Extract ONLY the newsletter content (inside .container), discard MailerLite wrapper
-  const containerMatch = body.match(/<div[^>]*class="[^"]*container[^"]*"[^>]*>([\s\S]*?)<\/div>\s*(<style[^>]*>[\s\S]*?<\/style>)?\s*<\/(?:td|div)/i)
-  if (containerMatch) {
-    body = containerMatch[1]
-  }
-
-  // Clean up remaining MailerLite artifacts
-  body = body.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+  // Strip MailerLite footer/unsubscribe tables (NOT the content wrapper!)
+  body = body.replace(/<table[^>]*>[\s\S]*?Sent by MailerLite[\s\S]*?<\/table>/gi, '')
+  body = body.replace(/<table[^>]*>[\s\S]*?You received this email[\s\S]*?<\/table>/gi, '')
+  // Remove fixed widths from MailerLite wrapper tables (they cause overflow)
+  body = body.replace(/(<table[^>]*)\s*width="[^"]*"/gi, '$1')
+  body = body.replace(/(<table[^>]*)\s*style="[^"]*width:\s*[^;"]*[;"]/gi, '$1 style="')
+  body = body.replace(/(<td[^>]*)\s*style="[^"]*width:\s*[^;"]*[;"]/gi, '$1 style="')
   body = body.replace(/<img[^>]*mailerlite[^>]*>/gi, '')
   body = body.replace(/<img[^>]*track[^>]*>/gi, '')
 
