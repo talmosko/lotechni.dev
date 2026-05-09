@@ -14,14 +14,12 @@ const {
   id,
   name,
   subject,
-  html_content,
   screenshot_url,
   sent_at,
   clickable = true,
 } = Astro.props
 
 const newsletterUrl = `${Astro.url.origin}/newsletters/${id}`
-const imgSrc = screenshot_url || fallbackImg
 ---
 
 <article class="relative flex h-min flex-col overflow-hidden rounded-lg bg-surface">
@@ -34,17 +32,28 @@ const imgSrc = screenshot_url || fallbackImg
     )
   }
 
-  <!-- Screenshot / Cover Image -->
+  <!-- Cover Image -->
   <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
-    <Image
-      src={imgSrc}
-      alt={`תמונת כריכה לניוזלטר ${name}`}
-      width={640}
-      height={360}
-      loading="lazy"
-      class="h-full w-full object-cover"
-      format="webp"
-    />
+    {
+      screenshot_url ? (
+        <img
+          src={screenshot_url}
+          alt={`תמונת כריכה לניוזלטר ${name}`}
+          loading="lazy"
+          class="h-full w-full object-cover"
+        />
+      ) : (
+        <Image
+          src={fallbackImg}
+          alt={`תמונת כריכה לניוזלטר ${name}`}
+          width={640}
+          height={360}
+          loading="lazy"
+          class="h-full w-full object-cover"
+          format="webp"
+        />
+      )
+    }
   </ImageContainer>
 
   <div class="flex flex-col gap-3 p-6">
