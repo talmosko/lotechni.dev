@@ -1,0 +1,42 @@
+---
+import Layout from '@layouts/Layout.astro'
+import NewslettersGrid from '@sections/newsletters/NewslettersGrid.astro'
+import NewsletterSubscribe from '@components/astro/NewsletterSubscribe.astro'
+import Heading from '@components/astro/typography/Heading.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
+const pageSEO: Partial<SEOProps> = {
+  title: 'ניוזלטר - אינסייטים מהשטח',
+  description:
+    'כל שבועיים — תובנות ממה שקורה סביבנו בעולם הפיתוח, ואיך זה משפיע עלינו כמפתחים. בלי ספאם.',
+  openGraph: {
+    basic: {
+      title: 'ניוזלטר - לא טכני ולא במקרה',
+      type: 'website',
+      image: '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: 'אינסייטים שעולים מהשטח — ניוזלטר לקהילת הפיתוח',
+    },
+  },
+}
+---
+
+<Layout title="ניוזלטר" seo={pageSEO}>
+  <SectionContainer>
+    <Heading level={1} class="mb-4 text-center text-3xl">
+      📬 אינסייטים שעולים מהשטח
+    </Heading>
+    <p class="mx-auto mb-12 max-w-2xl text-center text-gray-400">
+      כל שבועיים אנחנו מדגים תובנות ממה שקורה סביבנו — טכנולוגיה, קהילה,
+      קריירה — ושולחים ישר אליכם. בלי רעש, בלי ספאם. רק דברים ששווה לקרוא
+      עם קפה.
+    </p>
+
+    <NewslettersGrid />
+  </SectionContainer>
+
+  <NewsletterSubscribe />
+</Layout>

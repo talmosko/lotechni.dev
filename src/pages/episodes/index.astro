@@ -1,6 +1,7 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import EpisodesGrid from '@sections/episodes/EpisodesGrid.astro'
+import NewsletterSubscribe from '@components/astro/NewsletterSubscribe.astro'
 import { getShowData } from '@stores/episodes'
 import type { Props as SEOProps } from 'astro-seo'
 import Description from '@sections/common/Description.astro'
@@ -37,4 +38,6 @@ const pageSEO: Partial<SEOProps> = {
     <ListeningLinks />
     <EpisodesGrid />
   </SectionContainer>
+
+  <NewsletterSubscribe />
 </Layout>

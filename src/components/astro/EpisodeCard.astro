@@ -34,9 +34,9 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
 <article
-  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white shadow-inner shadow-white/10">
+  class="flex h-min flex-col overflow-hidden rounded-lg bg-surface p-6 text-base text-white"
+>
   <div class={cn('relative w-full', show_iframe && 'aspect-video')}>
-    {
       show_iframe ? (
         <iframe
           title={`פודקאסט לא טכני ולא במקרה - ${name}`}

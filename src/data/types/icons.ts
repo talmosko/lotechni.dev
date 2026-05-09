@@ -77,6 +77,11 @@ export const ICONS = {
     label: 'GitHub',
     hoverColor: 'group-hover:text-accent',
   },
+  mail: {
+    icon: 'icon-[tabler--mail]',
+    label: 'Email',
+    hoverColor: 'group-hover:text-accent',
+  },
 }
 
 export type IconNames = keyof typeof ICONS

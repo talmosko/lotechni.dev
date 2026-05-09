@@ -15,6 +15,8 @@ export default defineConfig({
       'image-cdn-ak.spotifycdn.com',
       'image-cdn-fa.spotifycdn.com',
       'd3t3ozftmdmh3i.cloudfront.net',
+      'preview.mailerlite.io',
+      'assets.mlcdn.com',
     ],
     remotePatterns: [
       {
@@ -28,6 +30,14 @@ export default defineConfig({
       {
         protocol: 'https',
         hostname: 'd3t3ozftmdmh3i.cloudfront.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'preview.mailerlite.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.mlcdn.com',
       },
     ],
   },

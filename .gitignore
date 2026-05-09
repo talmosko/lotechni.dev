@@ -33,3 +33,4 @@ self-notes
 project_overview.txt
 *.sh
 !ingest.sh
+__pycache__/

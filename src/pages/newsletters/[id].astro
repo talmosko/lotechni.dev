@@ -1,0 +1,60 @@
+---
+import Layout from '@layouts/Layout.astro'
+import SectionContainer from '@components/astro/containers/SectionContainer.astro'
+import NewsletterCard from '@components/astro/NewsletterCard.astro'
+import NewsletterSubscribe from '@components/astro/NewsletterSubscribe.astro'
+import NewslettersGrid from '@sections/newsletters/NewslettersGrid.astro'
+import { getNewsletters } from '@stores/newsletters'
+import Heading from '@components/astro/typography/Heading.astro'
+import type { Props as SEOProps } from 'astro-seo'
+
+const { id } = Astro.params
+const newsletters = await getNewsletters()
+
+if (!id) {
+  return Astro.redirect('/404')
+}
+
+const newsletter = newsletters.find((n) => n.id === id)
+
+if (!newsletter) {
+  return Astro.redirect('/404')
+}
+
+const title = newsletter.name
+const pageSEO: Partial<SEOProps> = {
+  title: `${title} - ניוזלטר`,
+  description: newsletter.subject.substring(0, 155),
+  openGraph: {
+    basic: {
+      title: `${title} - לא טכני ולא במקרה`,
+      type: 'article',
+      image: newsletter.screenshot_url || '/og-default.png',
+      url: Astro.url.href,
+    },
+    optional: {
+      description: newsletter.subject.substring(0, 155),
+    },
+  },
+}
+
+export const getStaticPaths = async () => {
+  const _newsletters = await getNewsletters()
+  return _newsletters.map((n) => ({
+    params: { id: n.id },
+  }))
+}
+---
+
+<Layout title={title} seo={pageSEO}>
+  <SectionContainer>
+    <NewsletterCard {...newsletter} expandable={false} clickable={false} />
+  </SectionContainer>
+
+  <SectionContainer>
+    <Heading level={2} class="mb-8 text-center">עוד אינסייטים</Heading>
+    <NewslettersGrid compact excludeId={id} />
+  </SectionContainer>
+
+  <NewsletterSubscribe />
+</Layout>
