@@ -3,10 +3,8 @@ import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Newsletter } from '@data/types/newsletter'
 import Heading from '@components/astro/typography/Heading.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
-import { cleanHtmlContent } from '@utils/cleanHtml'
 import { Image } from 'astro:assets'
 import ImageContainer from './containers/ImageContainer.astro'
-import { cn } from '@utils/cn'
 
 interface Props extends Newsletter {
   expandable?: boolean

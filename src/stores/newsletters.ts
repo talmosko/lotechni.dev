@@ -4,21 +4,17 @@ import type { Newsletter } from '@data/types/newsletter'
 const MAILERLITE_API = 'https://connect.mailerlite.com/api'
 
 function extractNewsletterBody(fullHtml: string): string {
-  // MailerLite preview page: extract the actual newsletter content
-  // The content is typically inside a specific container
   const bodyMatch = fullHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)
   if (!bodyMatch) return fullHtml
 
   let body = bodyMatch[1]
 
-  // Remove MailerLite's preview header/footer chrome
   body = body.replace(/<header[^>]*>[\s\S]*?<\/header>/gi, '')
   body = body.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
   body = body.replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
   body = body.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
   body = body.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
 
-  // Try to find the main email content wrapper
   const contentMatch = body.match(
     /<(?:div|article|main|table)[^>]*(?:class|id)\s*=\s*["'][^"']*(?:email|content|body|wrapper|container)[^"']*["'][^>]*>([\s\S]*)<\/(?:div|article|main|table)>/i
   )
@@ -41,7 +37,6 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
   }
 
   try {
-    // Fetch sent campaigns
     const res = await fetch(
       `${MAILERLITE_API}/campaigns?filter[status]=sent&filter[type]=regular&limit=50`,
       {
@@ -60,9 +55,8 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
     const { data } = await res.json()
     if (!data || !Array.isArray(data)) return []
 
-    // Fetch HTML content from preview_url for each campaign
-    const newsletters = await Promise.all(
-      data.map(async (campaign: any) => {
+    const newsletters: (Newsletter | null)[] = await Promise.all(
+      data.map(async (campaign: any): Promise<Newsletter | null> => {
         const email = campaign.emails?.[0]
         if (!email) return null
 
@@ -73,7 +67,6 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
             const fullHtml = await previewRes.text()
             htmlContent = cleanHtmlContent(extractNewsletterBody(fullHtml))
           } catch {
-            // Fallback: use plain text
             htmlContent = ''
           }
         }
@@ -87,15 +80,17 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
           screenshot_url: email.screenshot_url || '',
           preview_url: email.preview_url || '',
           stats: email.stats,
-        } satisfies Newsletter
+        } as Newsletter
       })
     )
 
-    const valid = newsletters.filter((n): n is Newsletter => n !== null)
+    const valid: Newsletter[] = newsletters.filter(
+      (n): n is Newsletter => n !== null
+    )
 
-    // Sort newest first
     valid.sort(
-      (a, b) => new Date(b.sent_at).getTime() - new Date(a.sent_at).getTime()
+      (a, b) =>
+        new Date(b.sent_at).getTime() - new Date(a.sent_at).getTime()
     )
 
     newslettersCache = valid

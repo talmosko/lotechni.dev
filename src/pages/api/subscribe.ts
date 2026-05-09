@@ -1,35 +1,28 @@
----
-// POST /api/subscribe - Newsletter subscription handler
 export const prerender = false
----
 
-{
-  const MAILERLITE_API = 'https://connect.mailerlite.com/api'
+import type { APIRoute } from 'astro'
+
+const MAILERLITE_API = 'https://connect.mailerlite.com/api'
+
+export const POST: APIRoute = async ({ request }) => {
   const token = import.meta.env.MAILERLITE_API_KEY
 
-  if (Astro.request.method !== 'POST') {
-    return new Response(JSON.stringify({ message: 'Method not allowed' }), {
-      status: 405,
+  if (!token) {
+    console.error('MAILERLITE_API_KEY not configured')
+    return new Response(JSON.stringify({ message: 'Service not configured' }), {
+      status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
   try {
-    const body = await Astro.request.json()
+    const body = await request.json()
     const { name, email, consent } = body
 
     if (!email || !consent) {
       return new Response(
         JSON.stringify({ message: 'יש למלא אימייל ולאשר תנאים' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-
-    if (!token) {
-      console.error('MAILERLITE_API_KEY not configured')
-      return new Response(
-        JSON.stringify({ message: 'Service not configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
       )
     }
 
@@ -43,9 +36,7 @@ export const prerender = false
       },
       body: JSON.stringify({
         email,
-        fields: {
-          name: name || '',
-        },
+        fields: { name: name || '' },
         status: 'active',
       }),
     })
