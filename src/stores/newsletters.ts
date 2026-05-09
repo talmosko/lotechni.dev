@@ -65,7 +65,7 @@ export async function fetchNewsletters(): Promise<Newsletter[]> {
           try {
             const previewRes = await fetch(email.preview_url)
             const fullHtml = await previewRes.text()
-            htmlContent = cleanHtmlContent(extractNewsletterBody(fullHtml))
+            htmlContent = cleanHtmlContent(extractNewsletterBody(fullHtml)) || ''
           } catch {
             htmlContent = ''
           }
