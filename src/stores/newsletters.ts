@@ -13,7 +13,11 @@ function extractNewsletterBody(fullHtml: string): string {
   body = body.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
   body = body.replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
   body = body.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-  body = body.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+  // Keep <style> — we need it for the newsletter content CSS
+  // (No longer stripping style tags)
+
+  // Strip MailerLite tracking attributes
+  body = body.replace(/\s*(builder-link-id|data-link-id|data-link-type|data-track)="[^"]*"/gi, '')
 
   const contentMatch = body.match(
     /<(?:div|article|main|table)[^>]*(?:class|id)\s*=\s*["'][^"']*(?:email|content|body|wrapper|container)[^"']*["'][^>]*>([\s\S]*)<\/(?:div|article|main|table)>/i
