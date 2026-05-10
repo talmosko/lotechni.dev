@@ -1,6 +1,7 @@
 ---
 import type { Newsletter } from '@data/types/newsletter'
-import Heading from '@components/astro/typography/Heading.astro'
+import CardTitle from '@components/astro/CardTitle.astro'
+import CardDate from '@components/astro/CardDate.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
 import { Image } from 'astro:assets'
 import ImageContainer from './containers/ImageContainer.astro'
@@ -8,6 +9,7 @@ import fallbackImg from '@assets/logos/podcast_artwork.png'
 
 interface Props extends Newsletter {
   clickable?: boolean
+  transparent?: boolean
 }
 
 const {
@@ -17,21 +19,13 @@ const {
   screenshot_url,
   sent_at,
   clickable = true,
+  transparent = false,
 } = Astro.props
 
 const newsletterUrl = `/newsletters/${id}`
 ---
 
-<article class="relative flex h-min flex-col overflow-hidden rounded-lg bg-surface">
-  <!-- Entire card clickable (grid view) -->
-  {
-    clickable && (
-      <a href={newsletterUrl} class="absolute inset-0 z-10" aria-label={`קרא את ${name}`}>
-        <span class="sr-only">קרא את {name}</span>
-      </a>
-    )
-  }
-
+<article class:list={['flex h-min flex-col overflow-hidden rounded-lg', { 'bg-surface': !transparent }]}>
   <!-- Cover Image -->
   <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
     {
@@ -58,25 +52,24 @@ const newsletterUrl = `/newsletters/${id}`
 
   <div class="flex flex-col gap-3 p-6">
     <!-- Title -->
-    <Heading level={3} class="text-lg font-semibold md:text-xl">
-      {name}
-    </Heading>
+    {!transparent && (
+      <>
+        <CardTitle name={name} href={newsletterUrl} clickable={clickable} />
 
-    <!-- Subject (always visible, no expand) -->
-    <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
+        <!-- Subject -->
+        <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
+      </>
+    )}
 
     <!-- Date + Share -->
     <div class="flex items-center justify-between border-t border-white/10 pt-4">
-      <time datetime={sent_at} class="text-sm text-gray-500">
-        {
-          new Date(sent_at).toLocaleDateString('he-IL', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
-      </time>
-      <EpisodeShareButton show_number={id} episode_name={name} />
+      <CardDate date={sent_at} />
+      <EpisodeShareButton
+        show_number={id}
+        episode_name={name}
+        share_url={`${Astro.url.origin}${newsletterUrl}`}
+        toast_message="איזה כיף! קישור לניוזלטר הועתק"
+      />
     </div>
   </div>
 </article>

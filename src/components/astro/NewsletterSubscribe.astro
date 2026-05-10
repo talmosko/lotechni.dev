@@ -5,20 +5,13 @@ import Heading from '@components/astro/typography/Heading.astro'
 import NewsletterForm from '@components/react/NewsletterForm'
 ---
 
-<div id="newsletter-subscribe" class="w-full">
-  <SectionContainer>
-    <div
-      class="mx-auto max-w-md rounded-lg bg-surface p-8 shadow-inner shadow-white/10"
-    >
-      <Heading level={3} class="mb-2 text-center text-xl">
-        📬 אינסייטים שעולים מהשטח
-      </Heading>
-      <p class="mb-6 text-center text-sm text-gray-400">
-        כל שבועיים — תובנות ממה שקורה סביבנו ואיך זה משפיע עלינו כמפתחים.
-        בלי ספאם, בלי שטויות.
-      </p>
+<SectionContainer>
+  <div class="mx-auto max-w-lg rounded-lg bg-surface p-8 shadow-inner shadow-white/10">
+    <Heading level={5} className="mb-2 text-center"> 📬 אינסייטים שעולים מהשטח </Heading>
+    <p class="mb-6 text-center text-base text-gray-400">
+      כל שבועיים — תובנות ממה שקורה סביבנו ואיך זה משפיע עלינו כמפתחים. בלי ספאם, בלי שטויות.
+    </p>
 
-      <NewsletterForm client:load />
-    </div>
-  </SectionContainer>
-</div>
+    <NewsletterForm client:load />
+  </div>
+</SectionContainer>

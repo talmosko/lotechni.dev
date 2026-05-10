@@ -1,7 +1,8 @@
 ---
 import EpisodeCardDescription from '@components/react/EpisodeCardDescription'
 import type { Episode } from '@data/types/spotifyEpisodes'
-import Heading from '@components/astro/typography/Heading.astro'
+import CardTitle from '@components/astro/CardTitle.astro'
+import CardDate from '@components/astro/CardDate.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
 import { cleanHtmlContent } from '@utils/cleanHtml'
 import { Image } from 'astro:assets'
@@ -63,32 +64,10 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
     }
   </div>
   <div class="flex min-h-20 items-start pt-4">
-    <Heading level={3} className="text-lg font-semibold md:text-xl">
-      {
-        clickable ? (
-          <a
-            href={episodeUrl}
-            class="transition-colors duration-300 hover:text-accent"
-            aria-label={`עבור לעמוד של ${name}`}>
-            <span class="sr-only">עבור לעמוד של </span>
-            {name}
-          </a>
-        ) : (
-          name
-        )
-      }
-    </Heading>
+    <CardTitle name={name} href={episodeUrl} clickable={clickable} />
   </div>
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
-    <time datetime={release_date} class="text-sm text-gray-400">
-      {
-        new Date(release_date).toLocaleDateString('he-IL', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })
-      }
-    </time>
+    <CardDate date={release_date} />
     <EpisodeShareButton show_number={episode_number} episode_name={name} />
   </div>
 

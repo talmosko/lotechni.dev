@@ -2,12 +2,27 @@
 import { ICONS } from '@data/types/icons'
 import Icon from '@components/astro/Icon.astro'
 
-const { show_number, episode_name } = Astro.props
-const url = Astro.url.origin
+interface Props {
+  show_number: string | number
+  episode_name: string
+  share_url?: string
+  toast_message?: string
+}
+
+const {
+  show_number,
+  episode_name,
+  share_url,
+  toast_message = 'שארינג איז קארינג ❤️ הקישור לפרק הועתק',
+} = Astro.props
+
+const origin = Astro.url.origin
+const resolvedUrl = share_url ?? `${origin}/episodes/${show_number}`
 ---
 
 <button
-  data-episode-url={`${url}/episodes/${show_number}`}
+  data-episode-url={resolvedUrl}
+  data-toast-message={toast_message}
   aria-label={`שתף את הפרק ${episode_name}`}
   class="share-button group flex items-center justify-center rounded-full border border-accent p-2 text-accent transition-transform duration-200 hover:scale-110 hover:text-accent-light active:scale-95">
   <Icon icon="share" className={ICONS['share'].hoverColor} size="sm" />
@@ -21,7 +36,7 @@ const url = Astro.url.origin
     if (button instanceof HTMLElement) {
       button.addEventListener('click', () => {
         navigator.clipboard.writeText(`${button.dataset.episodeUrl}`)
-        toast.info('שארינג איז קארינג ❤️ הקישור לפרק הועתק')
+        toast.info(button.dataset.toastMessage ?? 'שארינג איז קארינג ❤️ הקישור לפרק הועתק')
       })
     }
   })

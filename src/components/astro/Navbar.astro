@@ -1,7 +1,8 @@
 ---
 import OutlinedText from './OutlinedText.astro'
-import { cn } from '@utils/cn'
+import NavLink from './NavLink.astro'
 import Icon from './Icon.astro'
+import { cn } from '@utils/cn'
 
 interface Props {
   className?: string
@@ -43,22 +44,9 @@ const navLinks = [
     <div class="flex h-16 items-center justify-between">
       <!-- Desktop Navigation -->
       <div class="hidden md:flex md:items-center md:gap-6">
-        {
-          navLinks.map(({ href, label }) => {
-            const isActive = currentPath === href
-            return (
-              <a
-                href={href}
-                class={cn(
-                  'text-white/80 transition-colors hover:text-white',
-                  isActive && 'font-bold text-white'
-                )}
-                aria-current={isActive ? 'page' : undefined}>
-                {label}
-              </a>
-            )
-          })
-        }
+        {navLinks.map(({ href, label }) => (
+          <NavLink href={href} label={label} currentPath={currentPath} />
+        ))}
       </div>
 
       <!-- Mobile Menu - button -->
@@ -97,22 +85,9 @@ const navLinks = [
       aria-label="תפריט נייד"
       inert>
       <div class="flex h-full w-full flex-col items-center justify-center space-y-8 p-4">
-        {
-          navLinks.map(({ href, label }) => {
-            const isActive = currentPath === href
-            return (
-              <a
-                href={href}
-                class={cn(
-                  'text-xl text-white/80 transition-colors hover:text-white',
-                  isActive && 'font-bold text-white'
-                )}
-                aria-current={isActive ? 'page' : undefined}>
-                {label}
-              </a>
-            )
-          })
-        }
+        {navLinks.map(({ href, label }) => (
+          <NavLink href={href} label={label} currentPath={currentPath} class="text-xl" />
+        ))}
       </div>
     </div>
   </nav>

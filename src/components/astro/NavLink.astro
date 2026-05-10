@@ -1,0 +1,24 @@
+---
+import { cn } from '@utils/cn'
+
+interface Props {
+  href: string
+  label: string
+  currentPath: string
+  class?: string
+}
+
+const { href, label, currentPath, class: className = '' } = Astro.props
+const isActive = currentPath === href
+---
+
+<a
+  href={href}
+  class:list={[
+    'text-white/80 transition-colors hover:text-white',
+    isActive && 'font-bold text-white',
+    className,
+  ]}
+  aria-current={isActive ? 'page' : undefined}>
+  {label}
+</a>
