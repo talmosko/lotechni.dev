@@ -1,0 +1,29 @@
+---
+import Heading from '@components/astro/typography/Heading.astro'
+
+interface Props {
+  name: string
+  href: string
+  clickable?: boolean
+  level?: 1 | 2 | 3 | 4 | 5 | 6
+  className?: string
+}
+
+const { name, href, clickable = true, level = 3, className = '' } = Astro.props
+---
+
+<Heading level={level} className={`text-lg font-semibold md:text-xl ${className}`}>
+  {
+    clickable ? (
+      <a
+        href={href}
+        class="transition-colors duration-300 hover:text-accent"
+        aria-label={`עבור לעמוד של ${name}`}>
+        <span class="sr-only">עבור לעמוד של </span>
+        {name}
+      </a>
+    ) : (
+      name
+    )
+  }
+</Heading>

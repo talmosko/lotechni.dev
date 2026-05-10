@@ -1,5 +1,5 @@
 import { cn } from '@utils/cn'
-import { cleanHtmlContent } from '@utils/text'
+import { cleanHtmlContent } from '@utils/cleanHtml'
 import { useState } from 'react'
 
 interface EpisodeCardDescriptionProps {

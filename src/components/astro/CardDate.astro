@@ -1,0 +1,14 @@
+---
+import { formatHebrewDate } from '@utils/date'
+
+interface Props {
+  date: string
+  class?: string
+}
+
+const { date, class: className = '' } = Astro.props
+---
+
+<time datetime={date} class:list={['text-sm text-gray-400', className]}>
+  {formatHebrewDate(date)}
+</time>

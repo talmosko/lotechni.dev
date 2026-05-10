@@ -1,6 +1,6 @@
 ---
 import SectionContainer from '@components/astro/containers/SectionContainer.astro'
-import HostCard from '@components/astro/cards/HostCard.astro'
+import PersonCard from '@components/astro/cards/PersonCard.astro'
 import type { ImageMetadata } from 'astro'
 import type { SocialLink } from '@data/types/icons'
 import TalImg from '@assets/images/tal.jpeg'
@@ -38,5 +38,5 @@ const speakers: Host[] = [
 
 <SectionContainer
   innerClasses="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 xl:grid-cols-2 xl:grid-rows-1">
-  {speakers.map((speaker, index) => <HostCard {...speaker} reversed={index % 2 === 0} />)}
+  {speakers.map((speaker, index) => <PersonCard {...speaker} reversed={index % 2 === 0} wide />)}
 </SectionContainer>

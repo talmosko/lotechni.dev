@@ -1,6 +1,7 @@
 ---
 import type { Newsletter } from '@data/types/newsletter'
-import Heading from '@components/astro/typography/Heading.astro'
+import CardTitle from '@components/astro/CardTitle.astro'
+import CardDate from '@components/astro/CardDate.astro'
 import EpisodeShareButton from './EpisodeShareButton.astro'
 import { Image } from 'astro:assets'
 import ImageContainer from './containers/ImageContainer.astro'
@@ -49,25 +50,11 @@ const newsletterUrl = `/newsletters/${id}`
     }
   </ImageContainer>
 
-  <div class="flex flex-col gap-3 p-6">
+  <div class="flex flex-col gap-3 py-6">
     <!-- Title -->
     {!transparent && (
       <>
-        <Heading level={3} class="text-lg font-semibold md:text-xl">
-          {
-            clickable ? (
-              <a
-                href={newsletterUrl}
-                class="transition-colors duration-300 hover:text-accent"
-                aria-label={`עבור לעמוד של ${name}`}>
-                <span class="sr-only">עבור לעמוד של </span>
-                {name}
-              </a>
-            ) : (
-              name
-            )
-          }
-        </Heading>
+        <CardTitle name={name} href={newsletterUrl} clickable={clickable} />
 
         <!-- Subject -->
         <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
@@ -76,15 +63,7 @@ const newsletterUrl = `/newsletters/${id}`
 
     <!-- Date + Share -->
     <div class="flex items-center justify-between border-t border-white/10 pt-4">
-      <time datetime={sent_at} class="text-sm text-gray-500">
-        {
-          new Date(sent_at).toLocaleDateString('he-IL', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })
-        }
-      </time>
+      <CardDate date={sent_at} />
       <EpisodeShareButton
         show_number={id}
         episode_name={name}
