@@ -8,24 +8,23 @@ import fallbackImg from '@assets/logos/podcast_artwork.png'
 
 interface Props extends Newsletter {
   clickable?: boolean
-  show_content?: boolean
+  transparent?: boolean
 }
 
 const {
   id,
   name,
   subject,
-  html_content,
   screenshot_url,
   sent_at,
   clickable = true,
-  show_content = false,
+  transparent = false,
 } = Astro.props
 
 const newsletterUrl = `/newsletters/${id}`
 ---
 
-<article class="flex h-min flex-col overflow-hidden rounded-lg bg-surface">
+<article class:list={['flex h-min flex-col overflow-hidden rounded-lg', { 'bg-surface': !transparent }]}>
   <!-- Cover Image -->
   <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
     {
@@ -51,9 +50,9 @@ const newsletterUrl = `/newsletters/${id}`
   </ImageContainer>
 
   <div class="flex flex-col gap-3 p-6">
-    {!show_content && (
+    <!-- Title -->
+    {!transparent && (
       <>
-        <!-- Title -->
         <Heading level={3} class="text-lg font-semibold md:text-xl">
           {
             clickable ? (
@@ -93,9 +92,5 @@ const newsletterUrl = `/newsletters/${id}`
         toast_message="איזה כיף! קישור לניוזלטר הועתק"
       />
     </div>
-
-    {show_content && html_content && (
-      <div class="nl-content mt-4 border-t border-white/10 pt-6" set:html={html_content} />
-    )}
   </div>
 </article>

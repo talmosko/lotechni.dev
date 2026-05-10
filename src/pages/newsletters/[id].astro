@@ -48,7 +48,11 @@ const pageSEO: Partial<SEOProps> = {
 
 <Layout title={title} seo={pageSEO}>
   <SectionContainer>
-    <NewsletterCard {...newsletter} clickable={false} show_content={true} />
+    <NewsletterCard {...newsletter} clickable={false} transparent={true} />
+
+    {newsletter.html_content && (
+      <div class="nl-content mx-auto mt-8 max-w-3xl" set:html={newsletter.html_content} />
+    )}
   </SectionContainer>
 
   <SectionContainer>
