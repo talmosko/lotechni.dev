@@ -59,12 +59,14 @@ const pageSEO: Partial<SEOProps> = {
     </Button>
   </div>
 
-  <Heading level={2} className="text-center">מי אנחנו?</Heading>
-  <Hosts />
+  <SectionContainer>
+    <Heading level={2} className="text-center">מי אנחנו?</Heading>
+    <Hosts />
+  </SectionContainer>
+
+  <NewsletterSubscribe />
 
   <SectionContainer id="podcast">
-    <NewsletterSubscribe />
-
     <Heading level={2} className="mb-8 text-center">כמה מהפרקים האחרונים</Heading>
     <ListeningLinks headingLevel={3} />
     <EpisodesGrid compact />

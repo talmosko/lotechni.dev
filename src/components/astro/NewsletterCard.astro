@@ -8,30 +8,24 @@ import fallbackImg from '@assets/logos/podcast_artwork.png'
 
 interface Props extends Newsletter {
   clickable?: boolean
+  show_content?: boolean
 }
 
 const {
   id,
   name,
   subject,
+  html_content,
   screenshot_url,
   sent_at,
   clickable = true,
+  show_content = false,
 } = Astro.props
 
 const newsletterUrl = `/newsletters/${id}`
 ---
 
-<article class="relative flex h-min flex-col overflow-hidden rounded-lg bg-surface">
-  <!-- Entire card clickable (grid view) -->
-  {
-    clickable && (
-      <a href={newsletterUrl} class="absolute inset-0 z-10" aria-label={`קרא את ${name}`}>
-        <span class="sr-only">קרא את {name}</span>
-      </a>
-    )
-  }
-
+<article class="flex h-min flex-col overflow-hidden rounded-lg bg-surface">
   <!-- Cover Image -->
   <ImageContainer variant="grid" parentContainerClassName="aspect-video w-full">
     {
@@ -57,13 +51,29 @@ const newsletterUrl = `/newsletters/${id}`
   </ImageContainer>
 
   <div class="flex flex-col gap-3 p-6">
-    <!-- Title -->
-    <Heading level={3} class="text-lg font-semibold md:text-xl">
-      {name}
-    </Heading>
+    {!show_content && (
+      <>
+        <!-- Title -->
+        <Heading level={3} class="text-lg font-semibold md:text-xl">
+          {
+            clickable ? (
+              <a
+                href={newsletterUrl}
+                class="transition-colors duration-300 hover:text-accent"
+                aria-label={`עבור לעמוד של ${name}`}>
+                <span class="sr-only">עבור לעמוד של </span>
+                {name}
+              </a>
+            ) : (
+              name
+            )
+          }
+        </Heading>
 
-    <!-- Subject (always visible, no expand) -->
-    <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
+        <!-- Subject -->
+        <p class="line-clamp-3 text-sm text-gray-400">{subject}</p>
+      </>
+    )}
 
     <!-- Date + Share -->
     <div class="flex items-center justify-between border-t border-white/10 pt-4">
@@ -76,7 +86,16 @@ const newsletterUrl = `/newsletters/${id}`
           })
         }
       </time>
-      <EpisodeShareButton show_number={id} episode_name={name} />
+      <EpisodeShareButton
+        show_number={id}
+        episode_name={name}
+        share_url={`${Astro.url.origin}${newsletterUrl}`}
+        toast_message="איזה כיף! קישור לניוזלטר הועתק"
+      />
     </div>
+
+    {show_content && html_content && (
+      <div class="nl-content mt-4 border-t border-white/10 pt-6" set:html={html_content} />
+    )}
   </div>
 </article>

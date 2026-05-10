@@ -48,20 +48,11 @@ const pageSEO: Partial<SEOProps> = {
 
 <Layout title={title} seo={pageSEO}>
   <SectionContainer>
-    <NewsletterCard {...newsletter} clickable={false} />
-
-    <!-- Full HTML content — styled with newsletter CSS -->
-    {
-      newsletter.html_content && (
-        <div class="nl-content mx-auto mt-8 max-w-3xl">
-          <div set:html={newsletter.html_content} />
-        </div>
-      )
-    }
+    <NewsletterCard {...newsletter} clickable={false} show_content={true} />
   </SectionContainer>
 
   <SectionContainer>
-    <Heading level={2} class="mb-8 text-center">עוד אינסייטים</Heading>
+    <Heading level={2} className="mb-8 text-center">עוד אינסייטים</Heading>
     <NewslettersGrid compact excludeId={id} />
   </SectionContainer>
 
