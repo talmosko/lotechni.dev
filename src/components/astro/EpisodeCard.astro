@@ -21,7 +21,7 @@ const {
   description,
   html_description,
   images,
-  episode_number,
+  slug,
   release_date,
   iframe_url,
   thumbnail_url,
@@ -29,7 +29,7 @@ const {
   show_iframe = true,
   clickable = true,
 } = Astro.props
-const episodeUrl = `/episodes/${episode_number}`
+const episodeUrl = `/episodes/${slug}`
 const cleanedHtmlDescription = cleanHtmlContent(html_description)
 ---
 
@@ -68,7 +68,7 @@ const cleanedHtmlDescription = cleanHtmlContent(html_description)
   </div>
   <div class="flex items-center justify-between border-b border-white/10 pb-4">
     <CardDate date={release_date} />
-    <EpisodeShareButton show_number={episode_number} episode_name={name} />
+    <EpisodeShareButton show_number={slug} episode_name={name} />
   </div>
 
   <EpisodeCardDescription

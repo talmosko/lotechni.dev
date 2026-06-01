@@ -2,9 +2,8 @@
  * Cleans HTML content by removing unwanted elements and normalizing spacing
  * such as <br> tags, while preserving them before links.
  * @param html The HTML content to clean
- * @returns The cleaned HTML content
+ * @returns The cleaned HTML content (still valid HTML)
  */
-
 export function cleanHtmlContent(html?: string) {
   if (!html) return html
 
@@ -22,4 +21,25 @@ export function cleanHtmlContent(html?: string) {
       .replace(/___PRESERVE_BR___/g, '<br>')
       .trim()
   )
+}
+
+/**
+ * Strips all HTML tags from a string, returning plain text only.
+ * Useful for displaying HTML content in plain text contexts
+ * (e.g. closed/collapsed card descriptions).
+ * @param html The HTML content to strip
+ * @returns The plain text content without any HTML tags
+ */
+export function stripHtmlTags(html?: string) {
+  if (!html) return html
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
 }

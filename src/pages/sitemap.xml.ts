@@ -45,7 +45,7 @@ async function generateSitemapXml(baseUrl: string) {
     .map(
       (episode) => `
   <url>
-    <loc>${formatUrl(baseUrl, `episodes/${episode.episode_number}`)}</loc>
+    <loc>${formatUrl(baseUrl, `episodes/${episode.slug}`)}</loc>
     <lastmod>${formatDate(episode.release_date)}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

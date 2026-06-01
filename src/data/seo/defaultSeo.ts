@@ -54,7 +54,7 @@ export const getEpisodeSEO = (episode: Episode): Partial<SEOProps> => {
         title: episode.name,
         type: 'article',
         image: episode.thumbnail_url || episode.images[0].url || '',
-        url: `${SITE_URL}/episodes/${episode.episode_number}`,
+        url: `${SITE_URL}/episodes/${episode.slug}`,
       },
       optional: {
         description: episode.description.substring(0, 155) + '...',

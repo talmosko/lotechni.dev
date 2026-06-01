@@ -12,6 +12,19 @@ function extractEpisodeNumber(title: string): number | null {
   return match ? parseInt(match[1]) : null
 }
 
+/**
+ * Determines if an episode belongs to the "לא פורמלי" secondary series
+ * and extracts its sub-number.
+ * Returns { isLf: true, lfNumber: N } for "לא פורמלי" / "לא פורמאלי" episodes,
+ * or { isLf: false } for regular episodes.
+ */
+function parseLfInfo(title: string): { isLf: boolean; lfNumber?: number } {
+  const isLf = /לא פורמלי|לא פורמאלי/i.test(title)
+  if (!isLf) return { isLf: false }
+  const match = title.match(/\{(\d+)\}/)
+  return { isLf: true, lfNumber: match ? parseInt(match[1]) : 0 }
+}
+
 async function getRssFeed() {
   const res = await fetch('https://anchor.fm/s/f01f6814/podcast/rss')
   const xml = await res.text()
@@ -67,6 +80,10 @@ export async function fetchShowData() {
 
   const episodeItems = items.map((item, index) => {
     const episodeNumber = extractEpisodeNumber(item.title)
+    const lfInfo = parseLfInfo(item.title)
+    const slug = lfInfo.isLf
+      ? `lf-${lfInfo.lfNumber}`
+      : episodeNumber?.toString() ?? ''
 
     const spotify = spotifyData[index]
     const iframeUrl = spotify?.embedUrl || buildAnchorEmbedUrl(item.link || '')
@@ -84,6 +101,7 @@ export async function fetchShowData() {
       release_date_precision: 'day',
       images: [{ url: thumbnailUrl, height: null, width: null }],
       episode_number: episodeNumber ?? -1,
+      slug,
       iframe_url: iframeUrl,
       embed_url: iframeUrl,
       thumbnail_url: thumbnailUrl,
@@ -92,10 +110,10 @@ export async function fetchShowData() {
     }
   })
 
-  // Filter out items without a valid episode number (announcements, vote callouts, etc.)
+  // Filter out items without a valid episode number or slug (announcements, vote callouts, etc.)
   const liveEpisodes = episodeItems.filter(
     (ep) =>
-      ep.episode_number >= 0 &&
+      (ep.episode_number >= 0 || ep.slug.startsWith('lf-')) &&
       !EXCLUDED_TITLE_PATTERNS.some((pattern) => pattern.test(ep.name))
   )
 

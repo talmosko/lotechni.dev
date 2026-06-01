@@ -1,5 +1,5 @@
 import { cn } from '@utils/cn'
-import { cleanHtmlContent } from '@utils/cleanHtml'
+import { stripHtmlTags } from '@utils/cleanHtml'
 import { useState } from 'react'
 
 interface EpisodeCardDescriptionProps {
@@ -31,7 +31,7 @@ export default function EpisodeCardDescription({
         {open && html_description ? (
           <div dangerouslySetInnerHTML={{ __html: html_description }} />
         ) : (
-          <p className={cn('line-clamp-3', !expandable && 'line-clamp-none')}>{description ? cleanHtmlContent(description) : ''}</p>
+          <p className={cn('line-clamp-3', !expandable && 'line-clamp-none')}>{description ? stripHtmlTags(description) : ''}</p>
         )}
       </div>
     </div>

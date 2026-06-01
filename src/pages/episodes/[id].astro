@@ -15,7 +15,7 @@ const show = await getShowData()
 if (!show || !id) {
   throw new Error('No show data found')
 }
-const episode = show.episodes.items.find((episode) => episode.episode_number === parseInt(id))
+const episode = show.episodes.items.find((episode) => episode.slug === id)
 
 if (!episode) {
   return Astro.redirect('/404')
@@ -27,7 +27,7 @@ const episodeSEO = getEpisodeSEO(episode)
 export const getStaticPaths = async () => {
   const _show = await getShowData()
   return _show?.episodes.items.map((episode) => ({
-    params: { id: episode.episode_number.toString() },
+    params: { id: episode.slug },
   }))
 }
 ---
@@ -40,7 +40,7 @@ export const getStaticPaths = async () => {
 
   <SectionContainer>
     <Heading level={2} className="mb-8 text-center">גם הפרקים האלה נייס</Heading>
-    <EpisodesGrid compact excludeEpisode={episode.episode_number} />
+    <EpisodesGrid compact excludeSlug={episode.slug} />
   </SectionContainer>
 
   <NewsletterSubscribe />
