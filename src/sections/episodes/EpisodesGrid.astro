@@ -2,10 +2,10 @@
 import EpisodeCard from '@components/astro/EpisodeCard.astro'
 interface Props {
   compact?: boolean
-  excludeEpisode?: number
+  excludeSlug?: string
 }
 
-const { compact = false, excludeEpisode } = Astro.props
+const { compact = false, excludeSlug } = Astro.props
 import { getShowData } from '@stores/episodes'
 import Button from '@components/astro/Button.astro'
 import Icon from '@components/astro/Icon.astro'
@@ -15,12 +15,12 @@ if (!show) {
   throw new Error('No show data found')
 }
 let parsedEpisodes = show.episodes.items
-if (excludeEpisode) {
-  parsedEpisodes = parsedEpisodes.filter((episode) => episode.episode_number !== excludeEpisode)
+if (excludeSlug) {
+  parsedEpisodes = parsedEpisodes.filter((episode) => episode.slug !== excludeSlug)
 }
 
 const shownEpisodes = compact
-  ? excludeEpisode
+  ? excludeSlug
     ? parsedEpisodes.sort(() => Math.random() - 0.5).slice(0, 4)
     : parsedEpisodes.slice(0, 4)
   : parsedEpisodes
