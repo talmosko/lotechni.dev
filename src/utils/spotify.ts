@@ -25,6 +25,19 @@ function parseLfInfo(title: string): { isLf: boolean; lfNumber?: number } {
   return { isLf: true, lfNumber: match ? parseInt(match[1]) : 0 }
 }
 
+/**
+ * Creates a unique key for an episode based on its series and number.
+ * Returns "main-N" for regular episodes, "lf-N" for "לא פורמלי" episodes.
+ */
+function getEpisodeKey(title: string): string | null {
+  const lfInfo = parseLfInfo(title)
+  if (lfInfo.isLf) {
+    return lfInfo.lfNumber !== undefined ? `lf-${lfInfo.lfNumber}` : null
+  }
+  const episodeNumber = extractEpisodeNumber(title)
+  return episodeNumber !== null ? `main-${episodeNumber}` : null
+}
+
 async function getRssFeed() {
   const res = await fetch('https://anchor.fm/s/f01f6814/podcast/rss')
   const xml = await res.text()
@@ -33,11 +46,11 @@ async function getRssFeed() {
   return PodcastRSSFeed.parse(json)
 }
 
-type SpotifyEpisodeData = { episodeId: string; embedUrl: string; thumbnailUrl: string }
+type SpotifyEpisodeData = { episodeId: string; embedUrl: string; thumbnailUrl: string; title?: string }
 
 /**
  * Fetches episode data from the n8n Playwright workflow.
- * Returns an ordered array (newest first) matching the RSS feed order.
+ * Returns an array of Spotify episode data (order-independent — matched by series+number).
  * Falls back to an empty array if the env var is not configured or the call fails.
  *
  * NOTE: The n8n workflow runs Playwright synchronously (~2 min). The Astro
@@ -78,15 +91,29 @@ export async function fetchShowData() {
   const items = channel.item
   const showImageUrl = channel['itunes:image']?.['@_href'] || ''
 
-  const episodeItems = items.map((item, index) => {
+  // Build a lookup map from episode key (series+number) → Spotify data
+  // e.g. "main-50" → פרק 50, "lf-0" → לא פורמלי 0
+  const spotifyByKey = new Map<string, SpotifyEpisodeData>()
+  for (const sd of spotifyData) {
+    if (sd.title) {
+      const key = getEpisodeKey(sd.title)
+      if (key) spotifyByKey.set(key, sd)
+    }
+  }
+
+  const episodeItems = items.map((item) => {
     const episodeNumber = extractEpisodeNumber(item.title)
     const lfInfo = parseLfInfo(item.title)
     const slug = lfInfo.isLf
       ? `lf-${lfInfo.lfNumber}`
       : episodeNumber?.toString() ?? ''
 
-    const spotify = spotifyData[index]
-    const iframeUrl = spotify?.embedUrl || buildAnchorEmbedUrl(item.link || '')
+    // Match Spotify data by series+number (reliable, order-independent)
+    const episodeKey = getEpisodeKey(item.title)
+    const spotify = episodeKey ? spotifyByKey.get(episodeKey) : undefined
+
+    // Always use buildAnchorEmbedUrl for iframe (reliable, based on RSS link)
+    const iframeUrl = buildAnchorEmbedUrl(item.link || '')
 
     // Prefer Spotify CDN thumbnail; fall back to RSS feed image
     const thumbnailUrl =
